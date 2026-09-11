@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- =====================================================
+         BASIC DOCUMENT INFORMATION
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        http-equiv="X-UA-Compatible"
+        content="IE=edge"
+    >
+
+    <title>
+        LP Ludoplayer | Play Ludo, Compete & Win
+    </title>
+
+
+    <!-- =====================================================
+         PRIMARY SEO
+    ====================================================== -->
+
+    <meta
+        name="description"
+        content="LP Ludoplayer is an exciting online Ludo gaming platform where players can join matches, compete against other players, and play for the win. Create your account, enter the game, and experience Ludo your way."
+    >
+
+    <meta
+        name="keywords"
+        content="LP Ludoplayer, Lpdoplayer, LP Ludo, Ludo, online Ludo, Ludo game, play Ludo online, multiplayer Ludo, Ludo matches, Ludo players, competitive Ludo, online gaming, Ludo competition, play compete win"
+    >
+
+    <meta
+        name="author"
+        content="LP Ludoplayer"
+    >
+
+    <meta
+        name="robots"
+        content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    >
+
+    <meta
+        name="googlebot"
+        content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    >
+
+    <meta
+        name="language"
+        content="English"
+    >
+
+    <meta
+        name="rating"
+        content="general"
+    >
+
+    <meta
+        name="category"
+        content="Games"
+    >
+
+    <meta
+        name="application-name"
+        content="LP Ludoplayer"
+    >
+
+
+    <!-- =====================================================
+         CANONICAL URL
+    ====================================================== -->
+
+    <link
+        rel="canonical"
+        href="{{ request.url }}"
+    >
+
+
+    <!-- =====================================================
+         FAVICON
+    ====================================================== -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="{{ url_for('static', filename='images/lplogo.png') }}"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="{{ url_for('static', filename='images/lplogo.png') }}"
+    >
+
+
+    <!-- =====================================================
+         THEME / MOBILE BROWSER
+    ====================================================== -->
+
+    <meta
+        name="theme-color"
+        content="#172033"
+    >
+
+    <meta
+        name="msapplication-TileColor"
+        content="#172033"
+    >
+
+    <meta
+        name="mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent"
+    >
+
+    <meta
+        name="apple-mobile-web-app-title"
+        content="LP Ludoplayer"
+    >
+
+
+    <!-- =====================================================
+         OPEN GRAPH
+         WhatsApp / Facebook / Instagram /
+         LinkedIn / Discord / Telegram etc.
+    ====================================================== -->
+
+    <meta
+        property="og:locale"
+        content="en_IN"
+    >
+
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <meta
+        property="og:site_name"
+        content="LP Ludoplayer"
+    >
+
+    <meta
+        property="og:title"
+        content="LP Ludoplayer | Play Ludo, Compete & Win"
+    >
+
+    <meta
+        property="og:description"
+        content="Play exciting Ludo matches on LP Ludoplayer. Join the game, compete with other players, and play your way to victory."
+    >
+
+    <meta
+        property="og:url"
+        content="{{ request.url }}"
+    >
+
+    <meta
+        property="og:image"
+        content="{{ url_for('static', filename='images/lplogo.png', _external=True) }}"
+    >
+
+    <meta
+        property="og:image:secure_url"
+        content="{{ url_for('static', filename='images/lplogo.png', _external=True) }}"
+    >
+
+    <meta
+        property="og:image:type"
+        content="image/png"
+    >
+
+    <meta
+        property="og:image:width"
+        content="1200"
+    >
+
+    <meta
+        property="og:image:height"
+        content="630"
+    >
+
+    <meta
+        property="og:image:alt"
+        content="LP Ludoplayer - Play, Compete and Win"
+    >
+
+
+    <!-- =====================================================
+         TWITTER / X
+    ====================================================== -->
+
+    <meta
+        name="twitter:card"
+        content="summary_large_image"
+    >
+
+    <meta
+        name="twitter:title"
+        content="LP Ludoplayer | Play Ludo, Compete & Win"
+    >
+
+    <meta
+        name="twitter:description"
+        content="Join LP Ludoplayer, play exciting Ludo matches, compete with other players, and play your way to victory."
+    >
+
+    <meta
+        name="twitter:image"
+        content="{{ url_for('static', filename='images/lplogo.png', _external=True) }}"
+    >
+
+    <meta
+        name="twitter:image:alt"
+        content="LP Ludoplayer - Play, Compete and Win"
+    >
+
+
+    <!-- =====================================================
+         SOCIAL SHARING / BRAND
+    ====================================================== -->
+
+    <meta
+        property="og:see_also"
+        content="{{ request.url }}"
+    >
+
+
+    <!-- =====================================================
+         CSRF
+    ====================================================== -->
+
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
+
+
+    <!-- =====================================================
+         STYLESHEET
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/login.css') }}"
+    >
+
+</head>
+<body>
+
+    <main class="login-page">
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        <div class="flash-container">
+
+            {% for category, message in messages %}
+
+                <div class="flash-message {{ category }}">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+{% endwith %}
+
+        <div class="login-card">
+
+    <!-- =========================
+         LOGO
+    ========================== -->
+
+    <div class="login-brand">
+
+        <div class="logo-halo">
+
+            <img
+                src="{{ url_for('static', filename='images/lplogo.png') }}"
+                alt="Lpdoplayer Logo"
+                class="login-logo"
+            >
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         WELCOME
+    ========================== -->
+
+    <div class="welcome-section">
+
+        <h1>
+            Welcome to LP Ludoplayer
+        </h1>
+
+        <p>
+            Your game. Your move. Your win.
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         LOGIN FORM
+    ========================== -->
+
+    <form
+        method="POST"
+        action="{{ url_for('home') }}"
+    >
+
+        <div class="input-group">
+
+            <label for="username">
+                Username
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Enter your username"
+                autocomplete="username"
+                required
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+            >
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="login-btn"
+        >
+            <span>Enter Game</span>
+            <span class="login-arrow">→</span>
+        </button>
+
+    </form>
+
+
+    <!-- =========================
+         DIVIDER
+    ========================== -->
+
+    <div class="divider">
+
+        <span>
+            NEW PLAYER?
+        </span>
+
+    </div>
+
+
+    <!-- =========================
+         CREATE ACCOUNT
+    ========================== -->
+
+    <button
+        type="button"
+        class="create-account-btn"
+        onclick="window.location.href='{{ url_for('create_account') }}'"
+    >
+        Create New Account
+    </button>
+
+
+    <div class="game-tagline">
+        PLAY • COMPETE • WIN
+    </div>
+
+</div>
+
+    </main>
+
+<script
+    src="{{ url_for('static', filename='js/security.js') }}"
+    defer
+></script>
+<script>
+
+    setTimeout(function () {
+
+        const flashContainer =
+            document.querySelector(".flash-container");
+
+        if (flashContainer) {
+
+            flashContainer.remove();
+
+        }
+
+    }, 5000);
+
+</script>
+</body>
+</html>

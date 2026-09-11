@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
+
+    <title>Lpdoplayer</title>
+
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for(
+            'static',
+            filename='css/usersel.css'
+        ) }}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         USER SELECTION PAGE
+    ========================================== -->
+
+    <main class="user-selection-page">
+
+
+        <!-- =====================================
+             PAGE HEADER
+        ====================================== -->
+
+        <section class="selection-header">
+
+
+            <div class="selection-logo-wrap">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/lplogo.png'
+                    ) }}"
+                    alt="Lpdoplayer"
+                    class="selection-logo"
+                >
+
+            </div>
+
+
+            <h1>
+                Choose Your Game
+            </h1>
+
+
+            <p>
+                Pick a game and make your move.
+            </p>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             GAME OPTIONS
+        ====================================== -->
+
+        <section class="game-options">
+
+
+            <!-- =================================
+                 LODUKING
+            ================================== -->
+
+            <div
+                class="game-card game-card-red"
+                onclick="window.location.href='{{ url_for('udashboard') }}'"
+            >
+
+
+                <div class="game-piece-dot"></div>
+
+
+                <div class="game-image-wrapper">
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='images/boximg.png'
+                        ) }}"
+                        alt="LoduKing"
+                        class="game-card-image"
+                    >
+
+                </div>
+
+
+                <div class="game-card-content">
+
+                    <span class="game-name">
+                        LoduKing
+                    </span>
+
+
+                    <span class="game-action">
+                        Play Now →
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 INSIDE LODU
+            ================================== -->
+
+            <div
+                class="game-card game-card-yellow"
+                onclick="showConstructionPopup()"
+            >
+
+
+                <div class="game-piece-dot"></div>
+
+
+                <div class="game-image-wrapper">
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='images/boximg.png'
+                        ) }}"
+                        alt="InsideLodu"
+                        class="game-card-image"
+                    >
+
+                </div>
+
+
+                <div class="game-card-content">
+
+                    <span class="game-name">
+                        LP Lodu
+                    </span>
+
+
+                    <span class="game-action">
+                        Coming Soon
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             SUPPORT
+        ====================================== -->
+
+        <section class="support-card">
+
+
+            <div class="support-icon">
+                ?
+            </div>
+
+
+            <span class="support-title">
+                Need Help?
+            </span>
+
+
+            <p>
+                If you have any problem, WhatsApp us on
+            </p>
+
+
+            <strong class="support-number">
+                {{ admin_contact }}
+            </strong>
+
+
+            <p class="support-hindi">
+                अगर कोई समस्या हो तो इस नंबर पर WhatsApp करें
+            </p>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             TAGLINE
+        ====================================== -->
+
+        <div class="selection-tagline">
+
+            PLAY
+            <span>•</span>
+            COMPETE
+            <span>•</span>
+            WIN
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- =========================================
+         CONSTRUCTION POPUP
+    ========================================== -->
+
+    <div
+        id="constructionPopup"
+        class="popup-overlay"
+    >
+
+
+        <div class="popup-card">
+
+
+            <div class="popup-icon">
+                🎲
+            </div>
+
+
+            <h2>
+                Coming Soon
+            </h2>
+
+
+            <p>
+                This game is currently under construction.
+                We'll see you at the board soon!
+            </p>
+
+
+            <button
+                type="button"
+                onclick="closeConstructionPopup()"
+            >
+                Got It
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================================
+         SECURITY JS
+    ========================================== -->
+
+    <script
+        src="{{ url_for(
+            'static',
+            filename='js/security.js'
+        ) }}"
+        defer
+    ></script>
+
+
+
+    <!-- =========================================
+         POPUP JS
+    ========================================== -->
+
+    <script>
+
+        function showConstructionPopup() {
+
+            document
+                .getElementById("constructionPopup")
+                .classList.add("show");
+
+        }
+
+
+        function closeConstructionPopup() {
+
+            document
+                .getElementById("constructionPopup")
+                .classList.remove("show");
+
+        }
+
+
+        document
+            .getElementById("constructionPopup")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    if (
+                        event.target === this
+                    ) {
+
+                        closeConstructionPopup();
+
+                    }
+
+                }
+            );
+
+    </script>
+
+
+</body>
+
+</html>

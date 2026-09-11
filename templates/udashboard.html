@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+<meta
+    name="csrf-token"
+    content="{{ csrf_token() }}"
+>
+    <title>LoduKing</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/udashboard.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP NAVIGATION
+    ========================================== -->
+
+    <nav class="top-navbar">
+
+
+        <!-- LOGO -->
+
+        <div class="nav-logo">
+
+            <img
+                src="{{ url_for('static', filename='images/lplogo.png') }}"
+                alt="LPL Logo"
+            >
+
+        </div>
+
+
+        <!-- MENU BUTTON -->
+
+        <button
+            type="button"
+            class="menu-button"
+            id="menuButton"
+            aria-label="Open menu"
+        >
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+
+    </nav>
+
+
+
+    <!-- =========================================
+         MOBILE MENU
+    ========================================== -->
+
+    <div
+        class="mobile-menu"
+        id="mobileMenu"
+    >
+
+
+        <div class="menu-header">
+
+            <span>
+                Menu
+            </span>
+
+            <button
+                type="button"
+                id="menuClose"
+                aria-label="Close menu"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="menu-options">
+
+
+            <!-- ADD BALANCE -->
+
+ <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('udashboard') }}'"
+>
+   Dashboard
+</button>
+            
+
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('add_balance') }}'"
+>
+    Add Balance
+</button>
+
+
+            <!-- WITHDRAW MONEY -->
+
+            <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('withdraw_money') }}'"
+>
+    Withdraw Money
+</button>
+
+
+            <!-- YOUR MATCHES -->
+
+            <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('your_matches') }}'"
+>
+    Your Matches
+</button>
+
+
+            <!-- PROFILE -->
+
+           <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('profile') }}'"
+>
+    Profile
+</button>
+
+
+            <!-- LOGOUT -->
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="menu-option logout-option"
+            >
+                Logout
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================================
+         MENU OVERLAY
+    ========================================== -->
+
+    <div
+        class="menu-overlay"
+        id="menuOverlay"
+    ></div>
+
+   {% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        <div class="flash-container">
+
+            {% for category, message in messages %}
+
+                <div class="flash-message {{ category }}">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+{% endwith %}
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================== -->
+
+    <main class="main-container">
+
+        <div class="welcome-card">
+
+    <h1>Welcome Users</h1>
+
+    <p>We wish you luck</p>
+
+</div>
+
+<!-- =========================================
+     START MATCH CARD
+========================================== -->
+
+<div class="start-match-card">
+
+    <h2>
+        Start a Match
+    </h2>
+
+
+    <!-- BALANCE -->
+
+    <div class="balance-display">
+
+        <span>
+            Balance:
+        </span>
+
+        <strong>
+            {{ money }}
+        </strong>
+
+    </div>
+
+
+    <form
+        method="POST"
+        action="{{ url_for('start_match') }}"
+    >
+
+
+        <!-- AMOUNT -->
+
+        <div class="match-input-group">
+
+            <label for="amount">
+                Amount
+            </label>
+
+            <input
+                type="number"
+                id="amount"
+                name="amount"
+                placeholder="Enter amount"
+                min="50"
+                max="50000000"
+                step="50"
+                inputmode="numeric"
+                required
+            >
+
+        </div>
+
+
+        <!-- ROOM CODE -->
+
+        <div class="match-input-group">
+
+            <label for="roomcode">
+                Room Code
+            </label>
+
+            <input
+                type="text"
+                id="roomcode"
+                name="roomcode"
+                placeholder="Enter room code"
+                required
+            >
+
+        </div>
+
+
+        <!-- WARNINGS -->
+
+        <div class="match-notices">
+
+            <p>
+                1. You have to create the room code and share here,
+                this platform is only to manage your money in accordance
+                to your win or loss.
+            </p>
+
+            <p>
+                2. We are not responsible for anything that happens
+                in the LoduKing platform like as cheating, hacking or
+                use of unfair means by you or your opponent.
+            </p>
+
+            <p>
+                3. We are here for your help so let's be ethical.
+            </p>
+
+        </div>
+
+
+        <!-- START MATCH -->
+
+        <button
+            type="submit"
+            class="start-match-btn"
+        >
+            Start Match
+        </button>
+
+
+    </form>
+
+</div>
+
+<!-- =========================================
+     UPDATE RESULT CARD
+========================================= -->
+
+{% if ongoing_match and not result_submitted %}
+
+<div class="result-card">
+
+    <h2>
+        Update Your Result
+    </h2>
+
+
+    <div class="result-warning">
+
+        <p>
+            Please update your result.
+        </p>
+
+        <p>
+            If you select Win, please share the result
+            screenshot on WhatsApp.
+        </p>
+
+        <p>
+            Unless you share the proper screenshot,
+            you will not be marked as the winner.
+        </p>
+
+    </div>
+
+
+    <!-- ADMIN CONTACT -->
+
+    <div class="admin-contact">
+
+        <span>
+            Number:
+        </span>
+
+        <strong>
+            {{ admin_contact }}
+        </strong>
+
+    </div>
+
+
+    <!-- RESULT FORM -->
+
+    <form
+        method="POST"
+        action="{{ url_for('submit_result') }}"
+    >
+
+
+        <input
+            type="hidden"
+            name="match_uuid"
+            value="{{ ongoing_match.uuid }}"
+        >
+
+
+        <!-- WIN -->
+
+        <label class="result-option">
+
+            <input
+                type="radio"
+                name="result"
+                value="win"
+                required
+            >
+
+            <span>
+                Win
+            </span>
+
+        </label>
+
+
+        <!-- LOSS -->
+
+        <label class="result-option">
+
+            <input
+                type="radio"
+                name="result"
+                value="loss"
+                required
+            >
+
+            <span>
+                Loss
+            </span>
+
+        </label>
+
+
+        <!-- SUBMIT -->
+
+        <button
+            type="submit"
+            class="submit-result-btn"
+        >
+            Submit
+        </button>
+
+
+    </form>
+
+</div>
+
+{% endif %}
+
+
+<!-- =========================================
+     MATCHES CARD
+========================================= -->
+
+<div class="matches-card">
+
+    <h2>
+        Matches
+    </h2>
+
+    <p class="matches-subtitle">
+        Select a match you want to play, and hit the play button.
+    </p>
+
+
+    <div class="matches-list">
+
+        {% if matches %}
+
+            {% for match in matches %}
+
+                <div class="match-item">
+
+                    <div class="match-information">
+
+                        <div class="match-amount">
+
+                            Amount:
+
+                            <strong>
+                                {{ match.amount }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="match-date">
+
+                            Date:
+
+                            <span>
+                                {{ match.timestamp }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('join_match') }}"
+                    >
+
+                        <input
+                            type="hidden"
+                            name="match_uuid"
+                            value="{{ match.uuid }}"
+                        >
+
+                        <button
+                            type="submit"
+                            class="play-match-btn"
+                        >
+                            Play
+                        </button>
+
+                    </form>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="no-matches">
+
+                No matches available
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+    </main>
+
+<!-- =========================================
+     INITIATOR NOTIFICATION POPUP
+========================================= -->
+
+<div
+    id="matchSelectedPopup"
+    class="popup-overlay"
+>
+
+    <div class="match-popup-card">
+
+        <h3>
+            Match Selected
+        </h3>
+
+        <p>
+            User selected your match.
+        </p>
+
+        <button
+            type="button"
+            onclick="closeMatchSelectedPopup()"
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================
+     JOINED MATCH POPUP
+========================================= -->
+
+{% if session.get("joined_match_roomcode") %}
+
+<div
+    id="joinedMatchPopup"
+    class="popup-overlay show"
+>
+
+    <div class="match-popup-card">
+
+        <h3>
+            Match Joined
+        </h3>
+
+
+        <div class="room-code-box">
+
+            {{ session.get("joined_match_roomcode") }}
+
+        </div>
+
+
+        <p>
+            Please copy the room code for you to play.
+            It will not be shown again.
+        </p>
+
+
+        <button
+            type="button"
+            onclick="closeJoinedMatchPopup()"
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     RESULT SUBMITTED POPUP
+========================================= -->
+
+{% if session.get("result_submitted") %}
+
+<div
+    id="resultSubmittedPopup"
+    class="popup-overlay show"
+>
+
+    <div class="match-popup-card">
+
+        <h3>
+            Result Submitted
+        </h3>
+
+        <p>
+            Please wait for the admin to verify.
+        </p>
+
+        <button
+            type="button"
+            onclick="closeResultSubmittedPopup()"
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+<script
+    src="{{ url_for('static', filename='js/security.js') }}"
+    defer
+></script>
+
+<script>
+
+    function closeResultSubmittedPopup() {
+
+        const popup =
+            document.getElementById(
+                "resultSubmittedPopup"
+            );
+
+        if (popup) {
+
+            popup.remove();
+
+        }
+
+        fetch(
+            "{{ url_for('clear_result_submitted') }}",
+            {
+                method: "POST"
+            }
+        );
+
+    }
+
+</script>
+
+{% endif %}
+
+<script>
+
+    function closeJoinedMatchPopup() {
+
+        const popup =
+            document.getElementById(
+                "joinedMatchPopup"
+            );
+
+        if (popup) {
+
+            popup.remove();
+
+        }
+
+        fetch(
+            "{{ url_for('clear_joined_roomcode') }}",
+            {
+                method: "POST"
+            }
+        );
+
+    }
+
+</script>
+
+{% endif %}
+
+    <script>
+
+        const menuButton =
+            document.getElementById("menuButton");
+
+        const menuClose =
+            document.getElementById("menuClose");
+
+        const mobileMenu =
+            document.getElementById("mobileMenu");
+
+        const menuOverlay =
+            document.getElementById("menuOverlay");
+
+
+        /* =========================================
+           OPEN MENU
+        ========================================== */
+
+        function openMenu() {
+
+            mobileMenu.classList.add("active");
+
+            menuOverlay.classList.add("active");
+
+            document.body.classList.add("menu-open");
+
+        }
+
+
+        /* =========================================
+           CLOSE MENU
+        ========================================== */
+
+        function closeMenu() {
+
+            mobileMenu.classList.remove("active");
+
+            menuOverlay.classList.remove("active");
+
+            document.body.classList.remove("menu-open");
+
+        }
+
+
+        menuButton.addEventListener(
+            "click",
+            openMenu
+        );
+
+
+        menuClose.addEventListener(
+            "click",
+            closeMenu
+        );
+
+
+        menuOverlay.addEventListener(
+            "click",
+            closeMenu
+        );
+
+    </script>
+
+<script>
+
+    const matchSelectedPopup =
+        document.getElementById(
+            "matchSelectedPopup"
+        );
+
+
+    function closeMatchSelectedPopup() {
+
+        matchSelectedPopup.classList.remove(
+            "show"
+        );
+
+    }
+
+
+    async function checkMatchNotification() {
+
+        try {
+
+            const response = await fetch(
+                "{{ url_for('match_notification') }}"
+            );
+
+
+            if (!response.ok) {
+
+                return;
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (!data.match_found) {
+
+                return;
+
+            }
+
+
+            const lastSeenMatch =
+                localStorage.getItem(
+                    "lpdoplayer_last_match_notification"
+                );
+
+
+            if (
+                lastSeenMatch !==
+                data.match_uuid
+            ) {
+
+                localStorage.setItem(
+                    "lpdoplayer_last_match_notification",
+                    data.match_uuid
+                );
+
+
+                matchSelectedPopup.classList.add(
+                    "show"
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Match notification error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /*
+     * Check every 5 seconds
+     */
+
+    setInterval(
+        checkMatchNotification,
+        5000
+    );
+
+
+    /*
+     * Initial check
+     */
+
+    checkMatchNotification();
+
+</script>
+
+
+<script>
+
+    setTimeout(function () {
+
+        const flashContainer =
+            document.querySelector(".flash-container");
+
+        if (flashContainer) {
+
+            flashContainer.remove();
+
+        }
+
+    }, 5000);
+
+</script>
+
+</body>
+
+</html>

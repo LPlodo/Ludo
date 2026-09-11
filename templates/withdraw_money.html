@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+<meta
+    name="csrf-token"
+    content="{{ csrf_token() }}"
+>
+    <title>Withdraw Money - Lpdoplayer</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/withdraw_money.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="top-navbar">
+
+        <div class="nav-left">
+
+            <img
+                src="{{ url_for('static', filename='images/lplogo.png') }}"
+                alt="Lpdoplayer"
+                class="nav-logo"
+            >
+
+        </div>
+
+
+        <button
+            type="button"
+            class="menu-btn"
+            id="menuBtn"
+        >
+            ☰
+        </button>
+
+    </nav>
+
+
+
+    <!-- =========================
+         SIDE MENU
+    ========================== -->
+
+    <div
+        class="menu-overlay"
+        id="menuOverlay"
+    ></div>
+
+
+    <aside
+        class="side-menu"
+        id="sideMenu"
+    >
+
+        <button
+            type="button"
+            class="close-menu"
+            id="closeMenu"
+        >
+            ×
+        </button>
+
+
+        <div class="menu-items">
+
+ <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('udashboard') }}'"
+>
+   Dashboard
+</button>
+
+
+
+            <button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('add_balance') }}'"
+            >
+                Add Balance
+            </button>
+
+           <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('withdraw_money') }}'"
+>
+    Withdraw Money
+</button>
+
+
+           <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('your_matches') }}'"
+>
+    Your Matches
+</button>
+
+
+            <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('profile') }}'"
+>
+    Profile
+</button>
+
+
+            <button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('logout') }}'"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="page-container">
+
+
+        <!-- =========================
+             INTRO CARD
+        ========================== -->
+
+        <div class="intro-card">
+
+            <h1>
+                Withdraw Money
+            </h1>
+
+            <p>
+                You can withdraw your money from here.
+            </p>
+
+        </div>
+
+<!-- =========================
+     FLASH MESSAGES
+========================= -->
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        <div class="flash-container">
+
+            {% for category, message in messages %}
+
+                <div class="flash-message {{ category }}">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+{% endwith %}
+
+        <!-- =========================
+             YOUR DETAILS CARD
+        ========================== -->
+
+        <div class="details-card">
+
+            <h2>
+                Your Details
+            </h2>
+
+
+            <div class="details-info">
+
+                <p>
+                    Please provide your bank account details
+                    or your UPI ID for withdrawal.
+                </p>
+
+                <p>
+                    You can provide your bank details,
+                    your UPI ID, or both.
+                </p>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('submit_withdrawal_details') }}"
+                class="details-form"
+            >
+
+
+                <!-- BANK NAME -->
+
+                <div class="form-group">
+
+                    <label for="bankName">
+                        Bank Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="bankName"
+                        name="bank_name"
+                        placeholder="Enter Bank Name"
+                        value="{% if user_details and user_details.bank_name != 'Not Added' %}{{ user_details.bank_name }}{% endif %}"
+                    >
+
+                </div>
+
+
+
+                <!-- ACCOUNT NUMBER -->
+
+                <div class="form-group">
+
+                    <label for="accountNumber">
+                        Account Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="accountNumber"
+                        name="account_number"
+                        placeholder="Enter Account Number"
+                        value="{% if user_details and user_details.account_number != 'Not Added' %}{{ user_details.account_number }}{% endif %}"
+                    >
+
+                </div>
+
+
+
+                <!-- IFSC -->
+
+                <div class="form-group">
+
+                    <label for="ifscCode">
+                        IFSC Code
+                    </label>
+
+                    <input
+                        type="text"
+                        id="ifscCode"
+                        name="ifsc_code"
+                        placeholder="Enter IFSC Code"
+                        value="{% if user_details and user_details.ifsc_code != 'Not Added' %}{{ user_details.ifsc_code }}{% endif %}"
+                    >
+
+                </div>
+
+
+
+                <!-- OR -->
+
+                <div class="or-divider">
+                    OR
+                </div>
+
+
+
+                <!-- UPI -->
+
+                <div class="form-group">
+
+                    <label for="upiId">
+                        UPI ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="upiId"
+                        name="upi_id"
+                        placeholder="Enter UPI ID"
+                        value="{% if user_details and user_details.upi_id != 'Not Added' %}{{ user_details.upi_id }}{% endif %}"
+                    >
+
+                </div>
+
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="submit-details-btn"
+                >
+                    Submit
+                </button>
+
+            </form>
+
+        </div>
+
+<!-- =========================
+     WITHDRAW REQUEST CARD
+========================== -->
+
+<div class="withdraw-request-card">
+
+    <h2>
+        Withdraw Request
+    </h2>
+
+    <div class="withdraw-request-info">
+
+        <p>
+            Enter the amount you want to withdraw and
+            select your preferred withdrawal method.
+        </p>
+
+        <p>
+            Please make sure that the selected payment
+            details are available in your account details.
+        </p>
+
+    </div>
+
+
+    <form
+        method="POST"
+        action="{{ url_for('submit_withdrawal_request') }}"
+        class="withdraw-request-form"
+    >
+
+        <!-- AMOUNT -->
+
+        <div class="form-group">
+
+            <label for="withdrawAmount">
+                Amount
+            </label>
+
+            <input
+                type="number"
+                id="withdrawAmount"
+                name="amount"
+                placeholder="Enter Amount"
+                min="500"
+                step="0.01"
+                required
+            >
+
+        </div>
+
+
+        <!-- MEDIUM -->
+
+        <div class="medium-label">
+            Withdrawal Medium
+        </div>
+
+
+        <div class="medium-options">
+
+            <label class="medium-option">
+
+                <input
+                    type="radio"
+                    name="medium"
+                    value="bank"
+                    required
+                >
+
+                <span>
+                    Bank Account
+                </span>
+
+            </label>
+
+
+            <label class="medium-option">
+
+                <input
+                    type="radio"
+                    name="medium"
+                    value="upi"
+                    required
+                >
+
+                <span>
+                    UPI ID
+                </span>
+
+            </label>
+
+        </div>
+
+
+        <!-- SUBMIT -->
+
+        <button
+            type="submit"
+            class="submit-withdraw-request"
+        >
+            Submit
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- =========================
+     WITHDRAWAL HISTORY CARD
+========================== -->
+
+<div class="withdrawal-history-card">
+
+    <h2>
+        History
+    </h2>
+
+
+    {% if withdrawal_history %}
+
+        <div class="withdrawal-history-list">
+
+            {% for withdrawal in withdrawal_history %}
+
+                <div class="withdrawal-history-item">
+
+
+                    <!-- =========================
+                         TOP ROW
+                    ========================== -->
+
+                    <div class="withdrawal-history-top">
+
+
+                        <div class="withdrawal-history-amount">
+
+                            <span>
+                                Amount
+                            </span>
+
+                            <strong>
+                                ₹{{ withdrawal.amount }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="withdrawal-history-date">
+
+                            <span>
+                                Date
+                            </span>
+
+                            <strong>
+                                {{ withdrawal.timestamp.strftime('%d/%m/%Y') }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         MEDIUM
+                    ========================== -->
+
+                    <div class="withdrawal-history-detail">
+
+                        <span>
+                            Medium
+                        </span>
+
+                        <strong>
+                            {% if withdrawal.medium == 'upi' %}
+                                UPI ID
+                            {% else %}
+                                Bank Account
+                            {% endif %}
+                        </strong>
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         STATUS
+                    ========================== -->
+
+                    <div class="withdrawal-history-detail">
+
+                        <span>
+                            Status
+                        </span>
+
+                        <strong
+                            class="withdrawal-status-{{ withdrawal.status|lower }}"
+                        >
+                            {{ withdrawal.status|capitalize }}
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+
+        <!-- =========================
+             PAGINATION
+        ========================== -->
+
+        {% if total_pages > 1 %}
+
+            <div class="withdrawal-pagination">
+
+
+                {% if current_page > 1 %}
+
+                    <a
+                        href="{{ url_for(
+                            'withdraw_money',
+                            page=current_page - 1
+                        ) }}"
+                        class="withdrawal-pagination-btn"
+                    >
+                        Previous
+                    </a>
+
+                {% endif %}
+
+
+                <span class="withdrawal-page-number">
+
+                    Page {{ current_page }}
+                    of {{ total_pages }}
+
+                </span>
+
+
+                {% if current_page < total_pages %}
+
+                    <a
+                        href="{{ url_for(
+                            'withdraw_money',
+                            page=current_page + 1
+                        ) }}"
+                        class="withdrawal-pagination-btn"
+                    >
+                        Next
+                    </a>
+
+                {% endif %}
+
+
+            </div>
+
+        {% endif %}
+
+
+    {% else %}
+
+        <div class="withdrawal-empty-history">
+
+            <p>
+                No withdrawal history found.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+    </main>
+
+<script
+    src="{{ url_for('static', filename='js/security.js') }}"
+    defer
+></script>
+
+    
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const menuBtn =
+                    document.getElementById("menuBtn");
+
+                const closeMenu =
+                    document.getElementById("closeMenu");
+
+                const sideMenu =
+                    document.getElementById("sideMenu");
+
+                const menuOverlay =
+                    document.getElementById("menuOverlay");
+
+
+                function openMenu() {
+
+                    sideMenu.classList.add("show");
+
+                    menuOverlay.classList.add("show");
+
+                }
+
+
+                function closeMenuFunction() {
+
+                    sideMenu.classList.remove("show");
+
+                    menuOverlay.classList.remove("show");
+
+                }
+
+
+                menuBtn.addEventListener(
+                    "click",
+                    openMenu
+                );
+
+
+                closeMenu.addEventListener(
+                    "click",
+                    closeMenuFunction
+                );
+
+
+                menuOverlay.addEventListener(
+                    "click",
+                    closeMenuFunction
+                );
+
+            }
+        );
+
+
+setTimeout(function () {
+
+    const flashMessages =
+        document.querySelectorAll(".flash-message");
+
+    flashMessages.forEach(function (message) {
+
+        message.style.opacity = "0";
+
+        message.style.transition =
+            "opacity 0.4s ease";
+
+        setTimeout(function () {
+
+            message.remove();
+
+        }, 400);
+
+    });
+
+}, 5000);
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+<meta
+    name="csrf-token"
+    content="{{ csrf_token() }}"
+>
+    <title>Your Matches - Lpdoplayer</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/your_matches.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="top-navbar">
+
+        <div class="nav-left">
+
+            <img
+                src="{{ url_for('static', filename='images/lplogo.png') }}"
+                alt="Lpdoplayer"
+                class="nav-logo"
+            >
+
+        </div>
+
+
+        <button
+            type="button"
+            class="menu-btn"
+            id="menuBtn"
+        >
+            ☰
+        </button>
+
+    </nav>
+
+
+
+    <!-- =========================
+         SIDE MENU
+    ========================== -->
+
+    <div
+        class="menu-overlay"
+        id="menuOverlay"
+    ></div>
+
+
+    <aside
+        class="side-menu"
+        id="sideMenu"
+    >
+
+        <button
+            type="button"
+            class="close-menu"
+            id="closeMenu"
+        >
+            ×
+        </button>
+
+
+        <div class="menu-items">
+
+
+ <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('udashboard') }}'"
+>
+   Dashboard
+</button>
+
+
+            <!-- ADD BALANCE -->
+
+            <button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('add_balance') }}'"
+            >
+                Add Balance
+            </button>
+
+
+            <!-- WITHDRAW MONEY -->
+
+            <button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('withdraw_money') }}'"
+            >
+                Withdraw Money
+            </button>
+
+
+            <!-- YOUR MATCHES -->
+
+            <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('your_matches') }}'"
+>
+    Your Matches
+</button>
+
+
+            <!-- PROFILE -->
+
+            <button
+           <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('profile') }}'"
+>
+    Profile
+</button>
+
+            <!-- LOGOUT -->
+
+            <button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('logout') }}'"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="page-container">
+
+
+        <!-- =========================
+             BIG HISTORY CARD
+        ========================== -->
+
+        <div class="matches-card">
+
+
+            <h1>
+                Your Match History
+            </h1>
+
+
+            {% if match_history %}
+
+
+                <div class="match-history-list">
+
+
+                    {% for match in match_history %}
+
+
+                        <!-- =========================
+                             INNER MATCH CARD
+                        ========================== -->
+
+                        <div class="match-history-item">
+
+
+                            <!-- USERS -->
+
+                            <div class="users-row">
+
+
+                                <div class="user-box">
+
+                                    <span>
+                                        User 1
+                                    </span>
+
+                                    <strong>
+                                        {{ match.user1_name }}
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="vs">
+                                    VS
+                                </div>
+
+
+                                <div class="user-box user-two">
+
+                                    <span>
+                                        User 2
+                                    </span>
+
+                                    <strong>
+
+                                        {% if match.user2_name %}
+
+                                            {{ match.user2_name }}
+
+                                        {% else %}
+
+                                            Not Joined
+
+                                        {% endif %}
+
+                                    </strong>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- DATE + AMOUNT -->
+
+                            <div class="match-info-row">
+
+
+                                <div class="match-info">
+
+                                    <span>
+                                        Date
+                                    </span>
+
+                                    <strong>
+
+                                        {{ match.match_date.strftime('%d/%m/%Y') }}
+
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="match-info amount-info">
+
+                                    <span>
+                                        Amount
+                                    </span>
+
+                                    <strong>
+                                        ₹{{ match.amount }}
+                                    </strong>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- STATUS -->
+
+                            <div class="match-detail-row">
+
+                                <span>
+                                    Status
+                                </span>
+
+                                <strong
+                                    class="match-status-{{ match.match_status|lower }}"
+                                >
+
+                                    {{ match.match_status|capitalize }}
+
+                                </strong>
+
+                            </div>
+
+
+
+                            <!-- WINNER -->
+
+                            <div class="match-detail-row">
+
+                                <span>
+                                    Winner
+                                </span>
+
+                                <strong>
+
+                                    {% if match.winner_name %}
+
+                                        {{ match.winner_name }}
+
+                                    {% else %}
+
+                                        Not Declared
+
+                                    {% endif %}
+
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     PAGINATION
+                ========================== -->
+
+                {% if total_pages > 1 %}
+
+
+                    <div class="pagination">
+
+
+                        {% if current_page > 1 %}
+
+                            <a
+                                href="{{ url_for(
+                                    'your_matches',
+                                    page=current_page - 1
+                                ) }}"
+                                class="pagination-btn"
+                            >
+                                Previous
+                            </a>
+
+                        {% endif %}
+
+
+                        <span class="page-number">
+
+                            Page {{ current_page }}
+                            of {{ total_pages }}
+
+                        </span>
+
+
+                        {% if current_page < total_pages %}
+
+                            <a
+                                href="{{ url_for(
+                                    'your_matches',
+                                    page=current_page + 1
+                                ) }}"
+                                class="pagination-btn"
+                            >
+                                Next
+                            </a>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                {% endif %}
+
+
+            {% else %}
+
+
+                <!-- =========================
+                     NO MATCHES
+                ========================== -->
+
+                <div class="empty-matches">
+
+                    <p>
+                        You don't have any match history yet.
+                    </p>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+    </main>
+
+
+<script
+    src="{{ url_for('static', filename='js/security.js') }}"
+    defer
+></script>
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const menuBtn =
+                    document.getElementById("menuBtn");
+
+                const closeMenu =
+                    document.getElementById("closeMenu");
+
+                const sideMenu =
+                    document.getElementById("sideMenu");
+
+                const menuOverlay =
+                    document.getElementById("menuOverlay");
+
+
+                function openMenu() {
+
+                    sideMenu.classList.add("show");
+
+                    menuOverlay.classList.add("show");
+
+                }
+
+
+                function closeMenuFunction() {
+
+                    sideMenu.classList.remove("show");
+
+                    menuOverlay.classList.remove("show");
+
+                }
+
+
+                menuBtn.addEventListener(
+                    "click",
+                    openMenu
+                );
+
+
+                closeMenu.addEventListener(
+                    "click",
+                    closeMenuFunction
+                );
+
+
+                menuOverlay.addEventListener(
+                    "click",
+                    closeMenuFunction
+                );
+
+            }
+
+        );
+
+    </script>
+
+
+</body>
+
+</html>

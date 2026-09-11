@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
+
+    <title>Lpdoplayer - Create New Account</title>
+
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for(
+            'static',
+            filename='css/create_account.css'
+        ) }}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         FLASH MESSAGE
+    ========================================== -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            <div class="flash-container">
+
+                {% for category, message in messages %}
+
+                    <div class="flash-message {{ category }}">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+
+    <!-- =========================================
+         CREATE ACCOUNT PAGE
+    ========================================== -->
+
+    <main class="create-account-page">
+
+
+        <!-- =====================================
+             CREATE ACCOUNT CARD
+        ====================================== -->
+
+        <div class="create-account-card">
+
+
+            <!-- ================================
+                 BRAND
+            ================================= -->
+
+            <div class="login-brand">
+
+                <div class="logo-halo">
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='images/lplogo.png'
+                        ) }}"
+                        alt="Lpdoplayer Logo"
+                        class="login-logo"
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================================
+                 WELCOME
+            ================================= -->
+
+            <div class="welcome-section">
+
+                <h1>
+                    Join LP Ludoplayer
+                </h1>
+
+                <p>
+                    Create your player account.
+                </p>
+
+            </div>
+
+
+
+            <!-- ================================
+                 FORM
+            ================================= -->
+
+            <form
+                method="POST"
+                action="{{ url_for('create_account') }}"
+            >
+
+
+                <!-- ============================
+                     USERNAME
+                ============================= -->
+
+                <div class="input-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Choose your username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- ============================
+                     PHONE NUMBER
+                ============================= -->
+
+                <div class="input-group">
+
+                    <label for="phone_number">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone_number"
+                        name="phone_number"
+                        placeholder="Enter your phone number"
+                        autocomplete="tel"
+                        inputmode="numeric"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- ============================
+                     PASSWORD
+                ============================= -->
+
+                <div class="input-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create your password"
+                        autocomplete="new-password"
+                        maxlength="20"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- ============================
+                     CREATE BUTTON
+                ============================= -->
+
+                <button
+                    type="submit"
+                    class="create-btn"
+                >
+
+                    <span>
+                        Create Account
+                    </span>
+
+                    <span class="create-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+            </form>
+
+
+
+            <!-- ================================
+                 DIVIDER
+            ================================= -->
+
+            <div class="divider">
+
+                <span>
+                    ALREADY A PLAYER?
+                </span>
+
+            </div>
+
+
+
+            <!-- ================================
+                 RETURN LOGIN
+            ================================= -->
+
+            <button
+                type="button"
+                class="return-login-btn"
+                onclick="window.location.href='{{ url_for('home') }}'"
+            >
+                Return to Login
+            </button>
+
+
+
+            <!-- ================================
+                 TAGLINE
+            ================================= -->
+
+            <div class="game-tagline">
+                PLAY • COMPETE • WIN
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- =========================================
+         SECURITY JS
+    ========================================== -->
+
+    <script
+        src="{{ url_for(
+            'static',
+            filename='js/security.js'
+        ) }}"
+        defer
+    ></script>
+
+
+
+    <!-- =========================================
+         FLASH MESSAGE TIMER
+    ========================================== -->
+
+    <script>
+
+        setTimeout(function () {
+
+            const flashContainer =
+                document.querySelector(
+                    ".flash-container"
+                );
+
+            if (flashContainer) {
+
+                flashContainer.remove();
+
+            }
+
+        }, 5000);
+
+    </script>
+
+
+</body>
+
+</html>

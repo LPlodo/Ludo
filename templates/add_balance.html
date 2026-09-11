@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+<meta
+    name="csrf-token"
+    content="{{ csrf_token() }}"
+>
+    <title>Add Balance - Lpdoplayer</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/add_balance.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="top-navbar">
+
+        <div class="nav-left">
+
+            <img
+                src="{{ url_for('static', filename='images/lplogo.png') }}"
+                alt="Lpdoplayer"
+                class="nav-logo"
+            >
+
+        </div>
+
+
+        <button
+            type="button"
+            class="menu-btn"
+            id="menuBtn"
+        >
+            ☰
+        </button>
+
+    </nav>
+
+
+
+    <!-- =========================
+         SIDE MENU
+    ========================== -->
+
+    <div
+        class="menu-overlay"
+        id="menuOverlay"
+    ></div>
+
+
+    <aside
+        class="side-menu"
+        id="sideMenu"
+    >
+
+        <button
+            type="button"
+            class="close-menu"
+            id="closeMenu"
+        >
+            ×
+        </button>
+
+
+        <div class="menu-items">
+
+<a
+                href="{{ url_for('udashboard') }}"
+                class="active-menu"
+            >
+                dashboard
+            </a>
+            
+
+
+
+<a
+                href="{{ url_for('add_balance') }}"
+                class="active-menu"
+            >
+                Add Balance
+            </a>
+
+            <a href="{{ url_for('withdraw_money') }}">
+                Withdraw Money
+            </a>
+
+            <a href='{{ url_for('your_matches') }}'>
+                Your Matches
+            </a>
+
+            <a href='{{ url_for('profile') }}'>
+                Profile
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="page-container">
+
+
+        <!-- =========================
+             INTRO CARD
+        ========================== -->
+
+        <div class="intro-card">
+
+            <h1>Add Balance</h1>
+
+            <p>
+                You can add balance to your wallet.
+            </p>
+
+        </div>
+
+
+
+        <!-- =========================
+             ACCOUNT DETAILS CARD
+        ========================== -->
+
+        <div class="account-card">
+
+            <h2>
+                Account Details
+            </h2>
+
+
+            <div class="account-warning">
+
+                <p>
+                    Please pay on the above account details
+                    or the UPI details.
+                </p>
+
+                <p>
+                    Please add the money carefully,
+                    we will not be responsible for your
+                    wrong payments.
+                </p>
+
+                <p>
+                    Please do not pay to any other source.
+                    Above details are only the official
+                    details provided by the platform.
+                </p>
+
+            </div>
+
+
+
+            <!-- =========================
+                 BANK DETAILS
+            ========================== -->
+
+            <div class="details-section">
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Bank Name
+                    </span>
+
+                    <span class="detail-value">
+                        {{ account_details.bank_name }}
+                    </span>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Account Number
+                    </span>
+
+                    <span class="detail-value">
+                        {{ account_details.account_number }}
+                    </span>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        IFSC Code
+                    </span>
+
+                    <span class="detail-value">
+                        {{ account_details.ifsc_code }}
+                    </span>
+
+                </div>
+
+
+                <div class="or-divider">
+                    OR
+                </div>
+
+
+                <!-- =========================
+                     UPI
+                ========================== -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        UPI ID
+                    </span>
+
+                    <span class="detail-value">
+                        {{ account_details.upiid }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+<!-- =========================
+     PAYMENT PROOF CARD
+========================== -->
+
+<div class="payment-proof-card">
+
+    <h2>
+        Payment Proof
+    </h2>
+
+
+    <div class="payment-proof-warning">
+
+        <p>
+            Please provide the UTR Number of the transaction,
+            the date and the amount.
+        </p>
+
+        <p>
+            Please do not paste the incorrect or wrong UTR
+            or incorrect amount. A dedicated amount as
+            punishment will be deducted from your account.
+        </p>
+
+    </div>
+
+
+    <form
+        method="POST"
+        action="{{ url_for('submit_payment_proof') }}"
+        class="payment-proof-form"
+    >
+
+        <!-- DATE -->
+
+        <div class="form-group">
+
+            <label for="paymentDate">
+                Transaction Date
+            </label>
+
+            <input
+                type="date"
+                id="paymentDate"
+                name="date"
+                required
+            >
+
+        </div>
+
+
+        <!-- UTR -->
+
+        <div class="form-group">
+
+            <label for="utr">
+                UTR Number
+            </label>
+
+            <input
+                type="text"
+                id="utr"
+                name="utr"
+                placeholder="Enter UTR Number"
+                maxlength="255"
+                required
+            >
+
+        </div>
+
+
+        <!-- AMOUNT -->
+
+        <div class="form-group">
+
+            <label for="paymentAmount">
+                Amount
+            </label>
+
+            <input
+                type="number"
+                id="paymentAmount"
+                name="amount"
+                placeholder="Enter Amount"
+                min="0.01"
+                step="0.01"
+                required
+            >
+
+        </div>
+
+
+        <!-- SUBMIT -->
+
+        <button
+            type="submit"
+            class="submit-payment-proof"
+        >
+            Submit
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- =========================
+     PAYMENT HISTORY CARD
+========================== -->
+
+<div class="history-card">
+
+    <h2>
+        History
+    </h2>
+
+
+    {% if payment_history %}
+
+        <div class="history-list">
+
+            {% for payment in payment_history %}
+
+                <div class="history-item">
+
+                    <!-- TOP ROW -->
+
+                    <div class="history-top">
+
+                        <div class="history-amount">
+
+                            <span>
+                                Amount
+                            </span>
+
+                            <strong>
+                                ₹{{ payment.amount }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="history-date">
+
+                            <span>
+                                Date
+                            </span>
+
+                            <strong>
+                                {{ payment.date }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- UTR -->
+
+                    <div class="history-detail">
+
+                        <span>
+                            UTR
+                        </span>
+
+                        <strong>
+                            {{ payment.utr }}
+                        </strong>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="history-detail">
+
+                        <span>
+                            Status
+                        </span>
+
+                        <strong
+                            class="status-{{ payment.status|lower }}"
+                        >
+                            {{ payment.status|capitalize }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- =========================
+             PAGINATION
+        ========================== -->
+
+        {% if total_pages > 1 %}
+
+            <div class="pagination">
+
+                {% if current_page > 1 %}
+
+                    <a
+                        href="{{ url_for(
+                            'add_balance',
+                            page=current_page - 1
+                        ) }}"
+                        class="pagination-btn"
+                    >
+                        Previous
+                    </a>
+
+                {% endif %}
+
+
+                <span class="page-number">
+
+                    Page {{ current_page }}
+                    of {{ total_pages }}
+
+                </span>
+
+
+                {% if current_page < total_pages %}
+
+                    <a
+                        href="{{ url_for(
+                            'add_balance',
+                            page=current_page + 1
+                        ) }}"
+                        class="pagination-btn"
+                    >
+                        Next
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
+
+    {% else %}
+
+        <div class="empty-history">
+
+            <p>
+                No payment history found.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+    </main>
+
+<script
+    src="{{ url_for('static', filename='js/security.js') }}"
+    defer
+></script>
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const menuBtn =
+                    document.getElementById("menuBtn");
+
+                const closeMenu =
+                    document.getElementById("closeMenu");
+
+                const sideMenu =
+                    document.getElementById("sideMenu");
+
+                const menuOverlay =
+                    document.getElementById("menuOverlay");
+
+
+                function openMenu() {
+
+                    sideMenu.classList.add("show");
+
+                    menuOverlay.classList.add("show");
+
+                }
+
+
+                function closeMenuFunction() {
+
+                    sideMenu.classList.remove("show");
+
+                    menuOverlay.classList.remove("show");
+
+                }
+
+
+                menuBtn.addEventListener(
+                    "click",
+                    openMenu
+                );
+
+
+                closeMenu.addEventListener(
+                    "click",
+                    closeMenuFunction
+                );
+
+
+                menuOverlay.addEventListener(
+                    "click",
+                    closeMenuFunction
+                );
+
+            }
+
+        );
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
+
+    <title>Your Profile</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/profile.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="top-navbar">
+
+        <img
+            src="{{ url_for('static', filename='images/lplogo.png') }}"
+            class="nav-logo"
+            alt="Lpdoplayer"
+        >
+
+        <button
+            type="button"
+            class="menu-btn"
+            id="menuBtn"
+        >
+            ☰
+        </button>
+
+    </nav>
+
+
+
+    <!-- =========================
+         OVERLAY
+    ========================== -->
+
+    <div
+        class="menu-overlay"
+        id="menuOverlay"
+    ></div>
+
+
+
+    <!-- =========================
+         SIDE MENU
+    ========================== -->
+
+    <aside
+        class="side-menu"
+        id="sideMenu"
+    >
+
+        <button
+            type="button"
+            class="close-menu"
+            id="closeMenu"
+        >
+            ×
+        </button>
+
+
+        <div class="menu-items">
+
+
+            <!-- DASHBOARD -->
+
+            <button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('udashboard') }}'"
+            >
+                Dashboard
+            </button>
+
+
+            <!-- ADD BALANCE -->
+
+            <button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('add_balance') }}'"
+            >
+                Add Balance
+            </button>
+
+
+            <!-- WITHDRAW MONEY -->
+
+            <button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('withdraw_money') }}'"
+            >
+                Withdraw Money
+            </button>
+
+
+            <!-- YOUR MATCHES -->
+
+            <button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('your_matches') }}'"
+            >
+                Your Matches
+            </button>
+
+
+            <!-- PROFILE -->
+
+            <button
+                type="button"
+                class="menu-option active-menu"
+                onclick="window.location.href='{{ url_for('profile') }}'"
+            >
+                Profile
+            </button>
+
+
+            <!-- LOGOUT -->
+
+            <button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('logout') }}'"
+            >
+                Logout
+            </button>
+
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================
+         FLASH MESSAGES
+    ========================== -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            <div class="flash-container">
+
+                {% for category, message in messages %}
+
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="page-container">
+
+
+        <!-- =========================
+             PROFILE CARD
+        ========================== -->
+
+        <div class="profile-card">
+
+
+            <!-- =========================
+                 PROFILE HERO
+            ========================== -->
+
+            <div class="profile-hero">
+
+
+                <!-- AVATAR -->
+
+                <div class="profile-avatar-wrap">
+
+                    <div class="profile-avatar-glow"></div>
+
+
+                    <div class="profile-avatar">
+
+                        <img
+                            src="{{ url_for('static', filename='images/lplogo.png') }}"
+                            alt="Lpdoplayer User"
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- HERO TEXT -->
+
+                <div class="profile-hero-text">
+
+                    <span class="profile-label">
+                        PLAYER PROFILE
+                    </span>
+
+
+                    <h1>
+                        {{ user.username }}
+                    </h1>
+
+
+                    <p>
+                        Your Lpdoplayer account
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =========================
+                 USER DETAILS
+            ========================== -->
+
+            <div class="profile-details">
+
+
+                <!-- USERNAME -->
+
+                <div class="profile-row">
+
+                    <span>
+                        Username
+                    </span>
+
+
+                    <strong>
+                        {{ user.username }}
+                    </strong>
+
+                </div>
+
+
+
+                <!-- PHONE -->
+
+                <div class="profile-row">
+
+                    <span>
+                        Phone Number
+                    </span>
+
+
+                    <strong>
+                        {{ user.phone_number }}
+                    </strong>
+
+                </div>
+
+
+
+                <!-- BALANCE -->
+
+                <div class="profile-row">
+
+                    <span>
+                        Balance
+                    </span>
+
+
+                    <strong>
+                        ₹{{ user.money }}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =========================
+                 PASSWORD SECTION
+            ========================== -->
+
+            <div class="password-section">
+
+
+                <h2>
+                    Update Password
+                </h2>
+
+
+                <p class="password-description">
+                    Update your account password from here.
+                </p>
+
+
+
+                <form
+                    method="POST"
+                    action="{{ url_for('update_password') }}"
+                >
+
+
+                    <!-- CURRENT PASSWORD -->
+
+                    <div class="input-group">
+
+                        <label for="current_password">
+                            Current Password
+                        </label>
+
+
+                        <input
+                            type="password"
+                            id="current_password"
+                            name="current_password"
+                            maxlength="20"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- NEW PASSWORD -->
+
+                    <div class="input-group">
+
+                        <label for="new_password">
+                            New Password
+                        </label>
+
+
+                        <input
+                            type="password"
+                            id="new_password"
+                            name="new_password"
+                            maxlength="20"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- CONFIRM PASSWORD -->
+
+                    <div class="input-group">
+
+                        <label for="confirm_password">
+                            Confirm New Password
+                        </label>
+
+
+                        <input
+                            type="password"
+                            id="confirm_password"
+                            name="confirm_password"
+                            maxlength="20"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- UPDATE BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="update-password-btn"
+                    >
+                        Update Password
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         SECURITY JS
+    ========================== -->
+
+    <script
+        src="{{ url_for('static', filename='js/security.js') }}"
+        defer
+    ></script>
+
+
+
+    <!-- =========================
+         PAGE JS
+    ========================== -->
+
+    <script>
+
+        const menuBtn =
+            document.getElementById("menuBtn");
+
+
+        const sideMenu =
+            document.getElementById("sideMenu");
+
+
+        const closeMenu =
+            document.getElementById("closeMenu");
+
+
+        const menuOverlay =
+            document.getElementById("menuOverlay");
+
+
+
+        /* =========================
+           OPEN MENU
+        ========================== */
+
+        menuBtn.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.add("show");
+
+                menuOverlay.classList.add("show");
+
+            }
+        );
+
+
+
+        /* =========================
+           CLOSE MENU
+        ========================== */
+
+        closeMenu.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.remove("show");
+
+                menuOverlay.classList.remove("show");
+
+            }
+        );
+
+
+
+        /* =========================
+           CLOSE ON OVERLAY
+        ========================== */
+
+        menuOverlay.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.remove("show");
+
+                menuOverlay.classList.remove("show");
+
+            }
+        );
+
+
+
+        /* =========================
+           FLASH MESSAGE TIMER
+        ========================== */
+
+        setTimeout(
+            function () {
+
+                document
+                    .querySelectorAll(".flash-message")
+                    .forEach(
+                        function (message) {
+
+                            message.remove();
+
+                        }
+                    );
+
+            },
+            5000
+        );
+
+    </script>
+
+
+</body>
+
+</html>
