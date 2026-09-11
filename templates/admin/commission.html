@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Commission - Lpdoplayer</title>
+
+
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for(
+            'static',
+            filename='css/admin/commission.css'
+        ) }}"
+    >
+
+
+    <script
+        src="{{ url_for(
+            'static',
+            filename='js/security.js'
+        ) }}"
+        defer
+    ></script>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="top-navbar">
+
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='images/lplogo.png'
+            ) }}"
+            class="nav-logo"
+            alt="Lpdoplayer"
+        >
+
+
+        <button
+            type="button"
+            class="menu-btn"
+            id="menuBtn"
+        >
+            ☰
+        </button>
+
+
+    </nav>
+
+
+
+    <!-- =========================
+         OVERLAY
+    ========================== -->
+
+    <div
+        class="menu-overlay"
+        id="menuOverlay"
+    ></div>
+
+
+
+    <!-- =========================
+         SIDE MENU
+    ========================== -->
+
+    <aside
+        class="side-menu"
+        id="sideMenu"
+    >
+
+
+        <button
+            type="button"
+            class="close-menu"
+            id="closeMenu"
+        >
+            ×
+        </button>
+
+
+        <div class="menu-items">
+
+
+                      <button
+                type="button"
+                class="menu-option active-menu"
+                onclick="window.location.href='{{ url_for('admin.admin_dashboard') }}'"
+            >
+                Dashboard
+            </button>
+
+
+
+            <!-- USERS BALANCE -->
+
+          <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.users_balance') }}'"
+>
+    Users Balance
+</button>
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.total_money_credited') }}'"
+>
+    Total Money Credited
+</button>
+
+
+
+            <!-- USERS WITHDRAWAL -->
+
+           <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.users_withdrawals') }}'"
+>
+    Users Withdrawals
+</button>
+
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.total_debits') }}'"
+>
+    Total Debits
+</button>
+
+ <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.block_users') }}'"
+>
+    Block User
+</button>
+
+
+<button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('logout') }}'"
+            >
+                Logout
+            </button>
+
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="commission-page">
+
+
+        <!-- =========================
+             SEARCH CARD
+        ========================== -->
+
+        <section class="commission-card">
+
+
+            <h1>
+                Commission
+            </h1>
+
+
+            <p class="card-description">
+                View commission records generated from completed matches.
+            </p>
+
+
+
+            <!-- =========================
+                 SEARCH
+            ========================== -->
+
+            <form
+                method="GET"
+                action="{{ url_for('admin.commission') }}"
+                class="commission-search-form"
+            >
+
+
+                <div class="form-group">
+
+
+                    <label for="commissionSearch">
+                        Search
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="commissionSearch"
+                        name="search"
+                        value="{{ search_query }}"
+                        placeholder="Room code, amount or date"
+                    >
+
+
+                </div>
+
+
+
+                <button
+                    type="submit"
+                    class="search-button"
+                >
+                    Search
+                </button>
+
+
+            </form>
+
+
+        </section>
+
+
+
+        <!-- =========================
+             RESULTS CARD
+        ========================== -->
+
+        <section class="commission-results-card">
+
+
+            <h2>
+                Commission Records
+            </h2>
+
+
+
+            {% if commission_records %}
+
+
+                <div class="commission-table-wrapper">
+
+
+                    <table class="commission-table">
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Room Code
+                                </th>
+
+                                <th>
+                                    Total Amount
+                                </th>
+
+                                <th>
+                                    Commission
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+
+                        <tbody>
+
+
+                            {% for record in commission_records %}
+
+
+                                <tr>
+
+
+                                    <td>
+                                        {{ record.roomcode }}
+                                    </td>
+
+
+                                    <td>
+                                        ₹{{ record.total_amount }}
+                                    </td>
+
+
+                                    <td>
+                                        ₹{{ record.commision }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ record.timestamp }}
+                                    </td>
+
+
+                                </tr>
+
+
+                            {% endfor %}
+
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+            {% else %}
+
+
+                <div class="no-records">
+
+                    No commission records found.
+
+                </div>
+
+
+            {% endif %}
+
+
+
+            <!-- =========================
+                 PAGINATION
+            ========================== -->
+
+            {% if total_pages > 1 %}
+
+
+                <div class="pagination">
+
+
+                    {% if current_page > 1 %}
+
+
+                        <a
+                            href="{{ url_for(
+                                'admin.commission',
+                                page=current_page - 1,
+                                search=search_query
+                            ) }}"
+                        >
+                            Previous
+                        </a>
+
+
+                    {% endif %}
+
+
+
+                    <span>
+
+                        Page {{ current_page }}
+                        of {{ total_pages }}
+
+                    </span>
+
+
+
+                    {% if current_page < total_pages %}
+
+
+                        <a
+                            href="{{ url_for(
+                                'admin.commission',
+                                page=current_page + 1,
+                                search=search_query
+                            ) }}"
+                        >
+                            Next
+                        </a>
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <script>
+
+        const menuBtn =
+            document.getElementById("menuBtn");
+
+        const sideMenu =
+            document.getElementById("sideMenu");
+
+        const closeMenu =
+            document.getElementById("closeMenu");
+
+        const menuOverlay =
+            document.getElementById("menuOverlay");
+
+
+        menuBtn.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.add("show");
+
+                menuOverlay.classList.add("show");
+
+            }
+        );
+
+
+        closeMenu.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.remove("show");
+
+                menuOverlay.classList.remove("show");
+
+            }
+        );
+
+
+        menuOverlay.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.remove("show");
+
+                menuOverlay.classList.remove("show");
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

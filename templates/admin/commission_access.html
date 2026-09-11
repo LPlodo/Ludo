@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Internal Access - Lpdoplayer</title>
+
+
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for(
+            'static',
+            filename='css/admin/commission.css'
+        ) }}"
+    >
+
+
+    <script
+        src="{{ url_for(
+            'static',
+            filename='js/security.js'
+        ) }}"
+        defer
+    ></script>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="top-navbar">
+
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='images/lplogo.png'
+            ) }}"
+            class="nav-logo"
+            alt="Lpdoplayer"
+        >
+
+
+        <button
+            type="button"
+            class="menu-btn"
+            id="menuBtn"
+        >
+            ☰
+        </button>
+
+
+    </nav>
+
+
+
+    <!-- =========================
+         OVERLAY
+    ========================== -->
+
+    <div
+        class="menu-overlay"
+        id="menuOverlay"
+    ></div>
+
+
+
+    <!-- =========================
+         SIDE MENU
+    ========================== -->
+
+    <aside
+        class="side-menu"
+        id="sideMenu"
+    >
+
+
+        <button
+            type="button"
+            class="close-menu"
+            id="closeMenu"
+        >
+            ×
+        </button>
+
+
+        <div class="menu-items">
+
+
+                       <button
+                type="button"
+                class="menu-option active-menu"
+                onclick="window.location.href='{{ url_for('admin.admin_dashboard') }}'"
+            >
+                Dashboard
+            </button>
+
+
+
+            <!-- USERS BALANCE -->
+
+          <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.users_balance') }}'"
+>
+    Users Balance
+</button>
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.total_money_credited') }}'"
+>
+    Total Money Credited
+</button>
+
+
+
+            <!-- USERS WITHDRAWAL -->
+
+           <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.users_withdrawals') }}'"
+>
+    Users Withdrawals
+</button>
+
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.total_debits') }}'"
+>
+    Total Debits
+</button>
+
+ <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.block_users') }}'"
+>
+    Block User
+</button>
+
+
+<button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('logout') }}'"
+            >
+                Logout
+            </button>
+
+
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="commission-page">
+
+
+        <section class="commission-access-card">
+
+
+            <h1>
+                Internal Access
+            </h1>
+
+
+            <p>
+                Please enter the internal password to access
+                the commission records.
+            </p>
+
+
+
+            <!-- =========================
+                 FLASH
+            ========================== -->
+
+            {% with messages = get_flashed_messages(
+                with_categories=true
+            ) %}
+
+                {% if messages %}
+
+                    <div class="flash-container">
+
+                        {% for category, message in messages %}
+
+                            <div
+                                class="flash-message {{ category }}"
+                            >
+                                {{ message }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            {% endwith %}
+
+
+
+            <!-- =========================
+                 PASSWORD FORM
+            ========================== -->
+
+            <form
+                method="POST"
+                action="{{ url_for('admin.commission') }}"
+            >
+
+
+                <div class="form-group">
+
+
+                    <label for="internalPassword">
+                        Password
+                    </label>
+
+
+                    <input
+                        type="password"
+                        id="internalPassword"
+                        name="internal_password"
+                        placeholder="Enter password"
+                        required
+                        autocomplete="off"
+                    >
+
+
+                </div>
+
+
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+                    Continue
+                </button>
+
+
+            </form>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <script>
+
+        const menuBtn =
+            document.getElementById("menuBtn");
+
+        const sideMenu =
+            document.getElementById("sideMenu");
+
+        const closeMenu =
+            document.getElementById("closeMenu");
+
+        const menuOverlay =
+            document.getElementById("menuOverlay");
+
+
+        menuBtn.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.add("show");
+
+                menuOverlay.classList.add("show");
+
+            }
+        );
+
+
+        closeMenu.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.remove("show");
+
+                menuOverlay.classList.remove("show");
+
+            }
+        );
+
+
+        menuOverlay.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.remove("show");
+
+                menuOverlay.classList.remove("show");
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

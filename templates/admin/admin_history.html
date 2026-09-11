@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin History - Lpdoplayer</title>
+
+
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for(
+            'static',
+            filename='css/admin/commission.css'
+        ) }}"
+    >
+
+
+    <script
+        src="{{ url_for(
+            'static',
+            filename='js/security.js'
+        ) }}"
+        defer
+    ></script>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="top-navbar">
+
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='images/lplogo.png'
+            ) }}"
+            class="nav-logo"
+            alt="Lpdoplayer"
+        >
+
+
+        <button
+            type="button"
+            class="menu-btn"
+            id="menuBtn"
+        >
+            ☰
+        </button>
+
+
+    </nav>
+
+
+
+    <!-- =========================
+         OVERLAY
+    ========================== -->
+
+    <div
+        class="menu-overlay"
+        id="menuOverlay"
+    ></div>
+
+
+
+    <!-- =========================
+         SIDE MENU
+    ========================== -->
+
+    <aside
+        class="side-menu"
+        id="sideMenu"
+    >
+
+
+        <button
+            type="button"
+            class="close-menu"
+            id="closeMenu"
+        >
+            ×
+        </button>
+
+
+        <div class="menu-items">
+
+
+                       <button
+                type="button"
+                class="menu-option active-menu"
+                onclick="window.location.href='{{ url_for('admin.admin_dashboard') }}'"
+            >
+                Dashboard
+            </button>
+
+
+
+            <!-- USERS BALANCE -->
+
+          <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.users_balance') }}'"
+>
+    Users Balance
+</button>
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.total_money_credited') }}'"
+>
+    Total Money Credited
+</button>
+
+
+
+            <!-- USERS WITHDRAWAL -->
+
+           <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.users_withdrawals') }}'"
+>
+    Users Withdrawals
+</button>
+
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.total_debits') }}'"
+>
+    Total Debits
+</button>
+
+ <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.block_users') }}'"
+>
+    Block User
+</button>
+
+
+<button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('logout') }}'"
+            >
+                Logout
+            </button>
+
+
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="commission-page">
+
+
+        <!-- =========================
+             SEARCH CARD
+        ========================== -->
+
+        <section class="commission-card">
+
+
+            <h1>
+                Admin History
+            </h1>
+
+
+            <p class="card-description">
+                View the complete activity history of the admin panel.
+            </p>
+
+
+
+            <!-- =========================
+                 SEARCH
+            ========================== -->
+
+            <form
+                method="GET"
+                action="{{ url_for('admin.admin_history') }}"
+                class="commission-search-form"
+            >
+
+
+                <div class="form-group">
+
+
+                    <label for="historySearch">
+                        Search
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="historySearch"
+                        name="search"
+                        value="{{ search_query }}"
+                        placeholder="Date or time"
+                        autocomplete="off"
+                    >
+
+
+                </div>
+
+
+
+                <button
+                    type="submit"
+                    class="search-button"
+                >
+                    Search
+                </button>
+
+
+                {% if search_query %}
+
+                    <a
+                        href="{{ url_for('admin.admin_history') }}"
+                        class="search-button"
+                        style="text-decoration: none; display: flex; align-items: center; justify-content: center;"
+                    >
+                        Clear
+                    </a>
+
+                {% endif %}
+
+
+            </form>
+
+
+        </section>
+
+
+
+        <!-- =========================
+             RESULTS CARD
+        ========================== -->
+
+        <section class="commission-results-card">
+
+
+            <h2>
+                Activity History
+            </h2>
+
+
+
+            {% if history_records %}
+
+
+                <div class="commission-table-wrapper">
+
+
+                    <table class="commission-table">
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Admin Username
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                                <th>
+                                    Description
+                                </th>
+
+                                <th>
+                                    Target Type
+                                </th>
+
+                                <th>
+                                    IP Address
+                                </th>
+
+                                <th>
+                                    User Agent
+                                </th>
+
+                                <th>
+                                    Timestamp
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+
+                        <tbody>
+
+
+                            {% for record in history_records %}
+
+
+                                <tr>
+
+
+                                    <td>
+                                        {{ record.admin_username }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ record.action }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ record.description or "—" }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ record.target_type or "—" }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ record.ip_address or "—" }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ record.user_agent or "—" }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ record.timestamp }}
+                                    </td>
+
+
+                                </tr>
+
+
+                            {% endfor %}
+
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+            {% else %}
+
+
+                <div class="no-records">
+
+                    No admin history found.
+
+                </div>
+
+
+            {% endif %}
+
+
+
+            <!-- =========================
+                 PAGINATION
+            ========================== -->
+
+            {% if total_pages > 1 %}
+
+
+                <div class="pagination">
+
+
+                    {% if current_page > 1 %}
+
+
+                        <a
+                            href="{{ url_for(
+                                'admin.admin_history',
+                                page=current_page - 1,
+                                search=search_query
+                            ) }}"
+                        >
+                            Previous
+                        </a>
+
+
+                    {% endif %}
+
+
+
+                    <span>
+
+                        Page {{ current_page }}
+                        of {{ total_pages }}
+
+                    </span>
+
+
+
+                    {% if current_page < total_pages %}
+
+
+                        <a
+                            href="{{ url_for(
+                                'admin.admin_history',
+                                page=current_page + 1,
+                                search=search_query
+                            ) }}"
+                        >
+                            Next
+                        </a>
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         MOBILE MENU JS
+    ========================== -->
+
+    <script>
+
+        const menuBtn =
+            document.getElementById("menuBtn");
+
+        const sideMenu =
+            document.getElementById("sideMenu");
+
+        const closeMenu =
+            document.getElementById("closeMenu");
+
+        const menuOverlay =
+            document.getElementById("menuOverlay");
+
+
+        menuBtn.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.add("show");
+
+                menuOverlay.classList.add("show");
+
+            }
+        );
+
+
+        closeMenu.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.remove("show");
+
+                menuOverlay.classList.remove("show");
+
+            }
+        );
+
+
+        menuOverlay.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.remove("show");
+
+                menuOverlay.classList.remove("show");
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

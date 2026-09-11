@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+<meta
+    name="csrf-token"
+    content="{{ csrf_token() }}"
+>
+    <title>Lpdoplayer - Admin Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/admin/dashboard.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="top-navbar">
+
+
+        <img
+            src="{{ url_for('static', filename='images/lplogo.png') }}"
+            class="nav-logo"
+            alt="Lpdoplayer"
+        >
+
+
+        <button
+            type="button"
+            class="menu-btn"
+            id="menuBtn"
+        >
+            ☰
+        </button>
+
+
+    </nav>
+
+
+
+    <!-- =========================
+         OVERLAY
+    ========================== -->
+
+    <div
+        class="menu-overlay"
+        id="menuOverlay"
+    ></div>
+
+
+
+    <!-- =========================
+         SIDE MENU
+    ========================== -->
+
+    <aside
+        class="side-menu"
+        id="sideMenu"
+    >
+
+
+        <button
+            type="button"
+            class="close-menu"
+            id="closeMenu"
+        >
+            ×
+        </button>
+
+
+
+        <div class="menu-items">
+
+
+            <!-- DASHBOARD -->
+
+            <button
+                type="button"
+                class="menu-option active-menu"
+                onclick="window.location.href='{{ url_for('admin.admin_dashboard') }}'"
+            >
+                Dashboard
+            </button>
+
+
+
+            <!-- USERS BALANCE -->
+
+          <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.users_balance') }}'"
+>
+    Users Balance
+</button>
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.total_money_credited') }}'"
+>
+    Total Money Credited
+</button>
+
+
+
+            <!-- USERS WITHDRAWAL -->
+
+           <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.users_withdrawals') }}'"
+>
+    Users Withdrawals
+</button>
+
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.total_debits') }}'"
+>
+    Total Debits
+</button>
+
+ <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.block_users') }}'"
+>
+    Block User
+</button>
+
+ <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.commission') }}'"
+>
+    Commission
+</button>
+
+
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.admin_history') }}'"
+>
+    History
+</button>
+
+<button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('logout') }}'"
+            >
+                Logout
+            </button>
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="page-container">
+
+
+        <div class="dashboard-card">
+
+
+            <h1>
+                Admin Dashboard
+            </h1>
+
+
+            <p>
+                Welcome to the Lpdoplayer admin panel.
+            </p>
+
+
+        </div>
+
+
+ <!-- =========================
+         ADMIN ACCOUNT DETAILS
+    ========================== -->
+
+    <div class="dashboard-card">
+
+
+        <h1>
+            Account Details
+        </h1>
+
+
+        <p class="card-description">
+            Add the bank or UPI details that users will use for payments.
+        </p>
+
+
+
+        <!-- =========================
+             FLASH MESSAGES
+        ========================== -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                <div class="flash-container">
+
+                    {% for category, message in messages %}
+
+                        <div class="flash-message {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+
+        <form
+            method="POST"
+            action="{{ url_for('admin.save_admin_details') }}"
+        >
+
+
+            <!-- BANK NAME -->
+
+            <div class="input-group">
+
+                <label for="bank_name">
+                    Bank Name
+                </label>
+
+                <input
+                    type="text"
+                    id="bank_name"
+                    name="bank_name"
+                    value="{% if admin_details and admin_details.bank_name != 'Not Added' %}{{ admin_details.bank_name }}{% endif %}"
+                    placeholder="Enter bank name"
+                >
+
+            </div>
+
+
+
+            <!-- ACCOUNT NUMBER -->
+
+            <div class="input-group">
+
+                <label for="account_number">
+                    Account Number
+                </label>
+
+                <input
+                    type="text"
+                    id="account_number"
+                    name="account_number"
+                    value="{% if admin_details and admin_details.account_number != 'Not Added' %}{{ admin_details.account_number }}{% endif %}"
+                    placeholder="Enter account number"
+                >
+
+            </div>
+
+
+
+            <!-- IFSC -->
+
+            <div class="input-group">
+
+                <label for="ifsc_code">
+                    IFSC Code
+                </label>
+
+                <input
+                    type="text"
+                    id="ifsc_code"
+                    name="ifsc_code"
+                    value="{% if admin_details and admin_details.ifsc_code != 'Not Added' %}{{ admin_details.ifsc_code }}{% endif %}"
+                    placeholder="Enter IFSC code"
+                >
+
+            </div>
+
+
+
+            <!-- UPI -->
+
+            <div class="input-group">
+
+                <label for="upiid">
+                    UPI ID
+                </label>
+
+                <input
+                    type="text"
+                    id="upiid"
+                    name="upiid"
+                    value="{% if admin_details and admin_details.upiid != 'Not Added' %}{{ admin_details.upiid }}{% endif %}"
+                    placeholder="Enter UPI ID"
+                >
+
+            </div>
+
+
+
+            <!-- CONTACT -->
+
+            <div class="input-group">
+
+                <label for="contact">
+                    Contact Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="contact"
+                    name="contact"
+                    value="{% if admin_details and admin_details.contact != 'Not Added' %}{{ admin_details.contact }}{% endif %}"
+                    placeholder="Enter contact number"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- INFORMATION -->
+
+            <div class="details-note">
+
+                <strong>
+                    Note
+                </strong>
+
+                <p>
+                    Contact number is required. Provide either complete bank
+                    details or a UPI ID. You can also provide both.
+                </p>
+
+            </div>
+
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                class="submit-btn"
+            >
+                Save Details
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+
+<!-- =========================
+     WINNERS
+========================== -->
+
+<div class="dashboard-card winners-card">
+
+
+    <h1>
+        Winners
+    </h1>
+
+
+    <p class="card-description">
+        Review submitted match results and select the winner.
+    </p>
+
+
+    {% if winner_matches %}
+
+
+        <div class="winner-list">
+
+
+            {% for match in winner_matches %}
+
+
+                <!-- =========================
+                     INNER MATCH CARD
+                ========================== -->
+
+                <div class="winner-match-card">
+
+
+                    <!-- USERS -->
+
+                    <div class="winner-users-row">
+
+
+                        <div class="winner-user">
+
+                            <span>
+                                User 1
+                            </span>
+
+                            <strong>
+                                {{ match.user1_name }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="winner-vs">
+                            VS
+                        </div>
+
+
+                        <div class="winner-user winner-user-two">
+
+                            <span>
+                                User 2
+                            </span>
+
+                            <strong>
+                                {{ match.user2_name }}
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- USER OPTIONS -->
+
+                    <div class="winner-options-row">
+
+
+                        <div class="winner-info">
+
+                            <span>
+                                User 1 Option
+                            </span>
+
+                            <strong>
+                                {{ match.user1option or "Not Selected" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="winner-info winner-info-right">
+
+                            <span>
+                                User 2 Option
+                            </span>
+
+                            <strong>
+                                {{ match.user2option or "Not Selected" }}
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- MATCH INFORMATION -->
+
+                    <div class="winner-match-info">
+
+
+                        <div class="winner-info">
+
+                            <span>
+                                Amount
+                            </span>
+
+                            <strong>
+                                ₹{{ match.amount }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="winner-info">
+
+                            <span>
+                                Date
+                            </span>
+
+                            <strong>
+                                {{ match.match_date }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="winner-info winner-info-right">
+
+                            <span>
+                                Room Code
+                            </span>
+
+                            <strong class="room-code">
+                                {{ match.roomcode }}
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- CURRENT STATUS -->
+
+                    <div class="winner-status-row">
+
+                        <span>
+                            Status
+                        </span>
+
+                        <strong class="hold-status">
+                            Hold
+                        </strong>
+
+                    </div>
+
+
+
+                    <!-- ADMIN FORM -->
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('admin.complete_result') }}"
+                        class="winner-form"
+                    >
+
+
+                        <input
+                            type="hidden"
+                            name="matchuuid"
+                            value="{{ match.matchuuid }}"
+                        >
+
+
+                        <!-- WINNER -->
+
+                        <div class="winner-selection">
+
+                            <label>
+                                Select Winner
+                            </label>
+
+
+                            <div class="winner-radio-group">
+
+
+                                <label class="winner-radio">
+
+                                    <input
+                                        type="radio"
+                                        name="winner_option"
+                                        value="user1"
+                                        required
+                                    >
+
+                                    <span>
+                                        User 1
+                                    </span>
+
+                                </label>
+
+
+                                <label class="winner-radio">
+
+                                    <input
+                                        type="radio"
+                                        name="winner_option"
+                                        value="user2"
+                                        required
+                                    >
+
+                                    <span>
+                                        User 2
+                                    </span>
+
+                                </label>
+
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- REMARK -->
+
+                        <div class="remark-group">
+
+                            <label for="remark-{{ loop.index }}">
+                                Remark (Optional)
+                            </label>
+
+                            <textarea
+                                id="remark-{{ loop.index }}"
+                                name="remark"
+                                maxlength="70"
+                                placeholder="Enter remark if required..."
+                            ></textarea>
+
+                            <small>
+                                Maximum 70 characters.
+                            </small>
+
+                        </div>
+
+
+
+                        <!-- COMPLETE -->
+
+                        <button
+                            type="submit"
+                            class="complete-btn"
+                        >
+                            Complete Match
+                        </button>
+
+
+                    </form>
+
+
+                </div>
+
+
+           {% endfor %}
+
+        </div>
+
+
+        <!-- =========================
+             WINNERS PAGINATION
+        ========================== -->
+
+        {% if total_pages > 1 %}
+
+            <div class="pagination">
+
+
+                {% if current_page > 1 %}
+
+                    <a
+                        href="{{ url_for('admin.admin_dashboard', page=current_page - 1) }}"
+                        class="pagination-btn"
+                    >
+                        Previous
+                    </a>
+
+                {% endif %}
+
+
+                <span class="page-number">
+                    Page {{ current_page }} of {{ total_pages }}
+                </span>
+
+
+                {% if current_page < total_pages %}
+
+                    <a
+                        href="{{ url_for('admin.admin_dashboard', page=current_page + 1) }}"
+                        class="pagination-btn"
+                    >
+                        Next
+                    </a>
+
+                {% endif %}
+
+
+            </div>
+
+        {% endif %}
+
+
+    {% else %}
+
+
+        <div class="empty-winners">
+
+            <p>
+                No matches are waiting for winner verification.
+            </p>
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+
+    </main>
+
+<script
+    src="{{ url_for('static', filename='js/security.js') }}"
+    defer
+></script>
+
+    <script>
+
+        const menuBtn =
+            document.getElementById("menuBtn");
+
+        const sideMenu =
+            document.getElementById("sideMenu");
+
+        const closeMenu =
+            document.getElementById("closeMenu");
+
+        const menuOverlay =
+            document.getElementById("menuOverlay");
+
+
+        menuBtn.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.add("show");
+
+                menuOverlay.classList.add("show");
+
+            }
+        );
+
+
+        closeMenu.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.remove("show");
+
+                menuOverlay.classList.remove("show");
+
+            }
+        );
+
+
+        menuOverlay.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.remove("show");
+
+                menuOverlay.classList.remove("show");
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

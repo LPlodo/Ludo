@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Block User - Lpdoplayer</title>
+
+
+    <!-- CSRF -->
+
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for(
+            'static',
+            filename='css/admin/block_users.css'
+        ) }}"
+    >
+
+
+    <!-- SECURITY -->
+
+    <script
+        src="{{ url_for(
+            'static',
+            filename='js/security.js'
+        ) }}"
+        defer
+    ></script>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="top-navbar">
+
+
+        <img
+            src="{{ url_for('static', filename='images/lplogo.png') }}"
+            class="nav-logo"
+            alt="Lpdoplayer"
+        >
+
+
+        <button
+            type="button"
+            class="menu-btn"
+            id="menuBtn"
+        >
+            ☰
+        </button>
+
+
+    </nav>
+
+
+
+    <!-- =========================
+         OVERLAY
+    ========================== -->
+
+    <div
+        class="menu-overlay"
+        id="menuOverlay"
+    ></div>
+
+
+
+    <!-- =========================
+         SIDE MENU
+    ========================== -->
+
+    <aside
+        class="side-menu"
+        id="sideMenu"
+    >
+
+
+        <button
+            type="button"
+            class="close-menu"
+            id="closeMenu"
+        >
+            ×
+        </button>
+
+
+
+        <div class="menu-items">
+
+
+            <!-- DASHBOARD -->
+
+            <button
+                type="button"
+                class="menu-option active-menu"
+                onclick="window.location.href='{{ url_for('admin.admin_dashboard') }}'"
+            >
+                Dashboard
+            </button>
+
+
+
+            <!-- USERS BALANCE -->
+
+          <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.users_balance') }}'"
+>
+    Users Balance
+</button>
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.total_money_credited') }}'"
+>
+    Total Money Credited
+</button>
+
+
+
+            <!-- USERS WITHDRAWAL -->
+
+           <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.users_withdrawals') }}'"
+>
+    Users Withdrawals
+</button>
+
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.total_debits') }}'"
+>
+    Total Debits
+</button>
+
+ <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.block_users') }}'"
+>
+    Block User
+</button>
+
+
+<button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('logout') }}'"
+            >
+                Logout
+            </button>
+
+
+
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="block-users-page">
+
+
+        <!-- =========================
+             SEARCH CARD
+        ========================== -->
+
+        <section class="block-users-card">
+
+
+            <h1>
+                Block User
+            </h1>
+
+
+
+            <!-- =========================
+                 FLASH MESSAGES
+            ========================== -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    <div class="flash-container">
+
+                        {% for category, message in messages %}
+
+                            <div class="flash-message {{ category }}">
+                                {{ message }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            {% endwith %}
+
+
+
+            <!-- =========================
+                 SEARCH FORM
+            ========================== -->
+
+            <form
+                method="GET"
+                action="{{ url_for('admin.block_users') }}"
+                class="user-search-form"
+            >
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+
+                    <label for="username">
+                        Username
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Search username"
+                        value="{{ username_search }}"
+                    >
+
+
+                </div>
+
+
+
+                <!-- STATUS -->
+
+                <div class="form-group">
+
+
+                    <label for="status">
+                        Status
+                    </label>
+
+
+                    <select
+                        id="status"
+                        name="status"
+                    >
+
+
+                        <option
+                            value=""
+                            {% if not status_filter %}
+                                selected
+                            {% endif %}
+                        >
+                            All
+                        </option>
+
+
+                        <option
+                            value="active"
+                            {% if status_filter == "active" %}
+                                selected
+                            {% endif %}
+                        >
+                            Active
+                        </option>
+
+
+                        <option
+                            value="inactive"
+                            {% if status_filter == "inactive" %}
+                                selected
+                            {% endif %}
+                        >
+                            Inactive
+                        </option>
+
+
+                    </select>
+
+
+                </div>
+
+
+
+                <!-- SEARCH -->
+
+                <button
+                    type="submit"
+                    class="search-button"
+                >
+                    Search
+                </button>
+
+
+            </form>
+
+
+        </section>
+
+
+
+        <!-- =========================
+             USERS CARD
+        ========================== -->
+
+        <section class="users-results-card">
+
+
+            <h2>
+                Users
+            </h2>
+
+
+
+            {% if users %}
+
+
+                <div class="users-table-wrapper">
+
+
+                    <table class="users-table">
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Username
+                                </th>
+
+                                <th>
+                                    Current Status
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+
+                        <tbody>
+
+
+                            {% for user in users %}
+
+
+                                <tr>
+
+
+                                    <!-- USERNAME -->
+
+                                    <td>
+                                        {{ user.username }}
+                                    </td>
+
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+
+                                        {% if user.status == 1 %}
+
+                                            <span
+                                                class="status-active"
+                                            >
+                                                Active
+                                            </span>
+
+                                        {% else %}
+
+                                            <span
+                                                class="status-inactive"
+                                            >
+                                                Inactive
+                                            </span>
+
+                                        {% endif %}
+
+
+                                    </td>
+
+
+
+                                    <!-- ACTION -->
+
+                                    <td>
+
+
+                                        {% if user.status == 1 %}
+
+
+                                            <button
+                                                type="button"
+                                                class="status-button deactivate-button"
+                                                onclick="openStatusModal(
+                                                    '{{ user.uuid }}',
+                                                    '0'
+                                                )"
+                                            >
+                                                Deactivate
+                                            </button>
+
+
+                                        {% else %}
+
+
+                                            <button
+                                                type="button"
+                                                class="status-button activate-button"
+                                                onclick="openStatusModal(
+                                                    '{{ user.uuid }}',
+                                                    '1'
+                                                )"
+                                            >
+                                                Activate
+                                            </button>
+
+
+                                        {% endif %}
+
+
+                                    </td>
+
+
+                                </tr>
+
+
+                            {% endfor %}
+
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+            {% else %}
+
+
+                <div class="no-users">
+
+                    No users found.
+
+                </div>
+
+
+            {% endif %}
+
+
+
+            <!-- =========================
+                 PAGINATION
+            ========================== -->
+
+            {% if total_pages > 1 %}
+
+
+                <div class="pagination">
+
+
+                    {% if current_page > 1 %}
+
+
+                        <a
+                            href="{{ url_for(
+                                'admin.block_users',
+                                page=current_page - 1,
+                                username=username_search,
+                                status=status_filter
+                            ) }}"
+                        >
+                            Previous
+                        </a>
+
+
+                    {% endif %}
+
+
+
+                    <span>
+
+                        Page {{ current_page }}
+                        of {{ total_pages }}
+
+                    </span>
+
+
+
+                    {% if current_page < total_pages %}
+
+
+                        <a
+                            href="{{ url_for(
+                                'admin.block_users',
+                                page=current_page + 1,
+                                username=username_search,
+                                status=status_filter
+                            ) }}"
+                        >
+                            Next
+                        </a>
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         STATUS PASSWORD MODAL
+    ========================== -->
+
+    <div
+        id="statusModal"
+        class="status-modal"
+    >
+
+
+        <div class="status-modal-content">
+
+
+            <button
+                type="button"
+                class="status-modal-close"
+                onclick="closeStatusModal()"
+            >
+                ×
+            </button>
+
+
+
+            <h2>
+                Please enter the password
+            </h2>
+
+
+
+            <form
+                method="POST"
+                action="{{ url_for(
+                    'admin.change_user_status'
+                ) }}"
+            >
+
+
+                <!-- USER UUID -->
+
+                <input
+                    type="hidden"
+                    name="user_uuid"
+                    id="statusUserUuid"
+                >
+
+
+                <!-- NEW STATUS -->
+
+                <input
+                    type="hidden"
+                    name="new_status"
+                    id="statusNewStatus"
+                >
+
+
+                <div class="form-group">
+
+
+                    <input
+                        type="password"
+                        name="status_password"
+                        id="statusPassword"
+                        placeholder="Password"
+                        required
+                        autocomplete="off"
+                    >
+
+
+                </div>
+
+
+
+                <button
+                    type="submit"
+                    class="modal-submit-button"
+                >
+                    Submit
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         MENU + MODAL JS
+    ========================== -->
+
+    <script>
+
+        /* =================================
+           MENU
+        ================================= */
+
+        const menuBtn =
+            document.getElementById("menuBtn");
+
+
+        const sideMenu =
+            document.getElementById("sideMenu");
+
+
+        const closeMenu =
+            document.getElementById("closeMenu");
+
+
+        const menuOverlay =
+            document.getElementById("menuOverlay");
+
+
+
+        menuBtn.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.add("show");
+
+                menuOverlay.classList.add("show");
+
+            }
+        );
+
+
+
+        closeMenu.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.remove("show");
+
+                menuOverlay.classList.remove("show");
+
+            }
+        );
+
+
+
+        menuOverlay.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.remove("show");
+
+                menuOverlay.classList.remove("show");
+
+            }
+        );
+
+
+
+        /* =================================
+           STATUS MODAL
+        ================================= */
+
+        function openStatusModal(
+            userUuid,
+            newStatus
+        ) {
+
+
+            document.getElementById(
+                "statusUserUuid"
+            ).value = userUuid;
+
+
+
+            document.getElementById(
+                "statusNewStatus"
+            ).value = newStatus;
+
+
+
+            document.getElementById(
+                "statusPassword"
+            ).value = "";
+
+
+
+            document.getElementById(
+                "statusModal"
+            ).classList.add(
+                "show"
+            );
+
+        }
+
+
+
+        function closeStatusModal() {
+
+            document.getElementById(
+                "statusModal"
+            ).classList.remove(
+                "show"
+            );
+
+        }
+
+
+
+        /* =================================
+           CLOSE MODAL ON OUTSIDE CLICK
+        ================================= */
+
+        window.addEventListener(
+            "click",
+            function (event) {
+
+
+                const modal =
+                    document.getElementById(
+                        "statusModal"
+                    );
+
+
+                if (
+                    event.target === modal
+                ) {
+
+                    closeStatusModal();
+
+                }
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

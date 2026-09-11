@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+<meta
+    name="csrf-token"
+    content="{{ csrf_token() }}"
+>
+    <title>Users Withdrawals</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for(
+            'static',
+            filename='css/admin/users_withdrawals.css'
+        ) }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="admin-navbar">
+
+    <div class="navbar-left">
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='images/lplogo.png'
+            ) }}"
+            alt="Logo"
+            class="admin-logo"
+        >
+
+    </div>
+
+
+    <div class="navbar-right">
+
+        <button
+            type="button"
+            class="menu-button"
+            id="menuButton"
+        >
+            ☰
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+></div>
+
+
+<aside
+    class="admin-sidebar"
+    id="adminSidebar"
+>
+
+    <div class="sidebar-header">
+
+        <strong>Admin Menu</strong>
+
+        <button
+            type="button"
+            id="closeSidebar"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+              <button
+                type="button"
+                class="menu-option active-menu"
+                onclick="window.location.href='{{ url_for('admin.admin_dashboard') }}'"
+            >
+                Dashboard
+            </button>
+
+
+
+            <!-- USERS BALANCE -->
+
+          <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.users_balance') }}'"
+>
+    Users Balance
+</button>
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.total_money_credited') }}'"
+>
+    Total Money Credited
+</button>
+
+
+
+            <!-- USERS WITHDRAWAL -->
+
+           <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.users_withdrawals') }}'"
+>
+    Users Withdrawals
+</button>
+
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.total_debits') }}'"
+>
+    Total Debits
+</button>
+
+ <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.block_users') }}'"
+>
+    Block User
+</button>
+
+
+<button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('logout') }}'"
+            >
+                Logout
+            </button>
+
+
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main-container">
+
+
+    <div class="withdrawal-card">
+
+
+        <h2>Users Withdrawals</h2>
+
+
+        <!-- =================================================
+             FLASH MESSAGES
+        ================================================== -->
+
+        {% with messages = get_flashed_messages(
+            with_categories=true
+        ) %}
+
+            {% if messages %}
+
+                <div class="flash-container">
+
+                    {% for category, message in messages %}
+
+                        <div class="flash-message {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+
+        <!-- =================================================
+             WITHDRAWAL REQUESTS
+        ================================================== -->
+
+        {% if withdrawal_requests %}
+
+
+            <div class="withdrawal-list">
+
+
+                {% for withdrawal in withdrawal_requests %}
+
+
+                    <div class="withdrawal-item">
+
+
+                        <!-- USERNAME -->
+
+                        <div class="withdrawal-row">
+
+                            <span class="label">
+                                Username
+                            </span>
+
+                            <strong class="username">
+                                {{ withdrawal.username }}
+                            </strong>
+
+                        </div>
+
+
+                        <!-- AMOUNT -->
+
+                        <div class="withdrawal-row">
+
+                            <span class="label">
+                                Amount
+                            </span>
+
+                            <strong>
+                                ₹{{ withdrawal.amount }}
+                            </strong>
+
+                        </div>
+
+
+                        <!-- DATE -->
+
+                        <div class="withdrawal-row">
+
+                            <span class="label">
+                                Date
+                            </span>
+
+                            <span>
+                                {{ withdrawal.timestamp }}
+                            </span>
+
+                        </div>
+
+
+                        <!-- MEDIUM -->
+
+                        <div class="withdrawal-medium">
+
+                            <span class="label">
+                                Medium
+                            </span>
+
+
+                            {% if withdrawal.medium|lower == "bank" %}
+
+                                <div class="bank-details">
+
+                                    <strong>Bank</strong>
+
+                                    <span>
+                                        Bank Name:
+                                        {{ withdrawal.bank_name }}
+                                    </span>
+
+                                    <span>
+                                        Account Number:
+                                        {{ withdrawal.account_number }}
+                                    </span>
+
+                                    <span>
+                                        IFSC:
+                                        {{ withdrawal.ifsc_code }}
+                                    </span>
+
+                                </div>
+
+
+                            {% else %}
+
+                                <div class="upi-details">
+
+                                    <strong>UPI</strong>
+
+                                    <span>
+                                        UPI ID:
+                                        {{ withdrawal.upi_id }}
+                                    </span>
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="withdrawal-actions">
+
+
+                            <!-- COMPLETED -->
+
+                            <form
+                                method="POST"
+                                action="{{ url_for(
+                                    'admin.process_withdrawal'
+                                ) }}"
+                            >
+
+                                <input
+                                    type="hidden"
+                                    name="withdrawal_uuid"
+                                    value="{{ withdrawal.uuid }}"
+                                >
+
+                                <input
+                                    type="hidden"
+                                    name="action"
+                                    value="completed"
+                                >
+
+                                <button
+                                    type="submit"
+                                    class="complete-button"
+                                >
+                                    Completed
+                                </button>
+
+                            </form>
+
+
+                            <!-- REJECTED -->
+
+                            <form
+                                method="POST"
+                                action="{{ url_for(
+                                    'admin.process_withdrawal'
+                                ) }}"
+                            >
+
+                                <input
+                                    type="hidden"
+                                    name="withdrawal_uuid"
+                                    value="{{ withdrawal.uuid }}"
+                                >
+
+                                <input
+                                    type="hidden"
+                                    name="action"
+                                    value="rejected"
+                                >
+
+                                <button
+                                    type="submit"
+                                    class="reject-button"
+                                >
+                                    Rejected
+                                </button>
+
+                            </form>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <div class="empty-state">
+
+                No pending withdrawal requests.
+
+            </div>
+
+
+        {% endif %}
+
+ {% if total_pages > 1 %}
+
+    <div class="pagination">
+
+        {% if current_page > 1 %}
+
+            <a
+                href="{{ url_for(
+                    'admin.users_withdrawals',
+                    page=current_page - 1
+                ) }}"
+                class="pagination-button"
+            >
+                Previous
+            </a>
+
+        {% else %}
+
+            <span
+                class="pagination-button disabled"
+            >
+                Previous
+            </span>
+
+        {% endif %}
+
+
+        <span class="pagination-info">
+
+            Page {{ current_page }}
+            of
+            {{ total_pages }}
+
+        </span>
+
+
+        {% if current_page < total_pages %}
+
+            <a
+                href="{{ url_for(
+                    'admin.users_withdrawals',
+                    page=current_page + 1
+                ) }}"
+                class="pagination-button"
+            >
+                Next
+            </a>
+
+        {% else %}
+
+            <span
+                class="pagination-button disabled"
+            >
+                Next
+            </span>
+
+        {% endif %}
+
+    </div>
+
+{% endif %}
+
+
+    </div>
+
+</main>
+
+<script
+    src="{{ url_for('static', filename='js/security.js') }}"
+    defer
+></script>
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const menuButton =
+            document.getElementById("menuButton");
+
+        const closeSidebar =
+            document.getElementById("closeSidebar");
+
+        const adminSidebar =
+            document.getElementById("adminSidebar");
+
+        const sidebarOverlay =
+            document.getElementById("sidebarOverlay");
+
+
+        if (
+            !menuButton ||
+            !closeSidebar ||
+            !adminSidebar ||
+            !sidebarOverlay
+        ) {
+            return;
+        }
+
+
+        menuButton.addEventListener(
+            "click",
+            function () {
+
+                adminSidebar.classList.add(
+                    "sidebar-open"
+                );
+
+                sidebarOverlay.classList.add(
+                    "overlay-show"
+                );
+
+            }
+        );
+
+
+        closeSidebar.addEventListener(
+            "click",
+            function () {
+
+                adminSidebar.classList.remove(
+                    "sidebar-open"
+                );
+
+                sidebarOverlay.classList.remove(
+                    "overlay-show"
+                );
+
+            }
+        );
+
+
+        sidebarOverlay.addEventListener(
+            "click",
+            function () {
+
+                adminSidebar.classList.remove(
+                    "sidebar-open"
+                );
+
+                sidebarOverlay.classList.remove(
+                    "overlay-show"
+                );
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

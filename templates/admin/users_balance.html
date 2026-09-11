@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+<meta
+    name="csrf-token"
+    content="{{ csrf_token() }}"
+>
+    <title>Lpdoplayer - Users Balance</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/admin/users_balance.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="top-navbar">
+
+
+        <img
+            src="{{ url_for('static', filename='images/lplogo.png') }}"
+            class="nav-logo"
+            alt="Lpdoplayer"
+        >
+
+
+        <button
+            type="button"
+            class="menu-btn"
+            id="menuBtn"
+        >
+            ☰
+        </button>
+
+
+    </nav>
+
+
+
+    <!-- =========================
+         OVERLAY
+    ========================== -->
+
+    <div
+        class="menu-overlay"
+        id="menuOverlay"
+    ></div>
+
+
+
+    <!-- =========================
+         SIDE MENU
+    ========================== -->
+
+    <aside
+        class="side-menu"
+        id="sideMenu"
+    >
+
+
+        <button
+            type="button"
+            class="close-menu"
+            id="closeMenu"
+        >
+            ×
+        </button>
+
+
+        <div class="menu-items">
+
+
+           <button
+                type="button"
+                class="menu-option active-menu"
+                onclick="window.location.href='{{ url_for('admin.admin_dashboard') }}'"
+            >
+                Dashboard
+            </button>
+
+
+
+            <!-- USERS BALANCE -->
+
+          <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.users_balance') }}'"
+>
+    Users Balance
+</button>
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.total_money_credited') }}'"
+>
+    Total Money Credited
+</button>
+
+
+
+            <!-- USERS WITHDRAWAL -->
+
+           <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.users_withdrawals') }}'"
+>
+    Users Withdrawals
+</button>
+
+<button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.total_debits') }}'"
+>
+    Total Debits
+</button>
+
+ <button
+    type="button"
+    class="menu-option"
+    onclick="window.location.href='{{ url_for('admin.block_users') }}'"
+>
+    Block User
+</button>
+
+
+<button
+                type="button"
+                class="menu-option"
+                onclick="window.location.href='{{ url_for('logout') }}'"
+            >
+                Logout
+            </button>
+
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =========================
+         FLASH MESSAGES
+    ========================== -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            <div class="flash-container">
+
+                {% for category, message in messages %}
+
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="page-container">
+
+
+        <div class="balance-card">
+
+
+            <h1>
+                Users Balance
+            </h1>
+
+
+            <p class="card-description">
+                Review and confirm user payment proofs.
+            </p>
+
+
+
+            {% if payment_proofs %}
+
+
+                <div class="payment-list">
+
+
+                    {% for payment in payment_proofs %}
+
+
+                        <!-- =========================
+                             INNER PAYMENT CARD
+                        ========================== -->
+
+                        <div class="payment-item">
+
+
+                            <!-- USERNAME -->
+
+                            <div class="payment-row">
+
+                                <span>
+                                    Username
+                                </span>
+
+                                <strong class="username">
+                                    {{ payment.username }}
+                                </strong>
+
+                            </div>
+
+
+
+                            <!-- AMOUNT -->
+
+                            <div class="payment-row">
+
+                                <span>
+                                    Amount
+                                </span>
+
+                                <strong>
+                                    ₹{{ payment.amount }}
+                                </strong>
+
+                            </div>
+
+
+
+                            <!-- DATE -->
+
+                            <div class="payment-row">
+
+                                <span>
+                                    Date
+                                </span>
+
+                                <strong>
+                                    {{ payment.date }}
+                                </strong>
+
+                            </div>
+
+
+
+                            <!-- UTR -->
+
+                            <div class="payment-row">
+
+                                <span>
+                                    UTR
+                                </span>
+
+                                <strong class="utr">
+                                    {{ payment.utr }}
+                                </strong>
+
+                            </div>
+
+
+
+                            <!-- ACTIONS -->
+
+                            <div class="payment-actions">
+
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('admin.process_balance') }}"
+                                >
+
+                                    <input
+                                        type="hidden"
+                                        name="utr"
+                                        value="{{ payment.utr }}"
+                                    >
+
+                                    <input
+                                        type="hidden"
+                                        name="action"
+                                        value="confirm"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="confirm-btn"
+                                    >
+                                        Confirm
+                                    </button>
+
+                                </form>
+
+
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('admin.process_balance') }}"
+                                >
+
+                                    <input
+                                        type="hidden"
+                                        name="utr"
+                                        value="{{ payment.utr }}"
+                                    >
+
+                                    <input
+                                        type="hidden"
+                                        name="action"
+                                        value="reject"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="reject-btn"
+                                    >
+                                        Reject
+                                    </button>
+
+                                </form>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+            {% else %}
+
+
+                <div class="empty-balance">
+
+                    <p>
+                        No pending payment proofs.
+                    </p>
+
+                </div>
+
+
+            {% endif %}
+
+{% if total_pages > 1 %}
+
+    <div class="pagination">
+
+        {% if current_page > 1 %}
+
+            <a
+                href="{{ url_for(
+                    'admin.users_balance',
+                    page=current_page - 1
+                ) }}"
+                class="pagination-button"
+            >
+                Previous
+            </a>
+
+        {% else %}
+
+            <span
+                class="pagination-button disabled"
+            >
+                Previous
+            </span>
+
+        {% endif %}
+
+
+        <span class="pagination-info">
+
+            Page {{ current_page }}
+            of
+            {{ total_pages }}
+
+        </span>
+
+
+        {% if current_page < total_pages %}
+
+            <a
+                href="{{ url_for(
+                    'admin.users_balance',
+                    page=current_page + 1
+                ) }}"
+                class="pagination-button"
+            >
+                Next
+            </a>
+
+        {% else %}
+
+            <span
+                class="pagination-button disabled"
+            >
+                Next
+            </span>
+
+        {% endif %}
+
+    </div>
+
+{% endif %}
+
+
+        </div>
+
+
+    </main>
+
+<script
+    src="{{ url_for('static', filename='js/security.js') }}"
+    defer
+></script>
+
+    <script>
+
+        const menuBtn =
+            document.getElementById("menuBtn");
+
+        const sideMenu =
+            document.getElementById("sideMenu");
+
+        const closeMenu =
+            document.getElementById("closeMenu");
+
+        const menuOverlay =
+            document.getElementById("menuOverlay");
+
+
+        menuBtn.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.add("show");
+
+                menuOverlay.classList.add("show");
+
+            }
+        );
+
+
+        closeMenu.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.remove("show");
+
+                menuOverlay.classList.remove("show");
+
+            }
+        );
+
+
+        menuOverlay.addEventListener(
+            "click",
+            function () {
+
+                sideMenu.classList.remove("show");
+
+                menuOverlay.classList.remove("show");
+
+            }
+        );
+
+
+        setTimeout(
+            function () {
+
+                document
+                    .querySelectorAll(".flash-message")
+                    .forEach(
+                        function (message) {
+
+                            message.remove();
+
+                        }
+                    );
+
+            },
+            5000
+        );
+
+    </script>
+
+
+</body>
+
+</html>
