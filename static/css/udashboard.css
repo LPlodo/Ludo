@@ -1,0 +1,1851 @@
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+
+html {
+
+    scroll-behavior: smooth;
+
+}
+
+
+body {
+
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f6f1e7;
+
+    color: #202020;
+
+}
+
+
+
+/* =====================================================
+   TOP NAVBAR
+===================================================== */
+
+.top-navbar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    height: 64px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    border-bottom:
+        1px solid #ebe5da;
+
+    box-shadow:
+        0 4px 18px
+        rgba(40, 35, 25, 0.06);
+
+    z-index: 900;
+
+}
+
+
+
+/* =====================================================
+   NAV LOGO
+===================================================== */
+
+.nav-logo {
+
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+
+}
+
+
+.nav-logo img {
+
+    display: block;
+
+    width: 43px;
+
+    height: 43px;
+
+    object-fit: contain;
+
+}
+
+
+
+/* =====================================================
+   MENU BUTTON
+===================================================== */
+
+.menu-button {
+
+    width: 44px;
+
+    height: 44px;
+
+    border:
+        1px solid #ebe5da;
+
+    border-radius: 12px;
+
+    background: #faf8f3;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease;
+
+}
+
+
+.menu-button:hover {
+
+    background: #f2ede3;
+
+}
+
+
+.menu-button:active {
+
+    transform: scale(0.96);
+
+}
+
+
+.menu-button span {
+
+    display: block;
+
+    width: 20px;
+
+    height: 2px;
+
+    background: #172033;
+
+    border-radius: 10px;
+
+}
+
+
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+.main-container {
+
+    min-height: 100vh;
+
+    padding:
+        64px 0 40px;
+
+    width: 100%;
+
+}
+
+
+
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+.mobile-menu {
+
+    position: fixed;
+
+    top: 0;
+
+    right: 0;
+
+    width: min(84vw, 340px);
+
+    height: 100vh;
+
+    background: #ffffff;
+
+    z-index: 1100;
+
+    transform:
+        translateX(100%);
+
+    transition:
+        transform 0.28s ease;
+
+    box-shadow:
+        -10px 0 30px
+        rgba(40, 35, 25, 0.15);
+
+}
+
+
+.mobile-menu.active {
+
+    transform:
+        translateX(0);
+
+}
+
+
+
+/* =====================================================
+   MENU HEADER
+===================================================== */
+
+.menu-header {
+
+    height: 64px;
+
+    padding: 0 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom:
+        1px solid #ebe5da;
+
+}
+
+
+.menu-header span {
+
+    font-size: 17px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+}
+
+
+.menu-header button {
+
+    width: 40px;
+
+    height: 40px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #faf8f3;
+
+    font-size: 29px;
+
+    line-height: 1;
+
+    color: #172033;
+
+    cursor: pointer;
+
+}
+
+
+
+/* =====================================================
+   MENU OPTIONS
+===================================================== */
+
+.menu-options {
+
+    padding: 15px 12px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+}
+
+
+.menu-option {
+
+    width: 100%;
+
+    min-height: 50px;
+
+    padding:
+        12px 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background: transparent;
+
+    color: #29251f;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    text-align: left;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        padding-left 0.2s ease;
+
+}
+
+
+.menu-option:hover {
+
+    background: #f7f3eb;
+
+    padding-left: 18px;
+
+}
+
+
+.logout-option {
+
+    margin-top: 12px;
+
+    color: #d62f3b;
+
+}
+
+
+
+/* =====================================================
+   MENU OVERLAY
+===================================================== */
+
+.menu-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(23, 32, 51, 0.45);
+
+    z-index: 1000;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+
+}
+
+
+.menu-overlay.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+}
+
+
+
+/* =====================================================
+   PREVENT BACKGROUND SCROLL
+===================================================== */
+
+body.menu-open {
+
+    overflow: hidden;
+
+}
+
+
+
+/* =====================================================
+   COMMON CARD
+===================================================== */
+
+.welcome-card,
+.start-match-card,
+.matches-card,
+.result-card {
+
+    position: relative;
+
+    width:
+        calc(100% - 28px);
+
+    max-width: 620px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    background: #ffffff;
+
+    border:
+        1px solid #ebe5da;
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 12px 30px
+        rgba(40, 35, 25, 0.07);
+
+    overflow: hidden;
+
+}
+
+
+
+/* =====================================================
+   WELCOME CARD
+===================================================== */
+
+.welcome-card {
+
+    margin-top: 20px;
+
+    padding:
+        28px 22px 25px;
+
+    text-align: center;
+
+}
+
+
+.welcome-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 150px;
+
+    height: 150px;
+
+    border-radius: 50%;
+
+    background: #e63946;
+
+    opacity: 0.07;
+
+    top: -85px;
+
+    left: -65px;
+
+}
+
+
+.welcome-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 120px;
+
+    height: 120px;
+
+    border-radius: 50%;
+
+    background: #f5c542;
+
+    opacity: 0.09;
+
+    bottom: -75px;
+
+    right: -55px;
+
+}
+
+
+.welcome-card h1 {
+
+    position: relative;
+
+    z-index: 2;
+
+    margin: 0;
+
+    font-size: 25px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    letter-spacing: -0.4px;
+
+}
+
+
+.welcome-card p {
+
+    position: relative;
+
+    z-index: 2;
+
+    margin:
+        8px 0 0;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    color: #8a8175;
+
+    font-weight: 600;
+
+}
+
+
+
+/* =====================================================
+   START MATCH CARD
+===================================================== */
+
+.start-match-card {
+
+    margin-top: 16px;
+
+    margin-bottom: 20px;
+
+    padding:
+        23px 20px 25px;
+
+}
+
+
+.start-match-card h2 {
+
+    margin:
+        0 0 18px;
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    text-align: center;
+
+}
+
+
+
+/* =====================================================
+   BALANCE DISPLAY
+===================================================== */
+
+.balance-display {
+
+    width: 100%;
+
+    min-height: 68px;
+
+    padding:
+        14px 16px;
+
+    margin-bottom: 20px;
+
+    background: #faf8f3;
+
+    border:
+        1px solid #ebe5da;
+
+    border-radius: 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+}
+
+
+.balance-display span {
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    color: #8a8175;
+
+}
+
+
+.balance-display strong {
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    word-break: break-word;
+
+}
+
+
+
+/* =====================================================
+   MATCH INPUT GROUP
+===================================================== */
+
+.match-input-group {
+
+    margin-bottom: 17px;
+
+}
+
+
+.match-input-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #28231e;
+
+}
+
+
+.match-input-group input {
+
+    width: 100%;
+
+    height: 52px;
+
+    padding:
+        0 15px;
+
+    border:
+        1px solid #ddd7ce;
+
+    border-radius: 12px;
+
+    outline: none;
+
+    background: #faf9f6;
+
+    color: #222;
+
+    font-size: 16px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+
+}
+
+
+.match-input-group input:hover {
+
+    border-color: #c9c1b6;
+
+}
+
+
+.match-input-group input:focus {
+
+    background: #ffffff;
+
+    border-color: #172033;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(23, 32, 51, 0.08);
+
+}
+
+
+
+/* =====================================================
+   RED NOTICES
+===================================================== */
+
+.match-notices {
+
+    margin:
+        10px 0 21px;
+
+    padding:
+        14px 15px;
+
+    background: #fff7f5;
+
+    border:
+        1px solid #f3d7d2;
+
+    border-left:
+        3px solid #e63946;
+
+    border-radius: 11px;
+
+}
+
+
+.match-notices p {
+
+    margin-bottom: 9px;
+
+    color: #8e3434;
+
+    font-size: 12px;
+
+    line-height: 1.55;
+
+}
+
+
+.match-notices p:last-child {
+
+    margin-bottom: 0;
+
+}
+
+
+
+/* =====================================================
+   START MATCH BUTTON
+===================================================== */
+
+.start-match-btn {
+
+    width: 100%;
+
+    height: 54px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #172033;
+
+    color: #ffffff;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.1px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 18px
+        rgba(23, 32, 51, 0.18);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+
+}
+
+
+.start-match-btn:hover {
+
+    background: #222d45;
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 11px 23px
+        rgba(23, 32, 51, 0.23);
+
+}
+
+
+.start-match-btn:active {
+
+    transform:
+        translateY(1px);
+
+}
+
+
+
+/* =====================================================
+   MATCHES CARD
+===================================================== */
+
+.matches-card {
+
+    margin-top: 18px;
+
+    margin-bottom: 20px;
+
+    padding:
+        23px 20px 25px;
+
+}
+
+
+.matches-card h2 {
+
+    margin: 0;
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    text-align: center;
+
+}
+
+
+.matches-subtitle {
+
+    margin:
+        8px 0 20px;
+
+    text-align: center;
+
+    color: #8a8175;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+
+
+/* =====================================================
+   MATCH LIST
+===================================================== */
+
+.matches-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+}
+
+
+.match-item {
+
+    width: 100%;
+
+    min-height: 70px;
+
+    padding:
+        12px 13px;
+
+    background: #faf9f6;
+
+    border:
+        1px solid #e8e2d9;
+
+    border-radius: 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    transition:
+        border-color 0.2s ease,
+        transform 0.15s ease,
+        background 0.2s ease;
+
+}
+
+
+.match-item:hover {
+
+    border-color: #d5cec2;
+
+    background: #ffffff;
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+.match-information {
+
+    min-width: 0;
+
+    flex: 1;
+
+}
+
+
+.match-amount {
+
+    font-size: 13px;
+
+    color: #746c63;
+
+}
+
+
+.match-amount strong {
+
+    margin-left: 4px;
+
+    font-size: 16px;
+
+    color: #172033;
+
+}
+
+
+.match-date {
+
+    margin-top: 5px;
+
+    font-size: 11px;
+
+    color: #999086;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+}
+
+
+
+/* =====================================================
+   PLAY MATCH BUTTON
+===================================================== */
+
+.play-match-btn {
+
+    min-width: 76px;
+
+    height: 40px;
+
+    padding:
+        0 15px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #e63946;
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 12px
+        rgba(230, 57, 70, 0.17);
+
+    transition:
+        transform 0.15s ease,
+        background 0.2s ease;
+
+}
+
+
+.play-match-btn:hover {
+
+    background: #d92f3c;
+
+}
+
+
+.play-match-btn:active {
+
+    transform:
+        scale(0.96);
+
+}
+
+
+.no-matches {
+
+    padding:
+        30px 10px;
+
+    text-align: center;
+
+    color: #938a80;
+
+    font-size: 14px;
+
+}
+
+
+
+/* =====================================================
+   RESULT CARD
+===================================================== */
+
+.result-card {
+
+    margin-top: 18px;
+
+    margin-bottom: 20px;
+
+    padding:
+        23px 20px 25px;
+
+}
+
+
+.result-card h2 {
+
+    margin:
+        0 0 18px;
+
+    text-align: center;
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+}
+
+
+
+/* =====================================================
+   RESULT WARNING
+===================================================== */
+
+.result-warning {
+
+    margin-bottom: 18px;
+
+    padding:
+        14px 15px;
+
+    background: #fff7f5;
+
+    border:
+        1px solid #f3d7d2;
+
+    border-left:
+        3px solid #e63946;
+
+    border-radius: 11px;
+
+}
+
+
+.result-warning p {
+
+    margin-bottom: 8px;
+
+    color: #8e3434;
+
+    font-size: 12px;
+
+    line-height: 1.55;
+
+}
+
+
+.result-warning p:last-child {
+
+    margin-bottom: 0;
+
+}
+
+
+
+/* =====================================================
+   ADMIN CONTACT
+===================================================== */
+
+.admin-contact {
+
+    width: 100%;
+
+    min-height: 50px;
+
+    padding:
+        12px 14px;
+
+    margin-bottom: 17px;
+
+    background: #faf8f3;
+
+    border:
+        1px solid #ebe5da;
+
+    border-radius: 11px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    font-size: 13px;
+
+    color: #746c63;
+
+}
+
+
+.admin-contact strong {
+
+    color: #172033;
+
+    font-size: 14px;
+
+    word-break: break-all;
+
+}
+
+
+
+/* =====================================================
+   RESULT OPTIONS
+===================================================== */
+
+.result-option {
+
+    width: 100%;
+
+    min-height: 52px;
+
+    margin-bottom: 10px;
+
+    padding:
+        12px 14px;
+
+    border:
+        1px solid #e5ded4;
+
+    border-radius: 11px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    cursor: pointer;
+
+    background: #faf9f6;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+
+}
+
+
+.result-option:hover {
+
+    background: #ffffff;
+
+    border-color: #cfc6b9;
+
+}
+
+
+.result-option input {
+
+    width: 18px;
+
+    height: 18px;
+
+    accent-color: #172033;
+
+}
+
+
+.result-option span {
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #28231e;
+
+}
+
+
+
+/* =====================================================
+   SUBMIT RESULT
+===================================================== */
+
+.submit-result-btn {
+
+    width: 100%;
+
+    height: 52px;
+
+    margin-top: 6px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #172033;
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 16px
+        rgba(23, 32, 51, 0.17);
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease;
+
+}
+
+
+.submit-result-btn:hover {
+
+    background: #222d45;
+
+}
+
+
+.submit-result-btn:active {
+
+    transform:
+        translateY(1px);
+
+}
+
+
+
+/* =====================================================
+   POPUP OVERLAY
+===================================================== */
+
+.popup-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(23, 32, 51, 0.48);
+
+    z-index: 2000;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease;
+
+}
+
+
+.popup-overlay.show {
+
+    opacity: 1;
+
+    visibility: visible;
+
+}
+
+
+
+/* =====================================================
+   MATCH POPUP
+===================================================== */
+
+.match-popup-card {
+
+    width: 100%;
+
+    max-width: 360px;
+
+    padding:
+        28px 22px 24px;
+
+    background: #ffffff;
+
+    border:
+        1px solid #ebe5da;
+
+    border-radius: 21px;
+
+    text-align: center;
+
+    box-shadow:
+        0 20px 50px
+        rgba(0, 0, 0, 0.20);
+
+    transform:
+        translateY(10px)
+        scale(0.97);
+
+    transition:
+        transform 0.2s ease;
+
+}
+
+
+.popup-overlay.show
+.match-popup-card {
+
+    transform:
+        translateY(0)
+        scale(1);
+
+}
+
+
+.match-popup-card h3 {
+
+    margin-bottom: 17px;
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+}
+
+
+.room-code-box {
+
+    width: 100%;
+
+    padding:
+        15px 12px;
+
+    margin-bottom: 15px;
+
+    background: #faf8f3;
+
+    border:
+        1px solid #ebe5da;
+
+    border-radius: 11px;
+
+    font-size: 19px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    word-break: break-all;
+
+}
+
+
+.match-popup-card p {
+
+    margin-bottom: 20px;
+
+    font-size: 13px;
+
+    line-height: 1.55;
+
+    color: #8a8175;
+
+}
+
+
+.match-popup-card button {
+
+    width: 100%;
+
+    height: 47px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background: #172033;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+}
+
+
+
+/* =====================================================
+   FLASH MESSAGE
+===================================================== */
+
+.flash-container {
+
+    position: fixed;
+
+    top: 78px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        calc(100% - 28px);
+
+    max-width: 500px;
+
+    z-index: 1200;
+
+}
+
+
+.flash-message {
+
+    width: 100%;
+
+    padding:
+        13px 15px;
+
+    border-radius: 11px;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    background: #ffffff;
+
+    border:
+        1px solid #ebe5da;
+
+    box-shadow:
+        0 8px 22px
+        rgba(40, 35, 25, 0.12);
+
+}
+
+
+.flash-message.error {
+
+    background: #fff0ef;
+
+    color: #a52828;
+
+    border-color: #f3ceca;
+
+}
+
+
+.flash-message.success {
+
+    background: #edf9f1;
+
+    color: #23683c;
+
+    border-color: #cdebd6;
+
+}
+
+
+
+/* =====================================================
+   DESKTOP
+===================================================== */
+
+@media (min-width: 768px) {
+
+    .top-navbar {
+
+        padding:
+            0 28px;
+
+    }
+
+
+    .main-container {
+
+        padding-bottom: 60px;
+
+    }
+
+
+    .welcome-card {
+
+        margin-top: 30px;
+
+        padding:
+            31px 25px 28px;
+
+    }
+
+
+    .start-match-card,
+    .matches-card,
+    .result-card {
+
+        padding:
+            27px 25px 28px;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+
+    .top-navbar {
+
+        height: 60px;
+
+        padding:
+            0 14px;
+
+    }
+
+
+    .main-container {
+
+        padding-top: 60px;
+
+    }
+
+
+    .nav-logo {
+
+        height: 42px;
+
+    }
+
+
+    .nav-logo img {
+
+        width: 40px;
+
+        height: 40px;
+
+    }
+
+
+    .menu-button {
+
+        width: 42px;
+
+        height: 42px;
+
+    }
+
+
+    .welcome-card,
+    .start-match-card,
+    .matches-card,
+    .result-card {
+
+        width:
+            calc(100% - 24px);
+
+        border-radius: 18px;
+
+    }
+
+
+    .welcome-card {
+
+        margin-top: 17px;
+
+        padding:
+            24px 17px 22px;
+
+    }
+
+
+    .welcome-card h1 {
+
+        font-size: 23px;
+
+    }
+
+
+    .welcome-card p {
+
+        font-size: 13px;
+
+    }
+
+
+    .start-match-card,
+    .matches-card,
+    .result-card {
+
+        padding:
+            21px 16px 23px;
+
+    }
+
+
+    .start-match-card h2,
+    .matches-card h2,
+    .result-card h2 {
+
+        font-size: 19px;
+
+    }
+
+
+    .balance-display {
+
+        min-height: 63px;
+
+        padding:
+            12px 13px;
+
+    }
+
+
+    .balance-display strong {
+
+        font-size: 18px;
+
+    }
+
+
+    .match-input-group input {
+
+        height: 51px;
+
+    }
+
+
+    .match-notices,
+    .result-warning {
+
+        padding:
+            13px 13px;
+
+    }
+
+
+    .match-notices p,
+    .result-warning p {
+
+        font-size: 12px;
+
+    }
+
+
+    .start-match-btn {
+
+        height: 52px;
+
+    }
+
+
+    .match-item {
+
+        padding:
+            11px;
+
+        gap: 8px;
+
+    }
+
+
+    .match-amount {
+
+        font-size: 12px;
+
+    }
+
+
+    .match-amount strong {
+
+        font-size: 15px;
+
+    }
+
+
+    .match-date {
+
+        font-size: 10.5px;
+
+    }
+
+
+    .play-match-btn {
+
+        min-width: 67px;
+
+        height: 39px;
+
+        padding:
+            0 11px;
+
+        font-size: 12px;
+
+    }
+
+
+    .admin-contact {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+
+    .result-option {
+
+        min-height: 50px;
+
+    }
+
+
+    .submit-result-btn {
+
+        height: 51px;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   VERY SMALL MOBILE
+===================================================== */
+
+@media (max-width: 360px) {
+
+
+    .welcome-card h1 {
+
+        font-size: 21px;
+
+    }
+
+
+    .start-match-card h2,
+    .matches-card h2,
+    .result-card h2 {
+
+        font-size: 18px;
+
+    }
+
+
+    .balance-display strong {
+
+        font-size: 17px;
+
+    }
+
+
+    .match-item {
+
+        padding:
+            10px;
+
+    }
+
+
+    .play-match-btn {
+
+        min-width: 62px;
+
+        padding:
+            0 9px;
+
+    }
+
+}

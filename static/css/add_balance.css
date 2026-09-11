@@ -1,0 +1,1518 @@
+/* =====================================================
+   LPDOPLAYER — ADD BALANCE
+   GAME / WALLET DESIGN SYSTEM
+===================================================== */
+
+* {
+
+    box-sizing: border-box;
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+
+html {
+
+    scroll-behavior: smooth;
+
+}
+
+
+body {
+
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f6f1e7;
+
+    color: #202020;
+
+}
+
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.top-navbar {
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 64px;
+
+    background:
+        rgba(255, 255, 255, 0.97);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    border-bottom:
+        1px solid #ebe5da;
+
+    box-shadow:
+        0 4px 18px
+        rgba(40, 35, 25, 0.06);
+
+    z-index: 1000;
+
+}
+
+
+
+/* =====================================================
+   NAV LEFT
+===================================================== */
+
+.nav-left {
+
+    display: flex;
+
+    align-items: center;
+
+}
+
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.nav-logo {
+
+    width: 43px;
+
+    height: 43px;
+
+    object-fit: contain;
+
+}
+
+
+
+/* =====================================================
+   MENU BUTTON
+===================================================== */
+
+.menu-btn {
+
+    width: 44px;
+
+    height: 44px;
+
+    border:
+        1px solid #ebe5da;
+
+    border-radius: 12px;
+
+    background: #faf8f3;
+
+    color: #172033;
+
+    font-size: 27px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease;
+
+}
+
+
+.menu-btn:hover {
+
+    background: #f1ece3;
+
+}
+
+
+.menu-btn:active {
+
+    transform: scale(0.96);
+
+}
+
+
+
+/* =====================================================
+   MENU OVERLAY
+===================================================== */
+
+.menu-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(23, 32, 51, 0.45);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    z-index: 1050;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+
+}
+
+
+.menu-overlay.show {
+
+    opacity: 1;
+
+    visibility: visible;
+
+}
+
+
+
+/* =====================================================
+   SIDE MENU
+===================================================== */
+
+.side-menu {
+
+    position: fixed;
+
+    top: 0;
+
+    right: 0;
+
+    width:
+        min(84vw, 340px);
+
+    height: 100vh;
+
+    background: #ffffff;
+
+    z-index: 1100;
+
+    padding: 18px;
+
+    transform:
+        translateX(100%);
+
+    transition:
+        transform 0.28s ease;
+
+    box-shadow:
+        -10px 0 30px
+        rgba(40, 35, 25, 0.15);
+
+}
+
+
+.side-menu.show {
+
+    transform:
+        translateX(0);
+
+}
+
+
+
+/* =====================================================
+   CLOSE MENU
+===================================================== */
+
+.close-menu {
+
+    width: 40px;
+
+    height: 40px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #faf8f3;
+
+    color: #172033;
+
+    font-size: 29px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    display: block;
+
+    margin-left: auto;
+
+}
+
+
+.close-menu:hover {
+
+    background: #f1ece3;
+
+}
+
+
+
+/* =====================================================
+   MENU ITEMS
+===================================================== */
+
+.menu-items {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    margin-top: 25px;
+
+}
+
+
+.menu-items a {
+
+    text-decoration: none;
+
+    color: #29251f;
+
+    min-height: 50px;
+
+    padding:
+        12px 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    border-radius: 11px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        padding-left 0.2s ease;
+
+}
+
+
+.menu-items a:hover {
+
+    background: #f7f3eb;
+
+    padding-left: 18px;
+
+}
+
+
+.menu-items a.active-menu {
+
+    background: #f5f0e7;
+
+    color: #172033;
+
+    font-weight: 800;
+
+}
+
+
+.menu-items a:last-child {
+
+    margin-top: 10px;
+
+    color: #d62f3b;
+
+}
+
+
+
+/* =====================================================
+   PAGE CONTAINER
+===================================================== */
+
+.page-container {
+
+    width: 100%;
+
+    max-width: 650px;
+
+    margin: 0 auto;
+
+    padding:
+        84px 14px 40px;
+
+}
+
+
+
+/* =====================================================
+   COMMON CARD
+===================================================== */
+
+.intro-card,
+.account-card,
+.payment-proof-card,
+.history-card {
+
+    width: 100%;
+
+    background: #ffffff;
+
+    border:
+        1px solid #ebe5da;
+
+    border-radius: 21px;
+
+    box-shadow:
+        0 12px 30px
+        rgba(40, 35, 25, 0.07);
+
+}
+
+
+
+/* =====================================================
+   INTRO CARD
+===================================================== */
+
+.intro-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding:
+        27px 21px;
+
+    margin-bottom: 16px;
+
+}
+
+
+.intro-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 135px;
+
+    height: 135px;
+
+    border-radius: 50%;
+
+    background: #e63946;
+
+    opacity: 0.07;
+
+    top: -75px;
+
+    right: -50px;
+
+}
+
+
+.intro-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 95px;
+
+    height: 95px;
+
+    border-radius: 50%;
+
+    background: #f5c542;
+
+    opacity: 0.10;
+
+    bottom: -55px;
+
+    left: -35px;
+
+}
+
+
+.intro-card h1 {
+
+    position: relative;
+
+    z-index: 2;
+
+    font-size: 25px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    margin-bottom: 7px;
+
+}
+
+
+.intro-card p {
+
+    position: relative;
+
+    z-index: 2;
+
+    font-size: 14px;
+
+    color: #8a8175;
+
+    line-height: 1.5;
+
+    font-weight: 600;
+
+}
+
+
+
+/* =====================================================
+   ACCOUNT CARD
+===================================================== */
+
+.account-card {
+
+    padding:
+        22px 20px 24px;
+
+}
+
+
+.account-card h2 {
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    margin-bottom: 18px;
+
+}
+
+
+
+/* =====================================================
+   ACCOUNT WARNING
+===================================================== */
+
+.account-warning {
+
+    background: #fff7f5;
+
+    border:
+        1px solid #f3d7d2;
+
+    border-left:
+        3px solid #e63946;
+
+    border-radius: 11px;
+
+    padding:
+        14px 14px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.account-warning p {
+
+    color: #8e3434;
+
+    font-size: 12px;
+
+    line-height: 1.55;
+
+    margin-bottom: 9px;
+
+}
+
+
+.account-warning p:last-child {
+
+    margin-bottom: 0;
+
+}
+
+
+
+/* =====================================================
+   DETAILS
+===================================================== */
+
+.details-section {
+
+    width: 100%;
+
+}
+
+
+.detail-row {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+    padding:
+        14px 0;
+
+    border-bottom:
+        1px solid #eee8df;
+
+}
+
+
+.detail-row:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.detail-label {
+
+    font-size: 12px;
+
+    color: #91887d;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.4px;
+
+}
+
+
+.detail-value {
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    color: #29251f;
+
+    word-break: break-word;
+
+}
+
+
+
+/* =====================================================
+   OR DIVIDER
+===================================================== */
+
+.or-divider {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin:
+        18px 0;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    color: #aaa095;
+
+    letter-spacing: 1px;
+
+}
+
+
+.or-divider::before,
+.or-divider::after {
+
+    content: "";
+
+    height: 1px;
+
+    background: #e7e0d7;
+
+    flex: 1;
+
+}
+
+
+
+/* =====================================================
+   PAYMENT PROOF CARD
+===================================================== */
+
+.payment-proof-card {
+
+    margin-top: 16px;
+
+    padding:
+        22px 20px 24px;
+
+}
+
+
+.payment-proof-card h2 {
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    margin-bottom: 18px;
+
+}
+
+
+
+/* =====================================================
+   PAYMENT WARNING
+===================================================== */
+
+.payment-proof-warning {
+
+    background: #fff7f5;
+
+    border:
+        1px solid #f3d7d2;
+
+    border-left:
+        3px solid #e63946;
+
+    border-radius: 11px;
+
+    padding:
+        14px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.payment-proof-warning p {
+
+    color: #8e3434;
+
+    font-size: 12px;
+
+    line-height: 1.55;
+
+    margin-bottom: 9px;
+
+}
+
+
+.payment-proof-warning p:last-child {
+
+    margin-bottom: 0;
+
+}
+
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.payment-proof-form {
+
+    width: 100%;
+
+}
+
+
+.form-group {
+
+    margin-bottom: 17px;
+
+}
+
+
+.form-group label {
+
+    display: block;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+
+    color: #29251f;
+
+}
+
+
+.form-group input {
+
+    width: 100%;
+
+    height: 51px;
+
+    border:
+        1px solid #ddd6cc;
+
+    border-radius: 12px;
+
+    padding:
+        0 14px;
+
+    font-size: 16px;
+
+    outline: none;
+
+    background: #faf9f6;
+
+    color: #222;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+.form-group input:hover {
+
+    border-color: #cfc7bb;
+
+}
+
+
+.form-group input:focus {
+
+    background: #ffffff;
+
+    border-color: #172033;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(23, 32, 51, 0.08);
+
+}
+
+
+.form-group input::placeholder {
+
+    color: #aaa29a;
+
+}
+
+
+
+/* =====================================================
+   PAYMENT SUBMIT
+===================================================== */
+
+.submit-payment-proof {
+
+    width: 100%;
+
+    height: 53px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #172033;
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 18px
+        rgba(23, 32, 51, 0.18);
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+.submit-payment-proof:hover {
+
+    background: #222d45;
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 10px 21px
+        rgba(23, 32, 51, 0.22);
+
+}
+
+
+.submit-payment-proof:active {
+
+    transform:
+        translateY(1px);
+
+}
+
+
+
+/* =====================================================
+   HISTORY CARD
+===================================================== */
+
+.history-card {
+
+    margin-top: 16px;
+
+    padding:
+        22px 20px 24px;
+
+}
+
+
+.history-card h2 {
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    margin-bottom: 18px;
+
+}
+
+
+
+/* =====================================================
+   HISTORY LIST
+===================================================== */
+
+.history-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+}
+
+
+
+/* =====================================================
+   HISTORY ITEM
+===================================================== */
+
+.history-item {
+
+    width: 100%;
+
+    border:
+        1px solid #e8e1d8;
+
+    border-radius: 13px;
+
+    padding:
+        14px;
+
+    background: #faf9f6;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+
+}
+
+
+.history-item:hover {
+
+    background: #ffffff;
+
+    border-color: #d9d1c5;
+
+}
+
+
+
+/* =====================================================
+   HISTORY TOP
+===================================================== */
+
+.history-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    margin-bottom: 12px;
+
+}
+
+
+.history-amount,
+.history-date {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+}
+
+
+.history-amount span,
+.history-date span,
+.history-detail span {
+
+    font-size: 11px;
+
+    color: #938a80;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.3px;
+
+}
+
+
+.history-amount strong {
+
+    font-size: 17px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+}
+
+
+.history-date {
+
+    text-align: right;
+
+}
+
+
+.history-date strong {
+
+    font-size: 13px;
+
+    color: #4b453e;
+
+}
+
+
+
+/* =====================================================
+   HISTORY DETAILS
+===================================================== */
+
+.history-detail {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    padding-top:
+        11px;
+
+    margin-top:
+        11px;
+
+    border-top:
+        1px solid #e8e1d8;
+
+}
+
+
+.history-detail strong {
+
+    font-size: 13px;
+
+    color: #29251f;
+
+    text-align: right;
+
+    word-break: break-word;
+
+}
+
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status-pending {
+
+    color: #c27600 !important;
+
+}
+
+
+.status-approved,
+.status-confirmed {
+
+    color: #16803a !important;
+
+}
+
+
+.status-rejected {
+
+    color: #c40000 !important;
+
+}
+
+
+
+/* =====================================================
+   EMPTY HISTORY
+===================================================== */
+
+.empty-history {
+
+    text-align: center;
+
+    padding:
+        28px 10px;
+
+}
+
+
+.empty-history p {
+
+    color: #938a80;
+
+    font-size: 14px;
+
+}
+
+
+
+/* =====================================================
+   PAGINATION
+===================================================== */
+
+.pagination {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 20px;
+
+    flex-wrap: wrap;
+
+}
+
+
+.pagination-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 40px;
+
+    padding:
+        0 15px;
+
+    border-radius: 10px;
+
+    background: #172033;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease;
+
+}
+
+
+.pagination-btn:hover {
+
+    background: #222d45;
+
+}
+
+
+.pagination-btn:active {
+
+    transform: scale(0.97);
+
+}
+
+
+.page-number {
+
+    font-size: 12px;
+
+    color: #756d64;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+}
+
+
+
+/* =====================================================
+   DESKTOP
+===================================================== */
+
+@media (min-width: 700px) {
+
+    .top-navbar {
+
+        padding:
+            0 28px;
+
+    }
+
+
+    .page-container {
+
+        max-width: 680px;
+
+        padding:
+            90px 20px 55px;
+
+    }
+
+
+    .intro-card {
+
+        padding:
+            30px 25px;
+
+    }
+
+
+    .account-card,
+    .payment-proof-card,
+    .history-card {
+
+        padding:
+            25px;
+
+    }
+
+
+    .detail-row {
+
+        flex-direction: row;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 25px;
+
+    }
+
+
+    .detail-value {
+
+        text-align: right;
+
+        max-width: 65%;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+    .top-navbar {
+
+        height: 60px;
+
+        padding:
+            0 14px;
+
+    }
+
+
+    .nav-logo {
+
+        width: 40px;
+
+        height: 40px;
+
+    }
+
+
+    .menu-btn {
+
+        width: 42px;
+
+        height: 42px;
+
+        font-size: 26px;
+
+    }
+
+
+    .page-container {
+
+        padding:
+            77px 12px 35px;
+
+    }
+
+
+    .intro-card,
+    .account-card,
+    .payment-proof-card,
+    .history-card {
+
+        border-radius: 18px;
+
+    }
+
+
+    .intro-card {
+
+        padding:
+            23px 17px;
+
+    }
+
+
+    .intro-card h1 {
+
+        font-size: 23px;
+
+    }
+
+
+    .intro-card p {
+
+        font-size: 13px;
+
+    }
+
+
+    .account-card,
+    .payment-proof-card,
+    .history-card {
+
+        padding:
+            20px 16px 22px;
+
+    }
+
+
+    .account-card h2,
+    .payment-proof-card h2,
+    .history-card h2 {
+
+        font-size: 19px;
+
+    }
+
+
+    .account-warning,
+    .payment-proof-warning {
+
+        padding:
+            13px;
+
+    }
+
+
+    .account-warning p,
+    .payment-proof-warning p {
+
+        font-size: 11.8px;
+
+    }
+
+
+    .detail-row {
+
+        padding:
+            13px 0;
+
+    }
+
+
+    .detail-value {
+
+        font-size: 14px;
+
+    }
+
+
+    .form-group input {
+
+        height: 51px;
+
+    }
+
+
+    .submit-payment-proof {
+
+        height: 52px;
+
+    }
+
+
+    .history-item {
+
+        padding:
+            13px;
+
+    }
+
+
+    .history-top {
+
+        gap: 10px;
+
+    }
+
+
+    .history-amount strong {
+
+        font-size: 16px;
+
+    }
+
+
+    .history-date strong {
+
+        font-size: 12px;
+
+    }
+
+
+    .history-detail strong {
+
+        max-width: 65%;
+
+        font-size: 12.5px;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   VERY SMALL MOBILE
+===================================================== */
+
+@media (max-width: 360px) {
+
+    .page-container {
+
+        padding-left: 10px;
+
+        padding-right: 10px;
+
+    }
+
+
+    .intro-card h1 {
+
+        font-size: 21px;
+
+    }
+
+
+    .account-card h2,
+    .payment-proof-card h2,
+    .history-card h2 {
+
+        font-size: 18px;
+
+    }
+
+
+    .history-top {
+
+        flex-direction: column;
+
+    }
+
+
+    .history-date {
+
+        text-align: left;
+
+    }
+
+}

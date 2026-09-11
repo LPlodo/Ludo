@@ -1,0 +1,892 @@
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+
+
+/* =====================================================
+   BODY
+===================================================== */
+
+body {
+
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: #202020;
+
+    background: #f6f1e7;
+
+}
+
+
+
+/* =====================================================
+   CREATE ACCOUNT PAGE
+===================================================== */
+
+.create-account-page {
+
+    min-height: 100vh;
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 30px 16px;
+
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+
+/* =====================================================
+   LUDO BACKGROUND
+===================================================== */
+
+.create-account-page::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 430px;
+
+    height: 430px;
+
+    border-radius: 50%;
+
+    background: #e63946;
+
+    opacity: 0.055;
+
+    top: -250px;
+
+    left: -180px;
+
+}
+
+
+.create-account-page::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 400px;
+
+    height: 400px;
+
+    border-radius: 50%;
+
+    background: #246bfd;
+
+    opacity: 0.055;
+
+    bottom: -240px;
+
+    right: -180px;
+
+}
+
+
+
+/* =====================================================
+   CREATE ACCOUNT CARD
+===================================================== */
+
+.create-account-card {
+
+    width: 100%;
+
+    max-width: 455px;
+
+    position: relative;
+
+    z-index: 2;
+
+    background: #ffffff;
+
+    padding:
+        36px 38px 28px;
+
+    border-radius: 26px;
+
+    border:
+        1px solid
+        #ebe5da;
+
+    box-shadow:
+        0 18px 45px
+        rgba(40, 35, 25, 0.10);
+
+}
+
+
+
+/* =====================================================
+   LUDO CORNER PIECES
+===================================================== */
+
+.create-account-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 13px;
+
+    height: 13px;
+
+    border-radius: 50%;
+
+    background: #e63946;
+
+    top: 22px;
+
+    left: 22px;
+
+    box-shadow:
+        0 0 0 5px
+        rgba(230, 57, 70, 0.10);
+
+}
+
+
+.create-account-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 13px;
+
+    height: 13px;
+
+    border-radius: 50%;
+
+    background: #f5c542;
+
+    top: 22px;
+
+    right: 22px;
+
+    box-shadow:
+        0 0 0 5px
+        rgba(245, 197, 66, 0.12);
+
+}
+
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.login-brand {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    margin-bottom: 16px;
+
+}
+
+
+.logo-halo {
+
+    width: 105px;
+
+    height: 105px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #faf8f3;
+
+    border:
+        1px solid
+        #eee8dc;
+
+    box-shadow:
+        0 8px 22px
+        rgba(30, 30, 30, 0.08);
+
+}
+
+
+.login-logo {
+
+    width: 91px;
+
+    height: 91px;
+
+    object-fit: contain;
+
+}
+
+
+
+/* =====================================================
+   WELCOME SECTION
+===================================================== */
+
+.welcome-section {
+
+    text-align: center;
+
+    margin-bottom: 26px;
+
+}
+
+
+.welcome-section h1 {
+
+    font-size: 28px;
+
+    line-height: 1.2;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    letter-spacing: -0.6px;
+
+}
+
+
+.welcome-section p {
+
+    margin-top: 8px;
+
+    font-size: 14px;
+
+    color: #8a8175;
+
+    font-weight: 600;
+
+}
+
+
+
+/* =====================================================
+   INPUT GROUP
+===================================================== */
+
+.input-group {
+
+    margin-bottom: 17px;
+
+}
+
+
+.input-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #28231e;
+
+}
+
+
+.input-group input {
+
+    width: 100%;
+
+    height: 52px;
+
+    padding:
+        0 16px;
+
+    border:
+        1px solid
+        #ddd7ce;
+
+    border-radius: 12px;
+
+    outline: none;
+
+    background: #faf9f6;
+
+    color: #222;
+
+    font-size: 16px;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+.input-group input:hover {
+
+    border-color: #c9c1b6;
+
+}
+
+
+.input-group input:focus {
+
+    background: #ffffff;
+
+    border-color: #172033;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(23, 32, 51, 0.08);
+
+}
+
+
+.input-group input::placeholder {
+
+    color: #aaa39a;
+
+}
+
+
+
+/* =====================================================
+   CREATE BUTTON
+===================================================== */
+
+.create-btn {
+
+    width: 100%;
+
+    height: 54px;
+
+    margin-top: 5px;
+
+    padding:
+        0 20px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #172033;
+
+    color: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.1px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 18px
+        rgba(23, 32, 51, 0.18);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+
+}
+
+
+.create-btn:hover {
+
+    background: #222d45;
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 11px 22px
+        rgba(23, 32, 51, 0.23);
+
+}
+
+
+.create-btn:active {
+
+    transform:
+        translateY(1px);
+
+}
+
+
+.create-arrow {
+
+    font-size: 21px;
+
+    line-height: 1;
+
+}
+
+
+
+/* =====================================================
+   DIVIDER
+===================================================== */
+
+.divider {
+
+    width: 100%;
+
+    height: 1px;
+
+    background: #ebe7df;
+
+    margin:
+        25px 0 21px;
+
+    position: relative;
+
+    display: flex;
+
+    justify-content: center;
+
+}
+
+
+.divider span {
+
+    position: absolute;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    background: #ffffff;
+
+    padding:
+        0 12px;
+
+    color: #aaa197;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.1px;
+
+}
+
+
+
+/* =====================================================
+   RETURN TO LOGIN
+===================================================== */
+
+.return-login-btn {
+
+    width: 100%;
+
+    height: 50px;
+
+    border:
+        1.5px solid
+        #d7d0c5;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    color: #25211d;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.15s ease;
+
+}
+
+
+.return-login-btn:hover {
+
+    border-color: #172033;
+
+    background: #faf8f3;
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+.return-login-btn:active {
+
+    transform:
+        translateY(1px);
+
+}
+
+
+
+/* =====================================================
+   TAGLINE
+===================================================== */
+
+.game-tagline {
+
+    text-align: center;
+
+    margin-top: 20px;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    color: #b0a79c;
+
+}
+
+
+
+/* =====================================================
+   FLASH MESSAGE
+===================================================== */
+
+.flash-container {
+
+    position: fixed;
+
+    top: 20px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        calc(100% - 32px);
+
+    max-width: 455px;
+
+    z-index: 1000;
+
+}
+
+
+.flash-message {
+
+    width: 100%;
+
+    padding:
+        13px 16px;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    box-shadow:
+        0 8px 22px
+        rgba(0, 0, 0, 0.10);
+
+}
+
+
+.flash-message.error {
+
+    background: #fee2e2;
+
+    color: #991b1b;
+
+    border:
+        1px solid
+        #fecaca;
+
+}
+
+
+.flash-message.success {
+
+    background: #dcfce7;
+
+    color: #166534;
+
+    border:
+        1px solid
+        #bbf7d0;
+
+}
+
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+
+    .create-account-page {
+
+        padding:
+            15px 12px;
+
+    }
+
+
+    .create-account-card {
+
+        padding:
+            29px 20px 24px;
+
+        border-radius: 22px;
+
+    }
+
+
+    .create-account-card::before {
+
+        top: 17px;
+
+        left: 17px;
+
+    }
+
+
+    .create-account-card::after {
+
+        top: 17px;
+
+        right: 17px;
+
+    }
+
+
+    .login-brand {
+
+        margin-bottom: 14px;
+
+    }
+
+
+    .logo-halo {
+
+        width: 94px;
+
+        height: 94px;
+
+    }
+
+
+    .login-logo {
+
+        width: 81px;
+
+        height: 81px;
+
+    }
+
+
+    .welcome-section {
+
+        margin-bottom: 23px;
+
+    }
+
+
+    .welcome-section h1 {
+
+        font-size: 24px;
+
+    }
+
+
+    .welcome-section p {
+
+        font-size: 13px;
+
+    }
+
+
+    .input-group {
+
+        margin-bottom: 15px;
+
+    }
+
+
+    .input-group label {
+
+        font-size: 14px;
+
+    }
+
+
+    .input-group input {
+
+        height: 51px;
+
+        border-radius: 11px;
+
+    }
+
+
+    .create-btn {
+
+        height: 52px;
+
+        border-radius: 11px;
+
+    }
+
+
+    .divider {
+
+        margin:
+            23px 0 20px;
+
+    }
+
+
+    .return-login-btn {
+
+        height: 49px;
+
+        border-radius: 11px;
+
+    }
+
+
+    .game-tagline {
+
+        margin-top: 18px;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   VERY SMALL DEVICES
+===================================================== */
+
+@media (max-width: 360px) {
+
+
+    .create-account-page {
+
+        padding:
+            10px 9px;
+
+    }
+
+
+    .create-account-card {
+
+        padding:
+            25px 17px 21px;
+
+    }
+
+
+    .logo-halo {
+
+        width: 86px;
+
+        height: 86px;
+
+    }
+
+
+    .login-logo {
+
+        width: 74px;
+
+        height: 74px;
+
+    }
+
+
+    .welcome-section h1 {
+
+        font-size: 22px;
+
+    }
+
+
+    .welcome-section p {
+
+        font-size: 12px;
+
+    }
+
+
+    .input-group input {
+
+        height: 49px;
+
+    }
+
+
+    .create-btn {
+
+        height: 50px;
+
+    }
+
+
+    .return-login-btn {
+
+        height: 47px;
+
+    }
+
+}

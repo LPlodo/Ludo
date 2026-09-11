@@ -1,0 +1,1289 @@
+/* =====================================================
+   LPDOPLAYER — WITHDRAW MONEY
+   GAME / WALLET DESIGN SYSTEM
+===================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f6f1e7;
+
+    color: #202020;
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.top-navbar {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 64px;
+
+    background:
+        rgba(255, 255, 255, 0.97);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    border-bottom:
+        1px solid #ebe5da;
+
+    box-shadow:
+        0 4px 18px
+        rgba(40, 35, 25, 0.06);
+
+    z-index: 1000;
+}
+
+
+/* =====================================================
+   NAV LEFT
+===================================================== */
+
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.nav-logo {
+    width: 43px;
+    height: 43px;
+
+    object-fit: contain;
+}
+
+
+/* =====================================================
+   MENU BUTTON
+===================================================== */
+
+.menu-btn {
+    width: 44px;
+    height: 44px;
+
+    border:
+        1px solid #ebe5da;
+
+    border-radius: 12px;
+
+    background: #faf8f3;
+
+    color: #172033;
+
+    font-size: 27px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease;
+}
+
+.menu-btn:hover {
+    background: #f1ece3;
+}
+
+.menu-btn:active {
+    transform: scale(0.96);
+}
+
+
+/* =====================================================
+   SIDE MENU
+===================================================== */
+
+.side-menu {
+    position: fixed;
+
+    top: 0;
+    right: 0;
+
+    width:
+        min(84vw, 340px);
+
+    height: 100vh;
+
+    background: #ffffff;
+
+    z-index: 1100;
+
+    padding: 18px;
+
+    transform:
+        translateX(100%);
+
+    transition:
+        transform 0.28s ease;
+
+    box-shadow:
+        -10px 0 30px
+        rgba(40, 35, 25, 0.15);
+}
+
+.side-menu.show {
+    transform:
+        translateX(0);
+}
+
+
+/* =====================================================
+   CLOSE MENU
+===================================================== */
+
+.close-menu {
+    width: 40px;
+    height: 40px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #faf8f3;
+
+    color: #172033;
+
+    font-size: 29px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    display: block;
+
+    margin-left: auto;
+}
+
+.close-menu:hover {
+    background: #f1ece3;
+}
+
+
+/* =====================================================
+   MENU ITEMS
+===================================================== */
+
+.menu-items {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    margin-top: 25px;
+}
+
+.menu-option {
+    width: 100%;
+
+    min-height: 50px;
+
+    padding:
+        12px 14px;
+
+    display: flex;
+    align-items: center;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background: transparent;
+
+    color: #29251f;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        padding-left 0.2s ease;
+}
+
+.menu-option:hover {
+    background: #f7f3eb;
+
+    padding-left: 18px;
+}
+
+.menu-option.active-menu {
+    background: #f5f0e7;
+
+    color: #172033;
+
+    font-weight: 800;
+}
+
+.menu-option:last-child {
+    margin-top: 10px;
+
+    color: #d62f3b;
+}
+
+
+/* =====================================================
+   OVERLAY
+===================================================== */
+
+.menu-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(23, 32, 51, 0.45);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    z-index: 1050;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+}
+
+.menu-overlay.show {
+    opacity: 1;
+
+    visibility: visible;
+}
+
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+.page-container {
+    width: 100%;
+
+    max-width: 650px;
+
+    margin: 0 auto;
+
+    padding:
+        84px 14px 40px;
+}
+
+
+/* =====================================================
+   COMMON CARD
+===================================================== */
+
+.intro-card,
+.details-card,
+.withdraw-request-card,
+.withdrawal-history-card {
+    width: 100%;
+
+    background: #ffffff;
+
+    border:
+        1px solid #ebe5da;
+
+    border-radius: 21px;
+
+    box-shadow:
+        0 12px 30px
+        rgba(40, 35, 25, 0.07);
+}
+
+
+/* =====================================================
+   INTRO CARD
+===================================================== */
+
+.intro-card {
+    position: relative;
+
+    overflow: hidden;
+
+    padding:
+        27px 21px;
+
+    margin-bottom: 16px;
+}
+
+.intro-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 135px;
+    height: 135px;
+
+    border-radius: 50%;
+
+    background: #e63946;
+
+    opacity: 0.07;
+
+    top: -75px;
+    right: -50px;
+}
+
+.intro-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 95px;
+    height: 95px;
+
+    border-radius: 50%;
+
+    background: #f5c542;
+
+    opacity: 0.10;
+
+    bottom: -55px;
+    left: -35px;
+}
+
+.intro-card h1 {
+    position: relative;
+
+    z-index: 2;
+
+    font-size: 25px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    margin-bottom: 7px;
+}
+
+.intro-card p {
+    position: relative;
+
+    z-index: 2;
+
+    font-size: 14px;
+
+    color: #8a8175;
+
+    line-height: 1.5;
+
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   DETAILS CARD
+===================================================== */
+
+.details-card {
+    padding:
+        22px 20px 24px;
+}
+
+.details-card h2 {
+    font-size: 20px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    margin-bottom: 18px;
+}
+
+
+/* =====================================================
+   DETAILS INFO
+===================================================== */
+
+.details-info {
+    background: #f7f3eb;
+
+    border:
+        1px solid #ebe2d5;
+
+    border-left:
+        3px solid #172033;
+
+    border-radius: 11px;
+
+    padding:
+        14px;
+
+    margin-bottom: 20px;
+}
+
+.details-info p {
+    color: #655e56;
+
+    font-size: 12px;
+
+    line-height: 1.55;
+
+    margin-bottom: 9px;
+}
+
+.details-info p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-group {
+    margin-bottom: 17px;
+}
+
+.form-group label {
+    display: block;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+
+    color: #29251f;
+}
+
+.form-group input {
+    width: 100%;
+
+    height: 51px;
+
+    border:
+        1px solid #ddd6cc;
+
+    border-radius: 12px;
+
+    padding:
+        0 14px;
+
+    font-size: 16px;
+
+    outline: none;
+
+    background: #faf9f6;
+
+    color: #222;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.form-group input:hover {
+    border-color: #cfc7bb;
+}
+
+.form-group input:focus {
+    background: #ffffff;
+
+    border-color: #172033;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(23, 32, 51, 0.08);
+}
+
+.form-group input::placeholder {
+    color: #aaa29a;
+}
+
+
+/* =====================================================
+   OR DIVIDER
+===================================================== */
+
+.or-divider {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin:
+        8px 0 20px;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    color: #aaa095;
+
+    letter-spacing: 1px;
+}
+
+.or-divider::before,
+.or-divider::after {
+    content: "";
+
+    height: 1px;
+
+    background: #e7e0d7;
+
+    flex: 1;
+}
+
+
+/* =====================================================
+   DETAILS SUBMIT
+===================================================== */
+
+.submit-details-btn {
+    width: 100%;
+
+    height: 52px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #172033;
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 18px
+        rgba(23, 32, 51, 0.18);
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+.submit-details-btn:hover {
+    background: #222d45;
+
+    transform:
+        translateY(-1px);
+}
+
+.submit-details-btn:active {
+    transform:
+        translateY(1px);
+}
+
+
+/* =====================================================
+   WITHDRAW REQUEST CARD
+===================================================== */
+
+.withdraw-request-card {
+    margin-top: 16px;
+
+    padding:
+        22px 20px 24px;
+}
+
+.withdraw-request-card h2 {
+    font-size: 20px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    margin-bottom: 18px;
+}
+
+
+/* =====================================================
+   WITHDRAW REQUEST INFO
+===================================================== */
+
+.withdraw-request-info {
+    background: #fff7f5;
+
+    border:
+        1px solid #f3d7d2;
+
+    border-left:
+        3px solid #e63946;
+
+    border-radius: 11px;
+
+    padding:
+        14px;
+
+    margin-bottom: 20px;
+}
+
+.withdraw-request-info p {
+    color: #8e3434;
+
+    font-size: 12px;
+
+    line-height: 1.55;
+
+    margin-bottom: 9px;
+}
+
+.withdraw-request-info p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =====================================================
+   MEDIUM
+===================================================== */
+
+.medium-label {
+    font-size: 13px;
+
+    font-weight: 700;
+
+    color: #29251f;
+
+    margin-bottom: 10px;
+}
+
+.medium-options {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+.medium-option {
+    min-height: 53px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    border:
+        1px solid #e3ddd4;
+
+    border-radius: 12px;
+
+    padding:
+        12px 14px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    background: #faf9f6;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.medium-option:hover {
+    background: #ffffff;
+
+    border-color: #cfc7bb;
+}
+
+.medium-option input {
+    width: 18px;
+
+    height: 18px;
+
+    margin: 0;
+
+    accent-color: #172033;
+}
+
+.medium-option span {
+    color: #29251f;
+
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   WITHDRAW SUBMIT
+===================================================== */
+
+.submit-withdraw-request {
+    width: 100%;
+
+    height: 53px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #e63946;
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 18px
+        rgba(230, 57, 70, 0.18);
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+.submit-withdraw-request:hover {
+    background: #d92f3d;
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 10px 21px
+        rgba(230, 57, 70, 0.23);
+}
+
+.submit-withdraw-request:active {
+    transform:
+        translateY(1px);
+}
+
+
+/* =====================================================
+   FLASH MESSAGES
+===================================================== */
+
+.flash-container {
+    position: fixed;
+
+    top: 76px;
+
+    left: 14px;
+    right: 14px;
+
+    z-index: 2000;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.flash-message {
+    width: 100%;
+
+    padding:
+        13px 15px;
+
+    border-radius: 11px;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 20px
+        rgba(40, 35, 25, 0.12);
+}
+
+.flash-message.error {
+    background: #fff0f0;
+
+    color: #c40000;
+
+    border:
+        1px solid #f0b5b5;
+}
+
+.flash-message.success {
+    background: #effaf2;
+
+    color: #167334;
+
+    border:
+        1px solid #b7dfc0;
+}
+
+
+/* =====================================================
+   WITHDRAWAL HISTORY
+===================================================== */
+
+.withdrawal-history-card {
+    margin-top: 16px;
+
+    padding:
+        22px 20px 24px;
+}
+
+.withdrawal-history-card h2 {
+    font-size: 20px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    margin-bottom: 18px;
+}
+
+
+/* =====================================================
+   HISTORY LIST
+===================================================== */
+
+.withdrawal-history-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+/* =====================================================
+   HISTORY ITEM
+===================================================== */
+
+.withdrawal-history-item {
+    width: 100%;
+
+    border:
+        1px solid #e8e1d8;
+
+    border-radius: 13px;
+
+    padding:
+        14px;
+
+    background: #faf9f6;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.withdrawal-history-item:hover {
+    background: #ffffff;
+
+    border-color: #d9d1c5;
+}
+
+
+/* =====================================================
+   HISTORY TOP
+===================================================== */
+
+.withdrawal-history-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    margin-bottom: 12px;
+}
+
+.withdrawal-history-amount,
+.withdrawal-history-date {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.withdrawal-history-amount span,
+.withdrawal-history-date span,
+.withdrawal-history-detail span {
+    font-size: 11px;
+
+    color: #938a80;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.3px;
+}
+
+.withdrawal-history-amount strong {
+    font-size: 17px;
+
+    font-weight: 800;
+
+    color: #172033;
+}
+
+.withdrawal-history-date {
+    text-align: right;
+}
+
+.withdrawal-history-date strong {
+    font-size: 13px;
+
+    color: #4b453e;
+}
+
+
+/* =====================================================
+   HISTORY DETAILS
+===================================================== */
+
+.withdrawal-history-detail {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    padding-top:
+        11px;
+
+    margin-top:
+        11px;
+
+    border-top:
+        1px solid #e8e1d8;
+}
+
+.withdrawal-history-detail strong {
+    font-size: 13px;
+
+    color: #29251f;
+
+    text-align: right;
+
+    word-break: break-word;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.withdrawal-status-pending {
+    color: #c27600 !important;
+}
+
+.withdrawal-status-approved,
+.withdrawal-status-completed {
+    color: #16803a !important;
+}
+
+.withdrawal-status-rejected {
+    color: #c40000 !important;
+}
+
+
+/* =====================================================
+   EMPTY HISTORY
+===================================================== */
+
+.withdrawal-empty-history {
+    text-align: center;
+
+    padding:
+        28px 10px;
+}
+
+.withdrawal-empty-history p {
+    color: #938a80;
+
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   PAGINATION
+===================================================== */
+
+.withdrawal-pagination {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 20px;
+
+    flex-wrap: wrap;
+}
+
+.withdrawal-pagination-btn {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 40px;
+
+    padding:
+        0 15px;
+
+    border-radius: 10px;
+
+    background: #172033;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease;
+}
+
+.withdrawal-pagination-btn:hover {
+    background: #222d45;
+}
+
+.withdrawal-pagination-btn:active {
+    transform: scale(0.97);
+}
+
+.withdrawal-page-number {
+    font-size: 12px;
+
+    color: #756d64;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =====================================================
+   DESKTOP
+===================================================== */
+
+@media (min-width: 700px) {
+
+    .top-navbar {
+        padding:
+            0 28px;
+    }
+
+    .page-container {
+        max-width: 680px;
+
+        padding:
+            90px 20px 55px;
+    }
+
+    .intro-card {
+        padding:
+            30px 25px;
+    }
+
+    .details-card,
+    .withdraw-request-card,
+    .withdrawal-history-card {
+        padding:
+            25px;
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+    .top-navbar {
+        height: 60px;
+
+        padding:
+            0 14px;
+    }
+
+    .nav-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .menu-btn {
+        width: 42px;
+        height: 42px;
+
+        font-size: 26px;
+    }
+
+    .page-container {
+        padding:
+            77px 12px 35px;
+    }
+
+    .intro-card,
+    .details-card,
+    .withdraw-request-card,
+    .withdrawal-history-card {
+        border-radius: 18px;
+    }
+
+    .intro-card {
+        padding:
+            23px 17px;
+    }
+
+    .intro-card h1 {
+        font-size: 23px;
+    }
+
+    .intro-card p {
+        font-size: 13px;
+    }
+
+    .details-card,
+    .withdraw-request-card,
+    .withdrawal-history-card {
+        padding:
+            20px 16px 22px;
+    }
+
+    .details-card h2,
+    .withdraw-request-card h2,
+    .withdrawal-history-card h2 {
+        font-size: 19px;
+    }
+
+    .details-info,
+    .withdraw-request-info {
+        padding:
+            13px;
+    }
+
+    .details-info p,
+    .withdraw-request-info p {
+        font-size: 11.8px;
+    }
+
+    .form-group input {
+        height: 51px;
+    }
+
+    .submit-details-btn,
+    .submit-withdraw-request {
+        height: 52px;
+    }
+
+    .medium-option {
+        min-height: 51px;
+    }
+
+    .withdrawal-history-item {
+        padding:
+            13px;
+    }
+
+    .withdrawal-history-top {
+        gap: 10px;
+    }
+
+    .withdrawal-history-amount strong {
+        font-size: 16px;
+    }
+
+    .withdrawal-history-date strong {
+        font-size: 12px;
+    }
+
+    .withdrawal-history-detail strong {
+        max-width: 65%;
+
+        font-size: 12.5px;
+    }
+
+}
+
+
+/* =====================================================
+   VERY SMALL MOBILE
+===================================================== */
+
+@media (max-width: 360px) {
+
+    .page-container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .intro-card h1 {
+        font-size: 21px;
+    }
+
+    .details-card h2,
+    .withdraw-request-card h2,
+    .withdrawal-history-card h2 {
+        font-size: 18px;
+    }
+
+    .withdrawal-history-top {
+        flex-direction: column;
+    }
+
+    .withdrawal-history-date {
+        text-align: left;
+    }
+
+}

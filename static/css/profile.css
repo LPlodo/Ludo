@@ -1,0 +1,1160 @@
+/* =====================================================
+   LPDOPLAYER — PROFILE
+   SMOOTH PLAYER CARD
+===================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* =====================================================
+   BODY
+===================================================== */
+
+body {
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 10% 0%,
+            rgba(245, 197, 66, 0.13),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 100% 20%,
+            rgba(230, 57, 70, 0.08),
+            transparent 28%
+        ),
+        #f6f1e7;
+
+    min-height: 100vh;
+
+    color: #172033;
+
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.top-navbar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    height: 64px;
+
+    background:
+        rgba(255, 253, 248, 0.94);
+
+    backdrop-filter: blur(14px);
+
+    -webkit-backdrop-filter: blur(14px);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 16px;
+
+    border-bottom:
+        1px solid #ebe5da;
+
+    box-shadow:
+        0 4px 18px
+        rgba(23, 32, 51, 0.06);
+
+    z-index: 1000;
+
+}
+
+
+.nav-logo {
+
+    width: 42px;
+
+    height: 42px;
+
+    object-fit: contain;
+
+}
+
+
+.menu-btn {
+
+    width: 44px;
+
+    height: 44px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #172033;
+
+    color: #ffffff;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+
+}
+
+
+.menu-btn:hover {
+
+    background: #222d45;
+
+}
+
+
+.menu-btn:active {
+
+    transform: scale(0.93);
+
+}
+
+
+/* =====================================================
+   SIDE MENU
+===================================================== */
+
+.side-menu {
+
+    position: fixed;
+
+    top: 0;
+
+    right: -290px;
+
+    width: min(290px, 86vw);
+
+    height: 100vh;
+
+    background: #fffdf8;
+
+    z-index: 1100;
+
+    padding: 18px;
+
+    transition:
+        right 0.3s ease;
+
+    box-shadow:
+        -10px 0 30px
+        rgba(23, 32, 51, 0.15);
+
+}
+
+
+.side-menu.show {
+
+    right: 0;
+
+}
+
+
+.close-menu {
+
+    width: 42px;
+
+    height: 42px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #f6f1e7;
+
+    color: #172033;
+
+    font-size: 28px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-left: auto;
+
+}
+
+
+.menu-items {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    margin-top: 28px;
+
+}
+
+
+.menu-option {
+
+    width: 100%;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: transparent;
+
+    text-align: left;
+
+    color: #172033;
+
+    padding: 14px 13px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+
+.menu-option:hover {
+
+    background: #f6f1e7;
+
+}
+
+
+.menu-option:active {
+
+    transform: scale(0.98);
+
+}
+
+
+.menu-option.active-menu {
+
+    background: #172033;
+
+    color: #ffffff;
+
+}
+
+
+/* =====================================================
+   OVERLAY
+===================================================== */
+
+.menu-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(23, 32, 51, 0.48);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    z-index: 1050;
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease;
+
+}
+
+
+.menu-overlay.show {
+
+    opacity: 1;
+
+    visibility: visible;
+
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.page-container {
+
+    width: 100%;
+
+    max-width: 620px;
+
+    margin: 0 auto;
+
+    padding:
+        84px 13px 35px;
+
+}
+
+
+/* =====================================================
+   PROFILE CARD
+===================================================== */
+
+.profile-card {
+
+    position: relative;
+
+    background:
+        rgba(255, 253, 248, 0.97);
+
+    border:
+        1px solid #ebe5da;
+
+    border-radius: 26px;
+
+    padding: 20px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(23, 32, 51, 0.08);
+
+    overflow: hidden;
+
+}
+
+
+/* Decorative yellow circle */
+
+.profile-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 150px;
+
+    height: 150px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(245, 197, 66, 0.10);
+
+    top: -85px;
+
+    right: -60px;
+
+    pointer-events: none;
+
+}
+
+
+/* Decorative red circle */
+
+.profile-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 100px;
+
+    height: 100px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(230, 57, 70, 0.055);
+
+    bottom: -55px;
+
+    left: -50px;
+
+    pointer-events: none;
+
+}
+
+
+/* =====================================================
+   PROFILE HERO
+===================================================== */
+
+.profile-hero {
+
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding:
+        8px 5px 24px;
+
+    margin-bottom: 5px;
+
+}
+
+
+/* =====================================================
+   AVATAR AREA
+===================================================== */
+
+.profile-avatar-wrap {
+
+    position: relative;
+
+    width: 112px;
+
+    height: 112px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 14px;
+
+}
+
+
+/* Soft glow */
+
+.profile-avatar-glow {
+
+    position: absolute;
+
+    width: 112px;
+
+    height: 112px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(245, 197, 66, 0.25);
+
+    filter: blur(13px);
+
+    transform: scale(0.82);
+
+}
+
+
+/* Avatar */
+
+.profile-avatar {
+
+    position: relative;
+
+    width: 91px;
+
+    height: 91px;
+
+    border-radius: 50%;
+
+    background:
+        #fffdf8;
+
+    border:
+        5px solid #ffffff;
+
+    box-shadow:
+        0 8px 25px
+        rgba(23, 32, 51, 0.14);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+
+}
+
+
+/* Lpdoplayer logo */
+
+.profile-avatar img {
+
+    width: 76px;
+
+    height: 76px;
+
+    object-fit: contain;
+
+}
+
+
+/* =====================================================
+   HERO TEXT
+===================================================== */
+
+.profile-hero-text {
+
+    position: relative;
+
+}
+
+
+.profile-label {
+
+    display: inline-block;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.3px;
+
+    color: #e63946;
+
+    margin-bottom: 6px;
+
+}
+
+
+.profile-hero-text h1 {
+
+    font-size: 25px;
+
+    line-height: 1.2;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    margin: 0;
+
+    word-break: break-word;
+
+}
+
+
+.profile-hero-text p {
+
+    margin-top: 6px;
+
+    font-size: 12px;
+
+    color: #8a857b;
+
+}
+
+
+/* =====================================================
+   PROFILE DETAILS
+===================================================== */
+
+.profile-details {
+
+    position: relative;
+
+    background: #ffffff;
+
+    border:
+        1px solid #ebe5da;
+
+    border-radius: 18px;
+
+    padding:
+        3px 15px;
+
+    box-shadow:
+        0 3px 13px
+        rgba(23, 32, 51, 0.035);
+
+}
+
+
+/* =====================================================
+   PROFILE ROW
+===================================================== */
+
+.profile-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding:
+        15px 0;
+
+    border-bottom:
+        1px solid #eee9df;
+
+}
+
+
+.profile-row:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.profile-row span {
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    color: #8a857b;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.6px;
+
+}
+
+
+.profile-row strong {
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #172033;
+
+    text-align: right;
+
+    word-break: break-word;
+
+}
+
+
+/* Balance */
+
+.profile-row:last-child strong {
+
+    color: #e63946;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+}
+
+
+/* =====================================================
+   PASSWORD SECTION
+===================================================== */
+
+.password-section {
+
+    position: relative;
+
+    margin-top: 20px;
+
+    padding:
+        20px 15px 16px;
+
+    background:
+        #f9f5ed;
+
+    border:
+        1px solid #ebe5da;
+
+    border-radius: 19px;
+
+}
+
+
+/* Small top accent */
+
+.password-section::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 20px;
+
+    right: 20px;
+
+    height: 3px;
+
+    border-radius:
+        0 0 10px 10px;
+
+    background:
+        #f5c542;
+
+}
+
+
+.password-section h2 {
+
+    font-size: 17px;
+
+    font-weight: 800;
+
+    color: #172033;
+
+    margin-bottom: 6px;
+
+}
+
+
+.password-description {
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+    color: #8a857b;
+
+    margin-bottom: 18px;
+
+}
+
+
+/* =====================================================
+   INPUT GROUP
+===================================================== */
+
+.input-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-bottom: 14px;
+
+}
+
+
+.input-group label {
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    color: #716d65;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.55px;
+
+}
+
+
+.input-group input {
+
+    width: 100%;
+
+    height: 47px;
+
+    border:
+        1px solid #e2dcd1;
+
+    border-radius: 13px;
+
+    padding:
+        0 13px;
+
+    font-size: 14px;
+
+    color: #172033;
+
+    outline: none;
+
+    background: #ffffff;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+
+}
+
+
+.input-group input::placeholder {
+
+    color: #aaa49a;
+
+}
+
+
+.input-group input:focus {
+
+    border-color: #172033;
+
+    background: #fffdf8;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(23, 32, 51, 0.07);
+
+}
+
+
+/* =====================================================
+   UPDATE PASSWORD BUTTON
+===================================================== */
+
+.update-password-btn {
+
+    width: 100%;
+
+    min-height: 48px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background:
+        #172033;
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.2px;
+
+    cursor: pointer;
+
+    margin-top: 5px;
+
+    box-shadow:
+        0 6px 15px
+        rgba(23, 32, 51, 0.16);
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+.update-password-btn:hover {
+
+    background:
+        #222d45;
+
+    box-shadow:
+        0 8px 18px
+        rgba(23, 32, 51, 0.20);
+
+}
+
+
+.update-password-btn:active {
+
+    transform: scale(0.985);
+
+}
+
+
+/* =====================================================
+   FLASH MESSAGES
+===================================================== */
+
+.flash-container {
+
+    position: fixed;
+
+    top: 76px;
+
+    left: 13px;
+
+    right: 13px;
+
+    z-index: 2000;
+
+    display: flex;
+
+    justify-content: center;
+
+    pointer-events: none;
+
+}
+
+
+.flash-message {
+
+    width: 100%;
+
+    max-width: 620px;
+
+    padding:
+        13px 15px;
+
+    border-radius: 13px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    box-shadow:
+        0 7px 20px
+        rgba(23, 32, 51, 0.10);
+
+}
+
+
+.flash-message.error {
+
+    background: #ffebeb;
+
+    color: #b00000;
+
+    border:
+        1px solid #ffd0d0;
+
+}
+
+
+.flash-message.success {
+
+    background: #eaf7ee;
+
+    color: #16733a;
+
+    border:
+        1px solid #cdebd6;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+    .top-navbar {
+
+        height: 62px;
+
+        padding:
+            0 13px;
+
+    }
+
+
+    .nav-logo {
+
+        width: 40px;
+
+        height: 40px;
+
+    }
+
+
+    .menu-btn {
+
+        width: 42px;
+
+        height: 42px;
+
+    }
+
+
+    .page-container {
+
+        padding:
+            80px 11px 28px;
+
+    }
+
+
+    .profile-card {
+
+        padding:
+            17px;
+
+        border-radius: 23px;
+
+    }
+
+
+    .profile-avatar-wrap {
+
+        width: 104px;
+
+        height: 104px;
+
+    }
+
+
+    .profile-avatar-glow {
+
+        width: 104px;
+
+        height: 104px;
+
+    }
+
+
+    .profile-avatar {
+
+        width: 86px;
+
+        height: 86px;
+
+    }
+
+
+    .profile-avatar img {
+
+        width: 71px;
+
+        height: 71px;
+
+    }
+
+
+    .profile-hero {
+
+        padding-bottom: 21px;
+
+    }
+
+
+    .profile-hero-text h1 {
+
+        font-size: 22px;
+
+    }
+
+
+    .profile-details {
+
+        padding:
+            2px 13px;
+
+    }
+
+
+    .profile-row {
+
+        padding:
+            14px 0;
+
+    }
+
+
+    .password-section {
+
+        padding:
+            19px 13px 15px;
+
+    }
+
+}
+
+
+/* =====================================================
+   VERY SMALL DEVICES
+===================================================== */
+
+@media (max-width: 350px) {
+
+    .page-container {
+
+        padding-left: 8px;
+
+        padding-right: 8px;
+
+    }
+
+
+    .profile-card {
+
+        padding:
+            14px;
+
+    }
+
+
+    .profile-row {
+
+        gap: 10px;
+
+    }
+
+
+    .profile-row strong {
+
+        font-size: 13px;
+
+    }
+
+
+    .profile-row:last-child strong {
+
+        font-size: 15px;
+
+    }
+
+}
+
+
+/* =====================================================
+   DESKTOP
+===================================================== */
+
+@media (min-width: 600px) {
+
+    .page-container {
+
+        padding-left: 24px;
+
+        padding-right: 24px;
+
+    }
+
+
+    .profile-card {
+
+        padding:
+            25px;
+
+    }
+
+}
