@@ -1,0 +1,502 @@
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #111;
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.admin-navbar {
+    height: 64px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 16px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 1000;
+}
+
+
+.admin-logo {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+}
+
+
+.menu-button {
+    border: none;
+    background: none;
+
+    font-size: 26px;
+
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.admin-sidebar {
+    position: fixed;
+
+    top: 0;
+    right: -280px;
+
+    width: 280px;
+    height: 100vh;
+
+    background: #ffffff;
+
+    z-index: 1100;
+
+    padding: 20px;
+
+    transition: right 0.25s ease;
+
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.08);
+}
+
+
+.admin-sidebar.sidebar-open {
+    right: 0;
+}
+
+
+.sidebar-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.35);
+
+    z-index: 1050;
+
+    display: none;
+}
+
+
+.sidebar-overlay.overlay-show {
+    display: block;
+}
+
+
+.sidebar-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 25px;
+}
+
+
+.sidebar-header button {
+    border: none;
+    background: none;
+
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+
+.menu-option {
+    width: 100%;
+
+    border: none;
+    background: none;
+
+    padding: 14px 10px;
+
+    text-align: left;
+
+    font-size: 15px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    margin-bottom: 6px;
+}
+
+
+.menu-option:hover,
+.menu-option.active-menu {
+    background: #f0f0f0;
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main-container {
+
+    padding: 90px 15px 30px;
+
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+}
+
+
+.withdrawal-card {
+
+    width: 100%;
+    max-width: 900px;
+
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    padding: 20px;
+
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+
+.withdrawal-card h2 {
+
+    margin: 0 0 20px;
+
+    font-size: 22px;
+
+    text-align: center;
+}
+
+
+/* =====================================================
+   FLASH
+===================================================== */
+
+.flash-container {
+    margin-bottom: 15px;
+}
+
+
+.flash-message {
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+}
+
+
+.flash-message.success {
+    background: #e9f7ee;
+}
+
+
+.flash-message.error {
+    background: #fdecec;
+}
+
+
+/* =====================================================
+   WITHDRAWAL ITEM
+===================================================== */
+
+.withdrawal-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+
+.withdrawal-item {
+
+    width: 100%;
+
+    border: 1px solid #e5e5e5;
+
+    border-radius: 14px;
+
+    padding: 17px;
+
+    background: #ffffff;
+}
+
+
+.withdrawal-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    padding: 7px 0;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+
+.label {
+
+    color: #777;
+
+    font-size: 13px;
+
+    flex-shrink: 0;
+}
+
+
+.withdrawal-row > strong,
+.withdrawal-row > span:last-child {
+
+    text-align: right;
+
+    min-width: 0;
+}
+
+
+.username {
+
+    max-width: 55%;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =====================================================
+   MEDIUM
+===================================================== */
+
+.withdrawal-medium {
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+
+.withdrawal-medium > .label {
+
+    display: block;
+
+    margin-bottom: 8px;
+}
+
+
+.bank-details,
+.upi-details {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    font-size: 14px;
+
+    overflow-wrap: anywhere;
+}
+
+
+.bank-details strong,
+.upi-details strong {
+
+    font-size: 15px;
+}
+
+
+.bank-details span,
+.upi-details span {
+
+    color: #555;
+}
+
+
+/* =====================================================
+   ACTIONS
+===================================================== */
+
+.withdrawal-actions {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 15px;
+}
+
+
+.withdrawal-actions form {
+
+    flex: 1;
+}
+
+
+.withdrawal-actions button {
+
+    width: 100%;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 12px 10px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+
+.complete-button {
+
+    background: #111;
+
+    color: #ffffff;
+}
+
+
+.reject-button {
+
+    background: #eeeeee;
+
+    color: #111;
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty-state {
+
+    text-align: center;
+
+    padding: 40px 15px;
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   DESKTOP
+===================================================== */
+
+@media (min-width: 768px) {
+
+    .main-container {
+        padding: 100px 30px 40px;
+    }
+
+
+    .withdrawal-card {
+        padding: 30px;
+    }
+
+
+    .withdrawal-card h2 {
+        font-size: 25px;
+    }
+
+
+    .withdrawal-item {
+        padding: 20px;
+    }
+
+}
+
+
+.pagination {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 25px;
+
+    flex-wrap: wrap;
+}
+
+
+.pagination-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 90px;
+
+    padding: 10px 15px;
+
+    border-radius: 8px;
+
+    background: #111;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    border: none;
+
+    cursor: pointer;
+}
+
+
+.pagination-button.disabled {
+
+    background: #eeeeee;
+
+    color: #999;
+
+    cursor: default;
+}
+
+
+.pagination-info {
+
+    font-size: 14px;
+
+    color: #555;
+
+    white-space: nowrap;
+}

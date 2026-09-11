@@ -1,0 +1,569 @@
+/* =====================================================
+   ADMIN HISTORY PAGE
+   ===================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f6f8;
+    color: #222;
+}
+
+
+/* =====================================================
+   MAIN PAGE
+   ===================================================== */
+
+.admin-page {
+    min-height: 100vh;
+}
+
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+
+.admin-header {
+    height: 60px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 16px;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+
+.admin-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+
+.admin-header h1 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+.menu-toggle {
+    border: none;
+    background: transparent;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    padding: 4px;
+}
+
+
+/* =====================================================
+   SIDEBAR
+   ===================================================== */
+
+.admin-sidebar {
+    position: fixed;
+
+    top: 60px;
+    left: -260px;
+
+    width: 250px;
+    height: calc(100vh - 60px);
+
+    background: #ffffff;
+
+    border-right: 1px solid #e5e5e5;
+
+    padding: 20px 14px;
+
+    transition: left 0.25s ease;
+
+    z-index: 99;
+
+    overflow-y: auto;
+}
+
+
+.admin-sidebar.active {
+    left: 0;
+}
+
+
+.sidebar-title {
+    font-size: 20px;
+    font-weight: 700;
+
+    margin-bottom: 25px;
+
+    padding: 0 10px;
+}
+
+
+.admin-sidebar a {
+    display: block;
+
+    text-decoration: none;
+
+    color: #333;
+
+    padding: 12px 10px;
+
+    border-radius: 8px;
+
+    margin-bottom: 5px;
+
+    font-size: 15px;
+}
+
+
+.admin-sidebar a:hover,
+.admin-sidebar a.active {
+    background: #f0f1f3;
+}
+
+
+/* =====================================================
+   CONTENT
+   ===================================================== */
+
+.admin-content {
+    width: 100%;
+
+    padding: 20px 14px;
+}
+
+
+/* =====================================================
+   SEARCH CARD
+   ===================================================== */
+
+.history-search-card {
+    background: #ffffff;
+
+    border: 1px solid #e5e5e5;
+
+    border-radius: 12px;
+
+    padding: 18px;
+
+    margin-bottom: 18px;
+}
+
+
+.history-search-card h2 {
+    font-size: 17px;
+
+    margin-bottom: 14px;
+}
+
+
+.history-search-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+.search-input-wrapper {
+    width: 100%;
+}
+
+
+.search-input-wrapper input {
+    width: 100%;
+
+    height: 44px;
+
+    border: 1px solid #d8d8d8;
+
+    border-radius: 8px;
+
+    padding: 0 13px;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+
+.search-input-wrapper input:focus {
+    border-color: #777;
+}
+
+
+.search-btn,
+.clear-search-btn {
+    height: 44px;
+
+    border-radius: 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 14px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+
+.search-btn {
+    border: none;
+
+    background: #222;
+
+    color: #ffffff;
+}
+
+
+.clear-search-btn {
+    border: 1px solid #d8d8d8;
+
+    background: #ffffff;
+
+    color: #333;
+}
+
+
+.search-info {
+    margin-top: 12px;
+
+    font-size: 13px;
+
+    color: #666;
+}
+
+
+/* =====================================================
+   HISTORY CARD
+   ===================================================== */
+
+.history-table-card {
+    background: #ffffff;
+
+    border: 1px solid #e5e5e5;
+
+    border-radius: 12px;
+
+    padding: 18px;
+}
+
+
+.history-card-header {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+    margin-bottom: 15px;
+}
+
+
+.history-card-header h2 {
+    font-size: 17px;
+}
+
+
+.record-count {
+    font-size: 13px;
+
+    color: #777;
+}
+
+
+/* =====================================================
+   TABLE
+   ===================================================== */
+
+.table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+
+table {
+    width: 100%;
+
+    min-width: 1050px;
+
+    border-collapse: collapse;
+
+    font-size: 13px;
+}
+
+
+thead {
+    background: #f7f7f7;
+}
+
+
+th {
+    text-align: left;
+
+    font-weight: 600;
+
+    color: #333;
+
+    padding: 12px 10px;
+
+    border-bottom: 1px solid #dedede;
+
+    white-space: nowrap;
+}
+
+
+td {
+    padding: 12px 10px;
+
+    border-bottom: 1px solid #eeeeee;
+
+    vertical-align: top;
+
+    color: #444;
+}
+
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+tbody tr:hover {
+    background: #fafafa;
+}
+
+
+/* =====================================================
+   ACTION
+   ===================================================== */
+
+.action-badge {
+    display: inline-block;
+
+    padding: 5px 8px;
+
+    border-radius: 6px;
+
+    background: #f0f1f3;
+
+    color: #333;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* =====================================================
+   DESCRIPTION
+   ===================================================== */
+
+.description-cell {
+    min-width: 280px;
+
+    max-width: 400px;
+
+    line-height: 1.5;
+
+    white-space: normal;
+
+    word-break: break-word;
+}
+
+
+/* =====================================================
+   USER AGENT
+   ===================================================== */
+
+.user-agent-cell {
+    min-width: 260px;
+
+    max-width: 350px;
+
+    white-space: normal;
+
+    word-break: break-word;
+
+    line-height: 1.45;
+}
+
+
+/* =====================================================
+   TIMESTAMP
+   ===================================================== */
+
+.timestamp-cell {
+    white-space: nowrap;
+}
+
+
+/* =====================================================
+   NO RECORDS
+   ===================================================== */
+
+.no-records {
+    text-align: center;
+
+    padding: 35px 15px;
+
+    color: #777;
+}
+
+
+/* =====================================================
+   PAGINATION
+   ===================================================== */
+
+.pagination {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    margin-top: 20px;
+
+    flex-wrap: wrap;
+}
+
+
+.pagination-btn {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 85px;
+
+    height: 38px;
+
+    padding: 0 12px;
+
+    border: 1px solid #d8d8d8;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #333;
+
+    text-decoration: none;
+
+    font-size: 13px;
+}
+
+
+.pagination-btn:hover {
+    background: #f5f5f5;
+}
+
+
+.page-info {
+    font-size: 13px;
+
+    color: #555;
+
+    white-space: nowrap;
+}
+
+
+/* =====================================================
+   TABLET / DESKTOP
+   ===================================================== */
+
+@media (min-width: 768px) {
+
+    .admin-content {
+        padding: 25px;
+    }
+
+
+    .history-search-form {
+        flex-direction: row;
+
+        align-items: center;
+    }
+
+
+    .search-input-wrapper {
+        flex: 1;
+    }
+
+
+    .search-btn {
+        width: 110px;
+    }
+
+
+    .clear-search-btn {
+        width: 80px;
+    }
+
+
+    .history-card-header {
+        flex-direction: row;
+
+        align-items: center;
+
+        justify-content: space-between;
+    }
+
+}
+
+
+/* =====================================================
+   LARGE DESKTOP
+   ===================================================== */
+
+@media (min-width: 1100px) {
+
+    .admin-sidebar {
+        left: 0;
+    }
+
+
+    .menu-toggle {
+        display: none;
+    }
+
+
+    .admin-content {
+        margin-left: 250px;
+
+        padding: 30px;
+    }
+
+
+    .admin-header {
+        padding-left: 270px;
+    }
+
+}

@@ -1,0 +1,921 @@
+/* =====================================================
+   BLOCK USERS PAGE
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+
+    margin: 0;
+    padding: 0;
+
+    font-family: Arial, sans-serif;
+
+    background: #f5f6f8;
+
+    color: #222;
+}
+
+
+
+/* =====================================================
+   ADMIN NAVBAR
+===================================================== */
+
+.top-navbar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    height: 64px;
+
+    background: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 16px;
+
+    box-shadow:
+        0 2px 8px
+        rgba(0, 0, 0, 0.08);
+
+    z-index: 1000;
+}
+
+
+.nav-logo {
+
+    width: 42px;
+
+    height: 42px;
+
+    object-fit: contain;
+}
+
+
+.menu-btn {
+
+    border: none;
+
+    background: transparent;
+
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+
+
+/* =====================================================
+   SIDE MENU
+===================================================== */
+
+.side-menu {
+
+    position: fixed;
+
+    top: 0;
+
+    right: -280px;
+
+    width: 280px;
+
+    height: 100vh;
+
+    background: #ffffff;
+
+    z-index: 1100;
+
+    padding: 20px;
+
+    transition:
+        right 0.3s ease;
+
+    box-shadow:
+        -3px 0 10px
+        rgba(0, 0, 0, 0.12);
+}
+
+
+.side-menu.show {
+
+    right: 0;
+}
+
+
+
+/* =====================================================
+   CLOSE MENU
+===================================================== */
+
+.close-menu {
+
+    border: none;
+
+    background: transparent;
+
+    font-size: 32px;
+
+    cursor: pointer;
+
+    display: block;
+
+    margin-left: auto;
+}
+
+
+
+/* =====================================================
+   MENU ITEMS
+===================================================== */
+
+.menu-items {
+
+    display: flex;
+
+    flex-direction: column;
+
+    margin-top: 30px;
+}
+
+
+.menu-option {
+
+    width: 100%;
+
+    border: none;
+
+    background: transparent;
+
+    text-align: left;
+
+    color: #222;
+
+    padding: 15px 10px;
+
+    border-bottom:
+        1px solid #eeeeee;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+
+.menu-option.active-menu {
+
+    font-weight: 600;
+
+    background: #f5f5f5;
+
+    border-radius: 8px;
+}
+
+
+
+/* =====================================================
+   MENU OVERLAY
+===================================================== */
+
+.menu-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0, 0, 0, 0.45);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    z-index: 1050;
+
+    transition:
+        opacity 0.3s ease;
+}
+
+
+.menu-overlay.show {
+
+    opacity: 1;
+
+    visibility: visible;
+}
+
+
+
+/* =====================================================
+   MAIN PAGE
+===================================================== */
+
+.block-users-page {
+
+    width: 100%;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    padding:
+        94px 20px 50px;
+}
+
+
+
+/* =====================================================
+   SEARCH CARD
+===================================================== */
+
+.block-users-card {
+
+    width: 100%;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0, 0, 0, 0.06);
+
+    margin-bottom: 25px;
+}
+
+
+.block-users-card h1 {
+
+    margin: 0 0 22px;
+
+    font-size: 24px;
+
+    font-weight: 700;
+}
+
+
+
+/* =====================================================
+   FLASH
+===================================================== */
+
+.flash-container {
+
+    width: 100%;
+
+    margin-bottom: 18px;
+}
+
+
+.flash-message {
+
+    width: 100%;
+
+    padding: 11px 12px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+}
+
+
+.flash-message.error {
+
+    background: #ffe5e5;
+
+    color: #b00000;
+
+    border:
+        1px solid #ffcaca;
+}
+
+
+.flash-message.success {
+
+    background: #e7f7ec;
+
+    color: #16733a;
+
+    border:
+        1px solid #c9ecd4;
+}
+
+
+
+/* =====================================================
+   SEARCH FORM
+===================================================== */
+
+.user-search-form {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 15px;
+
+    width: 100%;
+}
+
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    flex: 1;
+}
+
+
+.form-group label {
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+.form-group input,
+.form-group select {
+
+    width: 100%;
+
+    height: 45px;
+
+    border:
+        1px solid #d9dce1;
+
+    border-radius: 10px;
+
+    padding: 0 13px;
+
+    font-size: 14px;
+
+    outline: none;
+
+    background: #ffffff;
+}
+
+
+.form-group input:focus,
+.form-group select:focus {
+
+    border-color: #222;
+}
+
+
+
+/* =====================================================
+   SEARCH BUTTON
+===================================================== */
+
+.search-button {
+
+    height: 45px;
+
+    padding: 0 25px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #222222;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.search-button:hover {
+
+    opacity: 0.9;
+}
+
+
+
+/* =====================================================
+   USERS CARD
+===================================================== */
+
+.users-results-card {
+
+    width: 100%;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0, 0, 0, 0.06);
+}
+
+
+.users-results-card h2 {
+
+    margin: 0 0 20px;
+
+    font-size: 20px;
+
+    font-weight: 700;
+}
+
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.users-table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+.users-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 600px;
+}
+
+
+.users-table th {
+
+    text-align: left;
+
+    padding: 14px 12px;
+
+    background: #f7f7f8;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    border-bottom:
+        1px solid #e5e5e5;
+}
+
+
+.users-table td {
+
+    padding: 15px 12px;
+
+    font-size: 14px;
+
+    border-bottom:
+        1px solid #eeeeee;
+}
+
+
+.users-table tr:last-child td {
+
+    border-bottom: none;
+}
+
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status-active,
+.status-inactive {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 75px;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+.status-active {
+
+    background: #e8f7ed;
+
+    color: #1d7a3d;
+}
+
+
+.status-inactive {
+
+    background: #fbeaea;
+
+    color: #a62d2d;
+}
+
+
+
+/* =====================================================
+   ACTION BUTTON
+===================================================== */
+
+.status-button {
+
+    border: none;
+
+    border-radius: 9px;
+
+    padding: 9px 15px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.deactivate-button {
+
+    background: #fbeaea;
+
+    color: #a62d2d;
+}
+
+
+.activate-button {
+
+    background: #e8f7ed;
+
+    color: #1d7a3d;
+}
+
+
+.status-button:hover {
+
+    opacity: 0.85;
+}
+
+
+
+/* =====================================================
+   NO USERS
+===================================================== */
+
+.no-users {
+
+    text-align: center;
+
+    padding: 35px 15px;
+
+    color: #777777;
+
+    font-size: 14px;
+}
+
+
+
+/* =====================================================
+   PAGINATION
+===================================================== */
+
+.pagination {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 18px;
+
+    margin-top: 25px;
+}
+
+
+.pagination a {
+
+    text-decoration: none;
+
+    background: #222222;
+
+    color: #ffffff;
+
+    padding: 9px 15px;
+
+    border-radius: 9px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+.pagination span {
+
+    font-size: 13px;
+
+    color: #555555;
+}
+
+
+
+/* =====================================================
+   STATUS MODAL
+===================================================== */
+
+.status-modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    background:
+        rgba(0, 0, 0, 0.55);
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 9999;
+}
+
+
+.status-modal.show {
+
+    display: flex;
+}
+
+
+.status-modal-content {
+
+    position: relative;
+
+    width: 100%;
+
+    max-width: 400px;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 15px 45px
+        rgba(0, 0, 0, 0.18);
+}
+
+
+.status-modal-content h2 {
+
+    margin: 0 0 22px;
+
+    padding-right: 25px;
+
+    font-size: 20px;
+
+    font-weight: 700;
+}
+
+
+
+/* =====================================================
+   MODAL CLOSE
+===================================================== */
+
+.status-modal-close {
+
+    position: absolute;
+
+    top: 14px;
+
+    right: 16px;
+
+    width: 32px;
+
+    height: 32px;
+
+    border: none;
+
+    background: transparent;
+
+    font-size: 26px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    color: #555555;
+}
+
+
+
+/* =====================================================
+   MODAL INPUT
+===================================================== */
+
+.status-modal-content .form-group {
+
+    width: 100%;
+}
+
+
+.status-modal-content input {
+
+    height: 48px;
+}
+
+
+
+/* =====================================================
+   MODAL SUBMIT
+===================================================== */
+
+.modal-submit-button {
+
+    width: 100%;
+
+    height: 46px;
+
+    margin-top: 15px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #222222;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.modal-submit-button:hover {
+
+    opacity: 0.9;
+}
+
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+
+    .top-navbar {
+
+        height: 58px;
+
+        padding: 0 16px;
+    }
+
+
+    .nav-logo {
+
+        width: 40px;
+
+        height: 40px;
+    }
+
+
+    .menu-btn {
+
+        font-size: 27px;
+    }
+
+
+    .block-users-page {
+
+        padding:
+            78px 12px 40px;
+    }
+
+
+    .block-users-card,
+    .users-results-card {
+
+        padding: 18px;
+
+        border-radius: 15px;
+    }
+
+
+    .block-users-card h1 {
+
+        font-size: 21px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .users-results-card h2 {
+
+        font-size: 18px;
+    }
+
+
+    .user-search-form {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 14px;
+    }
+
+
+    .search-button {
+
+        width: 100%;
+    }
+
+
+    .users-table {
+
+        min-width: 520px;
+    }
+
+
+    .users-table th,
+    .users-table td {
+
+        padding: 12px 9px;
+    }
+
+
+    .status-button {
+
+        padding: 8px 11px;
+
+        font-size: 12px;
+    }
+
+
+    .status-modal {
+
+        padding: 15px;
+    }
+
+
+    .status-modal-content {
+
+        padding:
+            25px 20px;
+
+        border-radius: 16px;
+    }
+
+
+    .status-modal-content h2 {
+
+        font-size: 18px;
+    }
+
+}

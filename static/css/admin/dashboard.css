@@ -1,0 +1,993 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    background: #f5f5f5;
+
+    min-height: 100vh;
+
+    color: #222;
+}
+
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.top-navbar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    height: 64px;
+
+    background: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 16px;
+
+    box-shadow:
+        0 2px 8px
+        rgba(0, 0, 0, 0.08);
+
+    z-index: 1000;
+}
+
+
+.nav-logo {
+
+    width: 42px;
+
+    height: 42px;
+
+    object-fit: contain;
+}
+
+
+.menu-btn {
+
+    border: none;
+
+    background: transparent;
+
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+
+
+/* =========================
+   SIDE MENU
+========================= */
+
+.side-menu {
+
+    position: fixed;
+
+    top: 0;
+
+    right: -280px;
+
+    width: 280px;
+
+    height: 100vh;
+
+    background: #ffffff;
+
+    z-index: 1100;
+
+    padding: 20px;
+
+    transition:
+        right 0.3s ease;
+
+    box-shadow:
+        -3px 0 10px
+        rgba(0, 0, 0, 0.12);
+}
+
+
+.side-menu.show {
+
+    right: 0;
+}
+
+
+
+/* =========================
+   CLOSE BUTTON
+========================= */
+
+.close-menu {
+
+    border: none;
+
+    background: transparent;
+
+    font-size: 32px;
+
+    cursor: pointer;
+
+    display: block;
+
+    margin-left: auto;
+}
+
+
+
+/* =========================
+   MENU ITEMS
+========================= */
+
+.menu-items {
+
+    display: flex;
+
+    flex-direction: column;
+
+    margin-top: 30px;
+}
+
+
+.menu-option {
+
+    width: 100%;
+
+    border: none;
+
+    background: transparent;
+
+    text-align: left;
+
+    color: #222;
+
+    padding: 15px 10px;
+
+    border-bottom:
+        1px solid #eeeeee;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+
+.menu-option.active-menu {
+
+    font-weight: 600;
+
+    background: #f5f5f5;
+
+    border-radius: 8px;
+}
+
+
+
+/* =========================
+   OVERLAY
+========================= */
+
+.menu-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0, 0, 0, 0.45);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    z-index: 1050;
+
+    transition:
+        opacity 0.3s ease;
+}
+
+
+.menu-overlay.show {
+
+    opacity: 1;
+
+    visibility: visible;
+}
+
+
+
+/* =========================
+   MAIN
+========================= */
+
+.page-container {
+
+    width: 100%;
+
+    max-width: 800px;
+
+    margin: 0 auto;
+
+    padding:
+        84px 16px 30px;
+}
+
+
+
+/* =========================
+   DASHBOARD CARD
+========================= */
+
+.dashboard-card {
+
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    padding: 22px;
+margin-bottom: 14px;
+
+    box-shadow:
+        0 2px 10px
+        rgba(0, 0, 0, 0.06);
+}
+
+
+.dashboard-card h1 {
+
+    font-size: 23px;
+
+    margin-bottom: 10px;
+}
+
+
+.dashboard-card p {
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 600px) {
+
+    .page-container {
+
+        padding-left: 24px;
+
+        padding-right: 24px;
+    }
+
+}
+
+/* =========================
+   CARD DESCRIPTION
+========================= */
+
+.card-description {
+
+    color: #777;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    margin-bottom: 22px;
+}
+
+
+
+/* =========================
+   INPUT GROUP
+========================= */
+
+.input-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-bottom: 16px;
+}
+
+
+.input-group label {
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #555;
+}
+
+
+.input-group input {
+
+    width: 100%;
+
+    height: 45px;
+
+    border:
+        1px solid #dddddd;
+
+    border-radius: 8px;
+
+    padding: 0 12px;
+
+    font-size: 14px;
+
+    outline: none;
+
+    background: #ffffff;
+}
+
+
+.input-group input:focus {
+
+    border-color: #999999;
+}
+
+
+
+/* =========================
+   NOTE
+========================= */
+
+.details-note {
+
+    background: #f5f5f5;
+
+    border-radius: 8px;
+
+    padding: 12px;
+
+    margin-top: 5px;
+
+    margin-bottom: 18px;
+}
+
+
+.details-note strong {
+
+    display: block;
+
+    font-size: 13px;
+
+    margin-bottom: 5px;
+}
+
+
+.details-note p {
+
+    color: #777;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+
+/* =========================
+   SUBMIT BUTTON
+========================= */
+
+.submit-btn {
+
+    width: 100%;
+
+    min-height: 45px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #111111;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.submit-btn:active {
+
+    transform: scale(0.99);
+}
+
+
+
+/* =========================
+   FLASH
+========================= */
+
+.flash-container {
+
+    margin-bottom: 18px;
+}
+
+
+.flash-message {
+
+    padding: 11px 12px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+}
+
+
+.flash-message.error {
+
+    background: #ffe5e5;
+
+    color: #b00000;
+
+    border:
+        1px solid #ffcaca;
+}
+
+
+.flash-message.success {
+
+    background: #e7f7ec;
+
+    color: #16733a;
+
+    border:
+        1px solid #c9ecd4;
+}
+
+/* =========================
+   WINNERS
+========================= */
+
+.winners-card {
+
+    margin-top: 14px;
+}
+
+
+.winner-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+
+
+/* =========================
+   INNER WINNER CARD
+========================= */
+
+.winner-match-card {
+
+    background: #fafafa;
+
+    border:
+        1px solid #e5e5e5;
+
+    border-radius: 12px;
+
+    padding: 16px;
+}
+
+
+
+/* =========================
+   USERS
+========================= */
+
+.winner-users-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-bottom: 16px;
+}
+
+
+.winner-user {
+
+    min-width: 0;
+
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+.winner-user span {
+
+    font-size: 12px;
+
+    color: #777;
+}
+
+
+.winner-user strong {
+
+    font-size: 15px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    display: block;
+}
+
+
+.winner-user-two {
+
+    text-align: right;
+}
+
+
+.winner-vs {
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    color: #999;
+
+    flex-shrink: 0;
+}
+
+
+
+/* =========================
+   USER OPTIONS
+========================= */
+
+.winner-options-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding-bottom: 12px;
+
+    border-bottom:
+        1px solid #e5e5e5;
+}
+
+
+
+/* =========================
+   MATCH INFORMATION
+========================= */
+
+.winner-match-info {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    gap: 10px;
+
+    padding:
+        12px 0;
+
+    border-bottom:
+        1px solid #e5e5e5;
+}
+
+
+.winner-info {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    min-width: 0;
+}
+
+
+.winner-info span {
+
+    font-size: 12px;
+
+    color: #777;
+}
+
+
+.winner-info strong {
+
+    font-size: 14px;
+
+    word-break: break-word;
+}
+
+
+.winner-info-right {
+
+    text-align: right;
+
+    align-items: flex-end;
+}
+
+
+.room-code {
+
+    word-break: break-all !important;
+}
+
+
+
+/* =========================
+   STATUS
+========================= */
+
+.winner-status-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding:
+        12px 0;
+
+    border-bottom:
+        1px solid #e5e5e5;
+}
+
+
+.winner-status-row span {
+
+    font-size: 12px;
+
+    color: #777;
+}
+
+
+.hold-status {
+
+    color: #d17a00;
+
+    font-size: 14px;
+}
+
+
+
+/* =========================
+   WINNER FORM
+========================= */
+
+.winner-form {
+
+    padding-top: 14px;
+}
+
+
+.winner-selection {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 9px;
+
+    margin-bottom: 16px;
+}
+
+
+.winner-selection > label {
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #555;
+}
+
+
+.winner-radio-group {
+
+    display: flex;
+
+    gap: 10px;
+}
+
+
+.winner-radio {
+
+    flex: 1;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    min-height: 42px;
+
+    padding: 0 12px;
+
+    border:
+        1px solid #dddddd;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    font-size: 13px;
+}
+
+
+.winner-radio input {
+
+    margin: 0;
+}
+
+
+
+/* =========================
+   REMARK
+========================= */
+
+.remark-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-bottom: 16px;
+}
+
+
+.remark-group label {
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #555;
+}
+
+
+.remark-group textarea {
+
+    width: 100%;
+
+    min-height: 80px;
+
+    resize: vertical;
+
+    border:
+        1px solid #dddddd;
+
+    border-radius: 8px;
+
+    padding: 10px 12px;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+
+.remark-group textarea:focus {
+
+    border-color: #999999;
+}
+
+
+.remark-group small {
+
+    font-size: 11px;
+
+    color: #888;
+
+    text-align: right;
+}
+
+
+
+/* =========================
+   COMPLETE BUTTON
+========================= */
+
+.complete-btn {
+
+    width: 100%;
+
+    min-height: 45px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #111111;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.complete-btn:active {
+
+    transform: scale(0.99);
+}
+
+
+
+/* =========================
+   EMPTY WINNERS
+========================= */
+
+.empty-winners {
+
+    padding: 25px 10px;
+
+    text-align: center;
+}
+
+
+.empty-winners p {
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 599px) {
+
+    .winner-match-info {
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+
+    .winner-match-info
+    .winner-info:last-child {
+
+        grid-column:
+            1 / -1;
+
+        text-align: left;
+
+        align-items: flex-start;
+    }
+
+
+    .winner-radio-group {
+
+        flex-direction: column;
+    }
+
+
+    .winner-radio {
+
+        flex: none;
+
+        width: 100%;
+    }
+
+}
+
+
+/* =========================
+   WINNERS PAGINATION
+========================= */
+
+.pagination {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    margin-top: 20px;
+}
+
+
+.pagination-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 40px;
+
+    padding: 0 14px;
+
+    border-radius: 8px;
+
+    background: #111111;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+.page-number {
+
+    font-size: 13px;
+
+    color: #555;
+
+    white-space: nowrap;
+}
