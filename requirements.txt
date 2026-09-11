@@ -1,0 +1,6 @@
+Flask
+python-dotenv
+SQLAlchemy
+PyMySQL
+bcrypt
+gunicorn
